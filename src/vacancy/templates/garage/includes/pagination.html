@@ -1,0 +1,28 @@
+{% load static %}
+{% load humanize %}
+
+{% if garages %}
+<div class="pagination">
+    <div class="pagination-count">全 {{ garages.paginator.count | default_if_none:'0' }} 件</div>
+{% if garages.paginator.num_pages > 1 %}
+{% if garages.has_previous %}
+    <div class="pagination-previous">
+        <span class="pagination-item"><a href="{{ page_base_url }}{% if page_params %}?{{ page_params }}{% endif %}">&lt;&lt;</a></span>
+        <span class="pagination-item"><a href="{{ page_base_url }}{% if garages.previous_page_number > 1 %}{{ garages.previous_page_number }}{% endif %}{% if page_params %}?{{ page_params }}{% endif %}">&lt;</a></span>
+    </div>
+{% endif %}
+{% for index in garages.paginator.page_range %}
+    {% if index > 1 %}|{% endif %}
+    <span class="pagination-item">
+    {% if index != garages.number %}<a href="{{ page_base_url }}{% if index > 1 %}{{ index }}{% endif %}{% if page_params %}?{{ page_params }}{% endif %}">{% endif %}{{ index }}{% if index != garages.number %}</a>{% endif %}
+    </span>
+{% endfor %}
+{% if garages.has_next %}
+    <div class="pagination-next">
+        <span class="pagination-item"><a href="{{ page_base_url }}{{ garages.next_page_number }}{% if page_params %}?{{ page_params }}{% endif %}">&gt;</a></span>
+        <span class="pagination-item"><a href="{{ page_base_url }}{{ garages.paginator.num_pages }}{% if page_params %}?{{ page_params }}{% endif %}">&gt;&gt;</a></span>
+    </div>
+{% endif %}
+{% endif %}
+</div>
+{% endif %}

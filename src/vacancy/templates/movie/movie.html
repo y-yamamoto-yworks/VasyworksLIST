@@ -1,0 +1,27 @@
+{% extends 'vacancy/base.html' %}
+{% load static %}
+{% load humanize %}
+
+    {% block head_title %}{{ building.building_name | default_if_none:'' }}{% if room %} {{ room.room_no }} 号室{% endif %} 動画：{{ company.company_name | default_if_none:'' }}{% endblock %}
+    {% block head %}
+        <link rel="stylesheet" href="{% static 'movie/css/style.css' %}">
+    {% endblock %}
+
+    {% block header %}{% endblock %}
+
+    {% block h1_title %}{{ building.building_name | default_if_none:'' }}{% if room %} {{ room.room_no }} 号室{% endif %} 動画{% endblock %}
+
+    {% block contents %}
+        <div id="movie" class="no-printing">
+            <video controls autoplay src="{{ movie.cache_file_url }}" class="img-fluid" controls controlsList="nodownload" oncontextmenu="return false;">
+        </div>
+
+        {% if user.allow_org_image %}
+        <div id="original">
+            <a href="{{ movie.cache_file_url }}">{{ movie.cache_name }}</a>
+        </div>
+        {% endif %}
+
+    {% endblock %}
+
+    {% block footer %}{% endblock %}

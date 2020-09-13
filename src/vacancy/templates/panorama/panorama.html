@@ -1,0 +1,27 @@
+{% extends 'vacancy/base.html' %}
+{% load static %}
+{% load humanize %}
+
+    {% block head_title %}{{ building.building_name | default_if_none:'' }}{% if room %} {{ room.room_no }} 号室{% endif %} パノラマ：{{ company.company_name | default_if_none:'' }}{% endblock %}
+    {% block head %}
+        <link rel="stylesheet" href="{% static 'panorama/css/style.css' %}">
+    {% endblock %}
+
+    {% block header %}{% endblock %}
+
+    {% block h1_title %}{{ building.building_name | default_if_none:'' }}{% if room %} {{ room.room_no }} 号室{% endif %} パノラマ{% endblock %}
+
+    {% block contents %}
+        <div id="panorama" class="no-printing">
+            <iframe width="600px" height="400px" allowfullscreen style="border-style:none;" src="/static/panorama/pannellum.htm#panorama={{ panorama.cache_file_url }}&autoLoad=true"></iframe>
+        </div>
+
+        {% if user.allow_org_image %}
+        <div id="original">
+            <a href="{{ panorama.cache_file_url }}">{{ panorama.cache_name }}</a>
+        </div>
+        {% endif %}
+
+    {% endblock %}
+
+    {% block footer %}{% endblock %}

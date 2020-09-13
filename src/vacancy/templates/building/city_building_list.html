@@ -1,0 +1,26 @@
+{% extends 'vacancy/base.html' %}
+{% load static %}
+{% load humanize %}
+
+    {% block head_title %}{{ city.name | default_if_none:'' }} 空室一覧：{{ company.company_name | default_if_none:'' }}{% endblock %}
+    {% block head %}
+        <link rel="stylesheet" href="{% static 'building/css/style.css' %}">
+    {% endblock %}
+
+    {% block header %}{% endblock %}
+
+    {% block h1_title %}{{ city.name | default_if_none:'' }} 空室一覧：{{ company.company_name | default_if_none:'' }}{% endblock %}
+
+    {% block contents %}
+        <div id="building-list">
+        {% if buildings|length > 0 %}
+            {% include 'building/includes/pagination.html' %}
+            {% include 'building/includes/building_list.html' %}
+            {% include 'building/includes/pagination.html' %}
+        {% else %}
+            <p class="no-buildings">該当する建物がありません。</p>
+        {% endif %}
+        </div>
+    {% endblock %}
+
+    {% block footer %}{% endblock %}

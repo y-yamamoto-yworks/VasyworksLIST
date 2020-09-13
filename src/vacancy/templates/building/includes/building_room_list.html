@@ -1,0 +1,82 @@
+{% load static %}
+{% load humanize %}
+
+{% if building.vacancy_rooms %}
+    <table class="table-sm table-responsive table-bordered text-nowrap">
+        <thead>
+            <tr>
+                <th scope="col" class="room-no">号室</th>
+                <th scope="col" class="room-status">現況</th>
+                <th scope="col" class="layout">間取</th>
+                <th scope="col" class="direction">向き</th>
+                <th scope="col" class="rent">賃料</th>
+                <th scope="col" class="condo-fee">{{ condo_fees_name }}</th>
+                <th scope="col" class="water-cost">水道代</th>
+                <th scope="col" class="deposit">敷・礼・保</th>
+                <th scope="col" class="contract">契約</th>
+                <th scope="col" class="portal">ポータル</th>
+                <th scope="col" class="ad">AD</th>
+                {% if user.is_company %}<th scope="col" class="auth-level">閲覧</th>{% endif %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for room in building.vacancy_rooms %}
+            <tr class="room{% if room.room_status.is_pending %} is-pending no-printing{% elif room.is_no_publish %} no-publish no-printing{% elif room.is_high_auth_level %} high-level no-printing{% endif %}">
+                <td class="room-no">
+                    <a name="link_room" href="{% url 'room_room' room.oid %}" target="_blank" class="btn btn-outline-primary link-room">{{ room.room_no }}</a>
+                </td>
+                <td class="room-status">
+                    {{ room.room_status.name | default_if_none:''}}
+                    {% if room.room_status.will_be_canceled and room.cancel_scheduled_date_text %}<br>{{ room.cancel_scheduled_date_text }}予定{% endif %}
+                    {% if room.room_status.is_pending and user.is_company and room.pending_trader_name %}<br>{{ room.pending_trader_name }}{% endif %}
+                </td>
+                <td class="layout">
+                    {{ room.layout_type_text | default_if_none:'-' }}
+                    {% if room.room_area_text and room.room_area_text != '0' %}<br>（{{ room.room_area_text }} m<sup>2</sup>）{% endif %}
+                </td>
+                <td class="direction">
+                    {{ room.direction.name }}
+                </td>
+                <td class="rent">{{ room.rent_text | default_if_none:'相談' }}</td>
+                <td class="condo-fee">{{ room.condo_fees_text | default_if_none:'' }}</td>
+                <td class="water-cost">{{ room.water_cost_text | default_if_none:'' }}</td>
+                <td class="deposit">
+                {% if room.deposit_text1 %}
+                    {{ room.deposit_text1 }}
+                {% endif %}
+                {% if room.deposit_text2 %}
+                    {% if room.deposit_text1 %}<br>{% endif %}
+                    {{ room.deposit_text2 }}
+                {% endif %}
+                {% if room.key_money_text1 %}
+                    {% if room.deposit_text1 or room.deposit_text2 %}<br>{% endif %}
+                    {{ room.key_money_text1 }}
+                {% endif %}
+                {% if room.key_money_text2 %}
+                    {% if room.deposit_text1 or room.deposit_text2 or room.key_money_text1 %}<br>{% endif %}
+                    {{ room.key_money_text2 }}
+                {% endif %}
+                </td>
+                <td class="contract">{{ room.contract_span_text | default_if_none:'' }}</td>
+                <td class="portal">{{ room.trader_portal_text | default_if_none:'' }}</td>
+                <td class="ad">
+                    {% if user.is_company %}
+                        {{ room.ad_text | default_if_none:'' }}
+                    {% else %}
+                        {% if room.trader_ad_text %}
+                            {{ room.trader_ad_text }}
+                        {% else %}
+                            {{ room.ad_text | default_if_none:'' }}
+                        {% endif %}
+                    {% endif %}
+                </td>
+                {% if user.is_company %}
+                    <td class="auth-level">{{ room.room_auth_level.name | default_if_none:'' }}</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p class="no-rooms">募集中の部屋がありません。</p>
+{% endif %}

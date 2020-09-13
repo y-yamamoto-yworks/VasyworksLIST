@@ -1,0 +1,81 @@
+{% extends 'vacancy/base.html' %}
+{% load static %}
+{% load humanize %}
+
+    {% block head_title %}{{ vacancy_theme.name | default_if_none:'' }} 空室情報：{{ company.company_name | default_if_none:'' }}{% endblock %}
+    {% block head %}
+        <link rel="stylesheet" href="{% static 'room/css/style.css' %}">
+    {% endblock %}
+
+    {% block header %}{% endblock %}
+
+    {% block h1_title %}{{ vacancy_theme.name | default_if_none:'' }} 空室情報：{{ company.company_name | default_if_none:'' }}{% endblock %}
+
+    {% block contents %}
+        <div id="search-conditions-form">
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group row">
+                    <div class="col col-2 col-form-label"><label class="float-right">エリア</label></div>
+                    <div class="col-10 form-inline">
+                        {{ form.pref }}
+                        &nbsp;
+                        {{ form.city }}
+                        &nbsp;
+                        {{ form.area }}
+                        &nbsp;
+                        <input type="submit" value="検索" class="btn d-block d-flex align-items-center btn-primary">
+                        &nbsp;
+                        <input type="submit" value="クリア" v-on:click="clearConditions($event)" class="btn d-block d-flex align-items-center btn-secondary">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div id="room-list">
+        {% if rooms %}
+            {% include 'room/includes/theme_room_pagination.html' %}
+
+            {% for room in rooms %}
+                <div class="room">
+                    <div class="row">
+                        <div class="col col-12 col-md-5 building-name">{{ room.building.building_name }}</div>
+                        <div class="col col-12 col-md-7">{{ room.building.address }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-6 col-md-3">{{ room.room_no | default_if_none:'-----' }}号室 <a href="{% url 'room_room' room.oid %}" target="_blank" class="btn btn-sm btn-outline-primary link-room">詳細</a></div>
+                        <div class="col col-6 col-md-3">賃料: {{ room.rent_text | default_if_none:'-----' }}</div>
+                        <div class="col col-6 col-md-3">{{ condo_fees_name }}: {{ room.condo_fees_text | default_if_none:'-----' }}</div>
+                        <div class="col col-6 col-md-3">間取り: {{ room.layout_type_text | default_if_none:'-----' }}</div>
+                    </div>
+                    {% if room.vacancy_theme_catch_copy_text or room.vacancy_theme_appeal_text %}
+                    <div class="row">
+                        <div class="col col-12">
+                           {% if room.vacancy_theme_catch_copy_text %}<span class="catch-copy">{{ room.vacancy_theme_catch_copy_text }}</span>{% endif %}
+                           {% if room.vacancy_theme_appeal_text %}<span class="appeal">{{ room.vacancy_theme_appeal_text }}</span>{% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            {% include 'room/includes/theme_room_pagination.html' %}
+        {% else %}
+            <p class="no-garages">該当する部屋がありません。</p>
+        {% endif %}
+        </div>
+
+    {% endblock %}
+
+    {% block footer %}
+        <script type="text/javascript" src="{% static 'room/js/search_theme_room.js' %}"></script>
+        <script type="text/javascript">
+            var searchApp = createSearchVacancyThereRoomVue(
+                "{{ api_key }}",
+                "{% if default_pref_id %}{{ default_pref_id }}{% else %}0{% endif %}",
+                "{% if default_city_id %}{{ default_city_id }}{% else %}0{% endif %}",
+                "{% if default_area_id %}{{ default_area_id }}{% else %}0{% endif %}"
+            );
+        </script>
+
+    {% endblock %}

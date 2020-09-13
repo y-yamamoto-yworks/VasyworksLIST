@@ -1,0 +1,387 @@
+/*
+    建物系共通
+ */
+#contents .commands {
+    margin: 50px 0;
+}
+
+/*
+    建物リスト用
+ */
+#contents .pagination {
+    margin: 10px 20px;
+    font-size: large;
+}
+
+#contents .pagination-item {
+    padding: 0 10px;
+}
+
+#contents .pagination-count {
+    padding-right: 10px;
+}
+
+#contents .pagination-previous {
+    padding: 0 10px;
+}
+
+#contents .pagination-next {
+    padding-left: 10px;
+}
+
+#building-list {
+    padding: 10px 10px;
+}
+
+#building-list .building {
+    padding: 10px 10px;
+}
+
+#building-list .row {
+    border: 0;
+}
+
+#building-list .col {
+    border: solid 1px darkslategray;
+    padding: 5px 5px;
+}
+
+#building-list .building-name {
+    text-align: center;
+    color: white;
+    background-color: lightslategray;
+    font-size: large;
+    font-weight: bold;
+}
+
+#building-list .catch-copy {
+    font-size: larger;
+    font-weight: bold;
+    color: red;
+}
+
+#building-list .appeal {
+    font-size: larger;
+    color: red;
+}
+
+#building-list .comment {
+    padding: 2px 10px;
+    font-size: smaller;
+    color: #666666;
+}
+
+#building-list div.room-list .col {
+    padding: 0;
+}
+
+#building-list div.room-list thead {
+    text-align: center;
+}
+
+#building-list div.room-list th.room-no {
+    width: 100px;
+}
+
+#building-list div.room-list th.room-status {
+    width: 100px;
+}
+
+#building-list div.room-list th.layout {
+    width: 100px;
+}
+
+#building-list div.room-list th.direction {
+    width: 50px;
+}
+
+#building-list div.room-list th.rent {
+    width: 100px;
+}
+
+#building-list div.room-list th.condo-fee {
+    width: 80px;
+}
+
+#building-list div.room-list th.water-cost {
+    width: 80px;
+}
+
+#building-list div.room-list th.deposit {
+    width: 180px;
+}
+
+#building-list div.room-list th.contract {
+    width: 80px;
+    font-size: smaller;
+}
+
+#building-list div.room-list th.portal {
+    width: 80px;
+    font-size: smaller;
+}
+
+#building-list div.room-list th.ad {
+    width: 100px;
+}
+
+#building-list div.room-list th.auth-level {
+    width: 80px;
+}
+
+#building-list div.room-list tr.is-pending {
+    background-color: lightgray;
+}
+
+#building-list div.room-list tr.no-publish {
+    background-color: pink;
+}
+
+#building-list div.room-list tr.high-level {
+    background-color: lightyellow;
+}
+
+#building-list div.room-list td.room-no {
+    text-align: center;
+}
+
+#building-list div.room-list td.room-status {
+    text-align: center;
+}
+
+#building-list div.room-list td.layout {
+    text-align: center;
+}
+
+#building-list div.room-list td.direction {
+    text-align: center;
+}
+
+#building-list div.room-list td.rent {
+    text-align: right;
+}
+
+#building-list div.room-list td.condo-fee {
+    text-align: center;
+}
+
+#building-list div.room-list td.water-cost {
+    text-align: center;
+}
+
+#building-list div.room-list td.deposit {
+    text-align: center;
+}
+
+#building-list div.room-list td.contract {
+    text-align: center;
+}
+
+#building-list div.room-list td.portal {
+    text-align: center;
+}
+
+#building-list div.room-list td.ad {
+    text-align: center;
+}
+
+#building-list div.room-list td.auth-level {
+    text-align: center;
+}
+
+#building-list div.room-list .no-rooms {
+    padding: 10px;
+    text-align: center;
+}
+
+/*
+    建物詳細用
+ */
+#building-title {
+    margin: 10px;
+    padding: 10px 15px;
+    color: white;
+    background-color: lightslategray;
+}
+
+#building-title .building-name {
+    padding: 5px 0;
+    text-align: center;
+    font-size: x-large;
+}
+
+#details {
+    margin: 10px;
+    padding: 10px 15px;
+}
+
+#details h2 {
+    font-size: x-large;
+    font-weight: normal;
+}
+
+#details .details-title {
+    padding: 5px 0;
+    text-align: center;
+    background-color: lightgray;
+}
+
+#details .col {
+    border: solid 1px darkslategray;
+    padding: 5px 5px;
+}
+
+#details .catch-copy {
+    font-size: larger;
+    font-weight: bold;
+    color: red;
+}
+
+#details .appeal {
+    font-size: larger;
+    color: red;
+}
+
+#details .annotation {
+    padding: 0 5px;
+    font-size: smaller;
+    color: #666666;
+}
+
+#details div.room-list tr.is-pending {
+    background-color: lightgray;
+}
+
+#details div.room-list tr.no-publish {
+    background-color: pink;
+}
+
+#details div.room-list tr.high-level {
+    background-color: lightyellow;
+}
+
+#details div.room-list .no-rooms {
+    padding: 10px;
+    text-align: center;
+}
+
+#building-map {
+    border: solid 1px darkslategray;
+    margin: 10px;
+    padding: 0 15px 5px 15px;
+}
+
+#building-map .map-title {
+    text-align: center;
+    font-size: large;
+    color: white;
+    background-color: lightslategray;
+    margin-bottom: 5px;
+}
+
+#id_map {
+    width: 100%;
+    height: 400px;
+}
+
+#image-list {
+    border: solid 1px darkslategray;
+    margin: 10px;
+    padding: 0 15px;
+}
+
+#image-list .image-list-title {
+    text-align: center;
+    font-size: large;
+    color: white;
+    background-color: lightslategray;
+    margin-bottom: 5px;
+}
+
+#image-list .picture {
+    padding: 10px 5px;
+    text-align: center;
+}
+
+#panorama-list {
+    border: solid 1px darkslategray;
+    margin: 10px;
+    padding: 0 15px;
+}
+
+#panorama-list .panorama-list-title {
+    text-align: center;
+    font-size: large;
+    color: white;
+    background-color: lightslategray;
+    margin-bottom: 5px;
+}
+
+#movie-list {
+    border: solid 1px darkslategray;
+    margin: 10px;
+    padding: 0 15px;
+}
+
+#movie-list .movie-list-title {
+    text-align: center;
+    font-size: large;
+    color: white;
+    background-color: lightslategray;
+    margin-bottom: 5px;
+}
+
+#file-list {
+    border: solid 1px darkslategray;
+    margin: 10px;
+    padding: 0 15px;
+}
+
+#file-list .file-list-title {
+    text-align: center;
+    font-size: large;
+    color: white;
+    background-color: lightslategray;
+    margin-bottom: 5px;
+}
+
+/*
+    建物駐車場一覧用
+ */
+#garage-list-title {
+    margin: 10px;
+    padding: 10px 15px;
+    color: white;
+    background-color: lightslategray;
+}
+
+#garage-list-title .garage-list-name {
+    padding: 5px 0;
+    text-align: center;
+    font-size: x-large;
+}
+
+#garage-list {
+    margin: 10px;
+    padding: 10px 15px;
+}
+
+#garage-list .row {
+    border: 0;
+}
+
+#garage-list .col {
+    border: solid 1px darkslategray;
+    padding: 5px 5px;
+}
+
+#garage-list .title {
+    text-align: center;
+    font-weight: bold;
+}
+
+#garage-list .annotation {
+    padding: 0 5px;
+    font-size: smaller;
+    color: #666666;
+}

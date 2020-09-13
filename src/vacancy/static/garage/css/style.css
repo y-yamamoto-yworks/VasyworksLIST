@@ -1,0 +1,87 @@
+#contents .commands {
+    margin: 50px 0;
+}
+#contents .pagination {
+    margin: 10px 20px;
+    font-size: large;
+}
+
+#contents .pagination-item {
+    padding: 0 10px;
+}
+
+#contents .pagination-count {
+    padding-right: 10px;
+}
+
+#contents .pagination-previous {
+    padding: 0 10px;
+}
+
+#contents .pagination-next {
+    padding-left: 10px;
+}
+
+#garage-list {
+    padding: 10px 10px;
+}
+
+#garage-list .garage {
+    padding: 10px 10px;
+}
+
+#garage-list .row {
+    border: 0;
+}
+
+#garage-list .col {
+    border: solid 1px darkslategray;
+    padding: 5px 5px;
+}
+
+#garage-list .garage-name {
+    text-align: center;
+    color: white;
+    background-color: lightslategray;
+    font-size: large;
+    font-weight: bold;
+}
+
+#garage-list .catch-copy {
+    font-size: larger;
+    font-weight: bold;
+    color: red;
+}
+
+#garage-list .appeal {
+    font-size: larger;
+    color: red;
+}
+
+#garage-list .comment {
+    padding: 2px 10px;
+    font-size: smaller;
+    color: #666666;
+}
+
+#garage-list .detail-list-title {
+    background-color: lightgray;
+    text-align: center;
+    font-weight: bold;
+}
+
+#garage-list .detail-list {
+    margin: 10px;
+    padding: 10px 15px;
+}
+
+#garage-list .detail-col-title {
+    text-align: center;
+    font-weight: bold;
+}
+
+#garage-list .annotation {
+    padding: 0 5px;
+    font-size: smaller;
+    color: #666666;
+}

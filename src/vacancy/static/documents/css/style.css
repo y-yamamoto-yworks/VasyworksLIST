@@ -1,0 +1,17 @@
+#document-list {
+    margin: 10px 30px;
+}
+
+#document-list .document {
+    margin-bottom: 50px;
+}
+
+#document-list .title {
+    font-weight: bold;
+}
+
+#document-list .comment {
+    margin: 10px 10px 10px 30px;
+    font-size: smaller;
+    color: #666666;
+}

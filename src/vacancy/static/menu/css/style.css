@@ -1,0 +1,142 @@
+/*
+TOPメニュー
+ */
+#info-list {
+    margin: 10px 50px;
+    padding: 5px;
+    border: solid 1px lightgray;
+    color: #666666
+}
+
+#info-list h2 {
+    font-size: larger;
+    color: #333333;
+}
+
+#info-list ul {
+    list-style: none;
+}
+
+#info-list li a {
+    text-decoration: underline;
+}
+
+#info-list li a:link {
+    color: inherit;
+}
+
+#info-list li a:visited {
+    color: inherit;
+}
+
+#info-list li a:active, a:hover {
+    color: darkblue;
+}
+
+#info-list .strong {
+    font-weight: bolder;
+    color: red;
+}
+
+#company {
+    margin: 20px 50px;
+    color: #333333;
+}
+
+#company .col {
+    border: solid 1px darkslategray;
+    padding: 5px 5px;
+}
+
+#company .title {
+    font-size: larger;
+    font-weight: bolder;
+    background-color: darkslategray;
+    color: white;
+}
+
+#company .item-name {
+    font-weight: bolder;
+    background-color: whitesmoke;
+}
+
+#department-list {
+    margin: 20px 50px;
+    color: #333333;
+}
+
+#department-list .row {
+    border: 0;
+}
+
+#department-list .col {
+    border: solid 1px darkslategray;
+    padding: 5px 5px;
+}
+
+#department-list .title {
+    font-size: larger;
+    font-weight: bolder;
+    background-color: darkgray;
+    color: white;
+}
+
+#department-list .department-name {
+    font-weight: bolder;
+    background-color: whitesmoke;
+}
+
+#recommend-list {
+    margin: 80px 40px;
+}
+
+#recommend-list h2 {
+    font-size: large;
+    font-weight: bold;
+    color: red;
+}
+
+#recommend-list thead {
+    text-align: center;
+}
+
+#recommend-list th.building-name {
+    width: 200px;
+}
+
+#recommend-list th.comment {
+    width: 300px;
+}
+
+#recommend-list th.address {
+    width: 300px;
+}
+
+#menu-list {
+    margin: 50px 50px;
+}
+
+#menu-list .menu-group {
+    margin: 10px 0 50px 0;
+}
+
+#menu-list .menu-group h2 {
+    border-bottom: 2px solid lightgray;
+    font-size: large;
+    font-weight: bold;
+    color: #666666;
+}
+
+#menu-list .menu-group h3 {
+    margin-top: 20px;
+    font-size: large;
+    color: #666666;
+}
+
+#menu-list .menu-group a {
+    margin: 5px 0;
+}
+
+#menu-list .menu-group .menu-items {
+    margin: 0 10px;
+}

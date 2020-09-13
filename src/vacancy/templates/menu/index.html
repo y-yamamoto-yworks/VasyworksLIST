@@ -1,0 +1,115 @@
+{% extends 'vacancy/base.html' %}
+{% load static %}
+{% load humanize %}
+
+    {% block head_title %}{{ company.company_name | default_if_none:'' }} 空室情報{% endblock %}
+    {% block head %}
+        <link rel="stylesheet" href="{% static 'menu/css/style.css' %}">
+    {% endblock %}
+
+    {% block header %}{% endblock %}
+
+    {% block h1_title %}{{ company.company_name | default_if_none:'' }} 空室情報{% endblock %}
+
+    {% block contents %}
+        <div id="info-list">
+            <h2>【お知らせ】</h2>
+            <ul>
+            {% for info in management_infos %}
+                <li>
+                    {% if display_info_date %}<span class="date">{{ info.start_date | default_if_none:'' }}</span>{% else %}<span class="info_no">{{ forloop.counter }}.</span>{% endif %}
+                    <span class="info{% if info.is_emphasized%} strong{% endif %}">
+                        {% if info.link_url%}<a href="{{ info.link_url }}" target="_blank">{% endif %}{{ info.information | default_if_none:'' }}{% if info.link_url%}</a>{% endif %}
+                    </span>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+        <div id="company">
+            <div class="row">
+                 <div class="col col-12 text-center title">会社情報</div>
+            </div>
+            <div class="row">
+                <div class="col col-3 col-md-2 text-center item-name">会社名</div>
+                <div class="col col-9 col-md-10">
+                    <span class="nowrap">{{ company.company_name }}</span>
+                    {% if company.shop_name%}<span class="nowrap">（{{ company.shop_name }}）</span>{% endif %}
+                </div>
+                <div class="col col-3 col-md-2 text-center item-name">本社所在地</div>
+                <div class="col col-9 col-md-10">
+                    {% if company.postal_code %}<div>〒 {{ company.postal_code }}</div>{% endif %}
+                    <div>{{ company.address }}</div>
+                </div>
+                <div class="col col-3 col-md-2 text-center item-name">本社連絡先</div>
+                <div class="col col-9 col-md-10">
+                    {% if company.tel %}<span class="nowrap">Tel: {{ company.tel }}</span>{% endif %}
+                    {% if company.fax %}<span class="nowrap">Fax: {{ company.fax }}</span>{% endif %}
+                    {% if company.mail %}<span class="nowrap">Mail: {{ company.mail }}</span>{% endif %}
+                </div>
+            </div>
+        </div>
+        <div id="department-list">
+            <div class="row">
+                <div class="col col-12 text-center title">お問合わせ部署</div>
+            </div>
+            {% for department in departments %}
+            <div class="row department">
+                <div class="col col-12 col-md-4 text-center department-name">{{ department.department_name }}</div>
+                <div class="col col-12 col-md-8">{% if department.postal_code %}〒{{ department.postal_code }} {% endif %}{{ department.address }}</div>
+                <div class="col col-12">
+                    <span class="nowrap">TEL: {{ department.tel | default_if_none:'-----' }}</span>
+                    <span class="nowrap">{% if department.fax %}FAX: {{ department.fax }}{% endif %}</span>
+                    <span class="nowrap">{% if department.mail %}E-MAIL: {{ department.mail }}{% endif %}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-12">
+                    <div class="staff-list">
+                    {% for staff in department.publish_staffs %}
+                        <span class="nowrap">{{ staff.full_name }}{% if staff.tel1 %}: {{ staff.tel1 }}{% endif %}</span>
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if recommended_buildings %}
+        <div id="recommend-list">
+            <h2>■ おすすめ物件</h2>
+            <table class="table-sm table-responsive table-bordered text-nowrap">
+                <thead>
+                    <tr>
+                        <th scope="col">詳細</th>
+                        <th scope="col" class="building-name">物件名</th>
+                        <th scope="col" class="comment">コメント</th>
+                        <th scope="col" class="address">所在地</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for building in recommended_buildings %}
+                    <tr>
+                        <td><a href="{% url 'building_building' building.oid %}" class="btn btn-sm btn-outline-primary" target="_blank">詳細</a></td>
+                        <td>{{ building.building_name | default_if_none:'' }}</td>
+                        <td>{{ building.vacancy_recommend_comment | default_if_none:'' }}</td>
+                        <td>{{ building.address | default_if_none:'' }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+        <div id="menu-list">
+            <div class="menu-group">
+                <h2>【空室情報メニュー】</h2>
+                <a href="{% url 'menu_vacancy_list' %}" class="btn btn-outline-primary">居住用空室一覧</a>
+                <a href="{% url 'building_non_residential_building_list' %}" class="btn btn-outline-primary">非居住用空室一覧</a>
+                <a href="{% url 'building_search_name_building_list' %}" class="btn btn-outline-primary">物件名検索</a>
+                <a href="{% url 'garage_garage_list' %}" class="btn btn-outline-primary">月極駐車場一覧</a>
+                <a href="{% url 'documents_index' %}" class="btn btn-outline-primary">書類一覧</a>
+            </div>
+        </div>
+    {% endblock %}
+
+    {% block footer %}{% endblock %}

@@ -1,0 +1,28 @@
+{% load static %}
+{% load humanize %}
+
+{% if buildings %}
+<div class="pagination">
+    <div class="pagination-count">全 {{ buildings.paginator.count | default_if_none:'0' }} 件</div>
+{% if buildings.paginator.num_pages > 1 %}
+{% if buildings.has_previous %}
+    <div class="pagination-previous">
+        <span class="pagination-item"><a href="{{ page_base_url }}">&lt;&lt;</a></span>
+        <span class="pagination-item"><a href="{{ page_base_url }}{% if buildings.previous_page_number > 1 %}/{{ buildings.previous_page_number }}{% endif %}">&lt;</a></span>
+    </div>
+{% endif %}
+{% for index in buildings.paginator.page_range %}
+    {% if index > 1 %}|{% endif %}
+    <span class="pagination-item">
+    {% if index != buildings.number %}<a href="{{ page_base_url }}{% if index > 1 %}/{{ index }}{% endif %}">{% endif %}{{ index }}{% if index != buildings.number %}</a>{% endif %}
+    </span>
+{% endfor %}
+{% if buildings.has_next %}
+    <div class="pagination-next">
+        <span class="pagination-item"><a href="{{ page_base_url }}/{{ buildings.next_page_number }}">&gt;</a></span>
+        <span class="pagination-item"><a href="{{ page_base_url }}/{{ buildings.paginator.num_pages }}">&gt;&gt;</a></span>
+    </div>
+{% endif %}
+{% endif %}
+</div>
+{% endif %}

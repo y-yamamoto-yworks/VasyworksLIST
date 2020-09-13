@@ -1,0 +1,203 @@
+/*
+    部屋系共通
+ */
+#contents .commands {
+    margin: 50px 0;
+}
+
+/*
+    部屋リスト用
+ */
+div.pagination {
+    margin: 10px 20px;
+    font-size: large;
+}
+
+div.pagination .pagination-item {
+    margin: 0 10px;
+}
+
+div.pagination .pagination-previous {
+    margin-right: 10px;
+}
+
+div.pagination .pagination-next {
+    margin-left: 10px;
+}
+
+#room-list {
+    margin: 10px;
+    padding: 10px 15px;
+}
+
+#room-list .room {
+    padding: 5px 0;
+}
+
+#room-list .row {
+    border: 0;
+}
+
+#room-list .col {
+    border: solid 1px darkslategray;
+    padding: 5px 5px;
+}
+
+#room-list .building-name {
+    text-align: center;
+    color: white;
+    background-color: lightslategray;
+    font-size: large;
+    font-weight: bold;
+}
+
+#room-list .catch-copy {
+    font-size: larger;
+    font-weight: bold;
+    color: red;
+}
+
+#room-list .appeal {
+    font-size: larger;
+    color: red;
+}
+
+#room-list .comment {
+    padding: 2px 10px;
+    font-size: smaller;
+    color: #666666;
+}
+
+/*
+    部屋詳細用
+ */
+#room-title {
+    margin: 10px;
+    padding: 10px 15px;
+    color: white;
+    background-color: lightslategray;
+}
+
+#room-title .building-name {
+    padding: 5px 0;
+    text-align: center;
+    font-size: x-large;
+}
+
+#details {
+    margin: 10px;
+    padding: 10px 15px;
+}
+
+#details h2 {
+    font-size: x-large;
+    font-weight: normal;
+}
+
+#details .details-title {
+    padding: 5px 0;
+    text-align: center;
+    background-color: lightgray;
+}
+
+#details .col {
+    border: solid 1px darkslategray;
+    padding: 5px 5px;
+}
+
+#details .catch-copy {
+    font-size: larger;
+    font-weight: bold;
+    color: red;
+}
+
+#details .appeal {
+    font-size: larger;
+    color: red;
+}
+
+#details .annotation {
+    padding: 0 5px;
+    font-size: smaller;
+    color: #666666;
+}
+
+#building-map {
+    border: solid 1px darkslategray;
+    margin: 10px;
+    padding: 0 15px 5px 15px;
+}
+
+#building-map .map-title {
+    text-align: center;
+    font-size: large;
+    color: white;
+    background-color: lightslategray;
+    margin-bottom: 5px;
+}
+
+#id_map {
+    width: 100%;
+    height: 400px;
+}
+
+#image-list {
+    border: solid 1px darkslategray;
+    margin: 10px;
+    padding: 0 15px;
+}
+
+#image-list .image-list-title {
+    text-align: center;
+    font-size: large;
+    color: white;
+    background-color: lightslategray;
+    margin-bottom: 5px;
+}
+
+#image-list .picture {
+    padding: 10px 5px;
+    text-align: center;
+}
+
+#panorama-list {
+    border: solid 1px darkslategray;
+    margin: 10px;
+    padding: 0 15px;
+}
+
+#panorama-list .panorama-list-title {
+    text-align: center;
+    font-size: large;
+    color: white;
+    background-color: lightslategray;
+    margin-bottom: 5px;
+}
+
+#movie-list {
+    border: solid 1px darkslategray;
+    margin: 10px;
+    padding: 0 15px;
+}
+
+#movie-list .movie-list-title {
+    text-align: center;
+    font-size: large;
+    color: white;
+    background-color: lightslategray;
+    margin-bottom: 5px;
+}
+
+#file-list {
+    border: solid 1px darkslategray;
+    margin: 10px;
+    padding: 0 15px;
+}
+
+#file-list .file-list-title {
+    text-align: center;
+    font-size: large;
+    color: white;
+    background-color: lightslategray;
+    margin-bottom: 5px;
+}

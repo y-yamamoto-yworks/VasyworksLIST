@@ -1,0 +1,15 @@
+{% extends 'vacancy/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block head %}
+    <meta name="robots" content="none" />
+    <title>404 File Not Found</title>
+{% endblock %}
+
+        {%  block title %}
+            <h1>404 File Not Found</h1>
+        {% endblock %}
+        {%  block contents %}
+            <p>ファイルが見つかりません。</p>
+        {% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'vacancy/base.html' %}
+{% load static %}
+{% load humanize %}
+
+    {% block head_title %}{{ company.company_name | default_if_none:'' }} 空室一覧{% endblock %}
+    {% block head %}
+        <link rel="stylesheet" href="{% static 'menu/css/style.css' %}">
+    {% endblock %}
+
+    {% block header %}{% endblock %}
+
+    {% block h1_title %}{{ company.company_name | default_if_none:'' }} 空室一覧{% endblock %}
+
+    {% block contents %}
+        <div id="menu-list">
+            {% if themes %}
+            <div id="theme-rooms" class="menu-group">
+                <h2>【テーマ別特集】</h2>
+                <div class="menu-items">
+                {% for theme in themes %}
+                    <a href="{% url 'room_vacancy_theme_room_list' theme.idb64 %}" class="btn btn-outline-primary">{{ theme.name }}</a>
+                {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            <div id="city-buildings" class="menu-group">
+                <h2>【市区町村別】</h2>
+                <div class="menu-items">
+                {% for city in cities %}
+                    <a href="{% url 'building_city_building_list' city.idb64 %}" class="btn btn-outline-primary">{{ city.name }}</a>
+                {% endfor %}
+                </div>
+            </div>
+            <div id="area-buildings" class="menu-group">
+                <h2>【エリア別】</h2>
+                <div class="menu-items">
+                {% for city in cities %}
+                    {% if city.related_areas|length > 0 %}
+                    <h3>■ {{ city.name }} 関連エリア</h3>
+                    {% for area in city.related_areas %}
+                    <a href="{% url 'building_area_building_list' area.idb64 %}" class="btn btn-outline-primary">{{ area.name }}</a>
+                    {% endfor %}
+                    {% endif %}
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+    {% block footer %}{% endblock %}

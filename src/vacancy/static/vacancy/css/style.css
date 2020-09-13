@@ -1,0 +1,48 @@
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+footer {
+    width: 100%;
+    padding-top: 10px;
+    text-align: center;
+    background-color: lightgray;
+    color: white;
+}
+
+#container {
+    flex: 1;
+}
+
+#container .h1_title {
+    padding: 20px 0;
+}
+
+#header .system_logo {
+    padding-left: 10px;
+}
+
+#header .system_logo a {
+    text-decoration: none;
+}
+
+#header .user_info {
+    padding-right: 10px;
+}
+
+#contents .nowrap {
+    margin-right: 10px;
+    white-space: nowrap;
+}
+
+@media print {
+    .no-printing {
+        display: none;
+    }
+}

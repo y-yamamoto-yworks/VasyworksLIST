@@ -1,0 +1,28 @@
+{% load static %}
+{% load humanize %}
+
+{% if rooms %}
+<div class="pagination">
+    <div class="pagination-count">全 {{ rooms.paginator.count | default_if_none:'0' }} 件</div>
+{% if rooms.paginator.num_pages > 1 %}
+{% if rooms.has_previous %}
+    <div class="pagination-previous">
+        <span class="pagination-item"><a href="{{ page_base_url }}{% if page_params %}?{{ page_params }}{% endif %}">&lt;&lt;</a></span>
+        <span class="pagination-item"><a href="{{ page_base_url }}{% if rooms.previous_page_number > 1 %}/{{ rooms.previous_page_number }}{% endif %}{% if page_params %}?{{ page_params }}{% endif %}">&lt;</a></span>
+    </div>
+{% endif %}
+{% for index in rooms.paginator.page_range %}
+    {% if index > 1 %}|{% endif %}
+    <span class="pagination-item">
+    {% if index != rooms.number %}<a href="{{ page_base_url }}{% if index > 1 %}/{{ index }}{% endif %}{% if page_params %}?{{ page_params }}{% endif %}">{% endif %}{{ index }}{% if index != rooms.number %}</a>{% endif %}
+    </span>
+{% endfor %}
+{% if rooms.has_next %}
+    <div class="pagination-next">
+        <span class="pagination-item"><a href="{{ page_base_url }}/{{ rooms.next_page_number }}{% if page_params %}?{{ page_params }}{% endif %}">&gt;</a></span>
+        <span class="pagination-item"><a href="{{ page_base_url }}/{{ rooms.paginator.num_pages }}{% if page_params %}?{{ page_params }}{% endif %}">&gt;&gt;</a></span>
+    </div>
+{% endif %}
+{% endif %}
+</div>
+{% endif %}
