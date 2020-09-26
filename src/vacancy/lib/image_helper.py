@@ -32,6 +32,10 @@ class ImageHelper:
         img_cache = img_base.convert("RGB")
         if water_mark:
             font_size = settings.WATER_MARK_FONT_SIZE
+            if max_size >= settings.LARGE_IMAGE_SIZE:
+                font_size = font_size * 4
+            elif max_size >= settings.MEDIUM_IMAGE_SIZE:
+                font_size = font_size * 2
             opacity = settings.WATER_MARK_OPACITY
             color = (255, 255, 255)
 
