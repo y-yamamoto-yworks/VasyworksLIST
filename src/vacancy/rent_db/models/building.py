@@ -445,6 +445,27 @@ class Building(models.Model):
 
         return buildings
 
+    @classmethod
+    def __get_nearest_station_text(cls,
+                                   arrival_type,
+                                   station,
+                                   station_time,
+                                   bus_stop,
+                                   bus_stop_time,
+                                   ):
+        ans = None
+        if station:
+            if station.id != 0:
+                ans = xstr(station.railway.name) + ' ' + xstr(station.name)
+                ans += ' 駅まで' + xstr(arrival_type.name)
+                ans += xstr(station_time) + '分'
+                if xint(arrival_type.id) == 2:
+                    ans += '（バス停 ' + xstr(bus_stop)
+                    if xint(bus_stop_time) > 0:
+                        ans += 'まで徒歩' + xstr(bus_stop_time) + '分'
+                    ans += '）'
+        return ans
+
     """
     プロパティ
     """
@@ -543,48 +564,33 @@ class Building(models.Model):
 
     @property
     def nearest_station1(self):
-        ans = None
-        if self.station1:
-            if self.station1.id != 0:
-                ans = xstr(self.station1.railway.name) + ' ' + xstr(self.station1.name)
-                ans += ' 駅まで' + xstr(self.arrival_type1.name)
-                ans += xstr(self.station_time1) + '分'
-                if xint(self.arrival_type1.id) == 2:
-                    ans += '（バス停 ' + xstr(self.bus_stop1)
-                    if xint(self.bus_stop_time1) > 0:
-                        ans += 'まで徒歩' + xstr(self.bus_stop_time1) + '分'
-                    ans += '）'
-        return ans
+        return Building.__get_nearest_station_text(
+            self.arrival_type1,
+            self.station1,
+            self.station_time1,
+            self.bus_stop1,
+            self.bus_stop_time1,
+        )
 
     @property
     def nearest_station2(self):
-        ans = None
-        if self.station2:
-            if self.station2.id != 0:
-                ans = xstr(self.station2.railway.name) + ' ' + xstr(self.station2.name)
-                ans += ' 駅まで' + xstr(self.arrival_type2.name)
-                ans += xstr(self.station_time2) + '分'
-                if xint(self.arrival_type2.id) == 2:
-                    ans += '（バス停 ' + xstr(self.bus_stop2)
-                    if xint(self.bus_stop_time2) > 0:
-                        ans += 'まで徒歩' + xstr(self.bus_stop_time2) + '分'
-                    ans += '）'
-        return ans
+        return Building.__get_nearest_station_text(
+            self.arrival_type2,
+            self.station2,
+            self.station_time2,
+            self.bus_stop2,
+            self.bus_stop_time2,
+        )
 
     @property
     def nearest_station3(self):
-        ans = None
-        if self.station3:
-            if self.station3.id != 0:
-                ans = xstr(self.station3.railway.name) + ' ' + xstr(self.station3.name)
-                ans += ' 駅まで' + xstr(self.arrival_type3.name)
-                ans += xstr(self.station_time3) + '分'
-                if xint(self.arrival_type3.id) == 2:
-                    ans += '（バス停 ' + xstr(self.bus_stop3)
-                    if xint(self.bus_stop_time3) > 0:
-                        ans += 'まで徒歩' + xstr(self.bus_stop_time3) + '分'
-                    ans += '）'
-        return ans
+        return Building.__get_nearest_station_text(
+            self.arrival_type3,
+            self.station3,
+            self.station_time3,
+            self.bus_stop3,
+            self.bus_stop_time3,
+        )
 
     @property
     def building_type_text(self):
