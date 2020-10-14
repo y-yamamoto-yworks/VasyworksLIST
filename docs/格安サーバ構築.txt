@@ -11,12 +11,13 @@
       WEB: Nginx 1.14.0
       RDB: PostgreSQL 10.14
       Vasyworks: DB/MGR/LIST
-      ディスク使用量: 約2.7GB（DEMOデータ含む）
+      ディスク使用量: 約3GB（DEMOデータ含む）
       
     (DEMO環境URL)
-      VasyworksDB   http://vacancy.yworks.net:8080/admin/  （ログインユーザ情報非公開）
-      VasyworksMGR  http://vacancy.yworks.net:8081/        （ログインユーザ情報公開）
+      VasyworksDB    http://vacancy.yworks.net:8080/admin/  （ログインユーザ情報非公開）
+      VasyworksMGR   http://vacancy.yworks.net:8081/        （ログインユーザ情報公開）
       VasyworksLIST  http://vacancy.yworks.net/             （ログインユーザ情報公開）
+      VasyworksAPI   http://vacancy.yworks.net/8082         （ログイン不要）
     
 
 1) WebARENA Indigo インスタンスの作成
@@ -49,6 +50,7 @@
         HTTPS   IPアドレス 0.0.0.0
         Custom  TCP  8080 IPアドレス 0.0.0.0   ← IPアドレス指定を推奨
         Custom  TCP  8081 IPアドレス 0.0.0.0   ← IPアドレス指定を推奨
+        Custom  TCP  8082 IPアドレス 0.0.0.0   ← IPアドレス指定を推奨
         Custom  TCP  22 IPアドレス 0.0.0.0   ← IPアドレス指定を推奨
         Custom  TCP  20 IPアドレス 0.0.0.0   ← IPアドレス指定を推奨
         Custom  TCP  21 IPアドレス 0.0.0.0   ← IPアドレス指定を推奨
@@ -86,9 +88,9 @@
 # systemctl enable nginx.service    ←自動起動
 # exit    （インストールを中断する場合）
 
-2)Python3.7のインストール
+2)Python3のインストール
 # sudo su -      rootユーザに変更（インストールを再開する場合）
-# apt install python3.7
+# apt install python3
 # apt install python3-pip python3-dev python3-venv
 # apt install gettext
 # exit    （インストールを中断する場合）
@@ -170,7 +172,7 @@ client_max_body_size 20M;        （Basic Settingsに追加）
 # service nginx restart
 #exit
 
-# su web     webユーザに変更
+# sudo su web     webユーザに変更
 # cd ~
 # mkdir html
 # cd html
@@ -180,6 +182,8 @@ client_max_body_size 20M;        （Basic Settingsに追加）
 # mkdir vacancy_mgr/static
 # mkdir vacancy
 # mkdir vacancy/static
+# mkdir vacancy_api
+# mkdir vacancy_api/static
 
 2)vacancy_modelのバックエンドサーバ設定
 # cd ~/html/vacancy_model
@@ -250,7 +254,7 @@ ALLOWED_HOSTS = ['*']        （変更）
 
 (venv) deactivate        ←venv環境終了
 
-3)vacancyのバックエンドサーバ設定
+4)vacancyのバックエンドサーバ設定
 # cd ~/html/vacancy
 # python3 -m venv venv
 # source venv/bin/activate        ←venv環境に移行
@@ -263,7 +267,7 @@ ALLOWED_HOSTS = ['*']        （変更）
 
 (venv) cd ~/html
 (venv) django-admin startproject vacancy ./vacancy
-(venv) cd vacancy_mgr
+(venv) cd vacancy
 
 (venv) vi vacancy/settings.py
 -----
@@ -280,7 +284,37 @@ ALLOWED_HOSTS = ['*']        （変更）
 
 (venv) deactivate        ←venv環境終了
 
-5) Nginx の設定
+5)vacancy_apiのバックエンドサーバ設定
+# cd ~/html/vacancy_api
+# python3 -m venv venv
+# source venv/bin/activate        ←venv環境に移行
+
+※ vacancy_modelと同じライブラリを組み込み
+-----
+(venv) pip3 install django==
+・・・
+-----
+
+(venv) cd ~/html
+(venv) django-admin startproject vacancy_api ./vacancy_api
+(venv) cd vacancy_api
+
+(venv) vi vacancy_api/settings.py
+-----
+ALLOWED_HOSTS = ['*']        （変更）
+-----
+
+(venv) which gunicorn     (gunicornのパスを確認)
+
+(venv) python manage.py runserver 0.0.0.0:8080
+↑ブラウザで表示確認、Ctrl+Cでプロセス停止
+
+(venv) gunicorn vacancy.wsgi --bind=0.0.0.0:8080
+↑ブラウザで表示確認、Ctrl+Cでプロセス停止
+
+(venv) deactivate        ←venv環境終了
+
+6) Nginx の設定
 # exit
 # sudo su -      rootユーザに変更
 
@@ -299,6 +333,7 @@ WantedBy=sockets.target
 
 # cp gunicorn_vacancy_model.socket gunicorn_vacancy_mgr.socket        ←コピーして修正
 # cp guicorn_vacancy_model.socket gunicorn_vacancy.socket       ←コピーして修正
+# cp guicorn_vacancy_model.socket gunicorn_vacancy_api.socket       ←コピーして修正
 
 # vi gunicorn_vacancy_mgr.socket        ←異なる箇所だけ修正
 -----
@@ -319,6 +354,18 @@ Description=gunicorn socket vacancy       （変更）
 
 [Socket]
 ListenStream=/run/gunicorn_vacancy/socket       （変更）
+
+[Install]
+WantedBy=sockets.target
+-----
+
+# vi gunicorn_vacancy_api.socket       ←異なる箇所だけ修正
+-----
+[Unit]
+Description=gunicorn socket vacancy api      （変更）
+
+[Socket]
+ListenStream=/run/gunicorn_vacancy_api/socket       （変更）
 
 [Install]
 WantedBy=sockets.target
@@ -348,6 +395,7 @@ WantedBy=multi-user.target
 
 # cp gunicorn_vacancy_model.service gunicorn_vacancy_mgr.service        ←コピーして修正
 # cp guicorn_vacancy_model.service gunicorn_vacancy.service       ←コピーして修正
+# cp guicorn_vacancy_model.service gunicorn_vacancy_api.service       ←コピーして修正
 
 # vi gunicorn_vacancy_mgr.service        ←異なる箇所だけ修正
 -----
@@ -393,6 +441,28 @@ PrivateTmp=true
 WantedBy=multi-user.target
 -----
 
+# vi gunicorn_vacancy_api.service        ←異なる箇所だけ修正
+-----
+[Unit]
+Description=gunicorn daemon vacancy api       （変更）
+Requires=gunicorn_vacancy_api.socket       （変更）
+After=network.target
+
+[Service]
+PIDFile=/run/gunicorn_vacancy_api/pid       （変更）
+User=web
+Group=web
+RuntimeDirectory=gunicorn_vacancy_api       （変更）
+WorkingDirectory=/home/web/html/vacancy_api      （変更）
+ExecStart=/home/web/html/vacancy_api/venv/bin/gunicorn -w 3 -b 0.0.0.0:8003 vacancy_api.wsgi       （変更）
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+-----
+
 # cd /etc/nginx/conf.d
 # vi vacancy_model.conf
 -----
@@ -418,6 +488,7 @@ server {
 
 # cp vacancy_model.conf vacancy_mgr.conf        ←コピーして修正
 # cp vacancy_model.conf vacancy.conf        ←コピーして修正
+# cp vacancy_model.conf vacancy_api.conf        ←コピーして修正
 
 # vi vacancy_mgr.conf
 -----
@@ -467,10 +538,40 @@ server {
 }
 -----
 
+# vi vacancy_api.conf
+-----
+server {
+    listen  8082;         （変更）
+    server_name     vacancy.yworks.net;        ←空室情報用のURLまたはIPアドレス
+    
+    location /static {
+        alias /home/web/html/vacancy_api/static;         （変更）
+    }
+    
+    location /static/rest_framework {                                     （追加）
+        alias /home/web/html/vacancy_api/venv/lib/python3.6/site-packages/rest_framework/static/rest_framework;
+    }
+    
+    location /media{                                                      （追加）
+        alias /home/web/html/vacancy_api/media; 
+    }
+    
+    location /robots.txt {
+        alias /home/web/html/vacancy_api/robots.txt;         （変更）
+    }
+    
+    location / {
+        proxy_pass http://unix:/run/gunicorn_vacancy_api/socket;         （変更）
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+
 # systemctl daemon-reload
 # systemctl enable gunicorn_vacancy_model.service
 # systemctl enable gunicorn_vacancy_mgr.service
 # systemctl enable gunicorn_vacancy.service
+# systemctl enable gunicorn_vacancy_api.service
 
 # nginx -t        Nginx設定のテスト
 
@@ -480,6 +581,8 @@ server {
 # service gunicorn_vacancy_mgr start
 # service gunicorn_vacancy stop
 # service gunicorn_vacancy start
+# service gunicorn_vacancy_api stop
+# service gunicorn_vacancy_api start
 # service nginx restart
 
 ※ gunicorn系のserviceコマンドはrestartでうまく動かない場合があります。
@@ -539,9 +642,10 @@ Nginxがうまく動かない時の調査用コマンド
    # serive gunicorn_vacancy_model stop
    # service gunicorn_vacancy_model start
    # service nginx restart
-10) ブラウザで管理サイトを表示する。
+10) SSH接続をexitする。
+11) ブラウザで管理サイトを表示する。
      例: http://vacancy.yworks.net:8080/admin
-11) rootユーザでログインし、ユーザーのテーブルに会社の管理者ユーザを登録する。
+12) rootユーザでログインし、ユーザーのテーブルに会社の管理者ユーザを登録する。
      例：
      ユーザ名: Administrator
      パスワード: 任意のパスワード
@@ -551,9 +655,8 @@ Nginxがうまく動かない時の調査用コマンド
       メールアドレス: 任意のメールアドレス
       パーミッション： 有効・is_company・is_company_admin にチェック
       → 保存
-12) その他、管理サイト用のユーザ等が必要な場合は登録する。
-13) 管理サイトを利用して、各種マスタのレコードを登録する。
-14) SSH接続をexitする。
+13) その他、管理サイト用のユーザ等が必要な場合は登録する。
+14) 管理サイトを利用して、各種マスタのレコードを登録する。
 
 
 
@@ -564,23 +667,23 @@ Nginxがうまく動かない時の調査用コマンド
 4) vacancy_mgr プロジェクトの下記をコピーする。
   ※ vacancy_mgr ディレクトリのsettings.pyのSECRET_KEYはファイルコピーの前に保管しておく。
   ・vacancy_mgrディレクトリのsettings.pyとurls.py
-  ・ api ディレクトリの全て
-  ・ common ディレクトリの全て
-  ・ company ディレクトリの全て
-  ・ documents ディレクトリの全て
-  ・ enums ディレクトリの全て
-  ・ infoディレクトリの全て
-  ・ libディレクトリの全て
-  ・ masters ディレクトリの全て
-  ・ menu ディレクトリの全て
-  ・ owner ディレクトリの全て
-  ・ property ディレクトリの全て
-  ・ search ディレクトリの全て
-  ・ trader ディレクトリの全て
-  ・ users ディレクトリの全て
-  ・ vacancy_item ディレクトリの全て
-  ・ static ディレクトリの全て
-  ・ templates ディレクトリの全て
+  ・api ディレクトリの全て
+  ・common ディレクトリの全て
+  ・company ディレクトリの全て
+  ・documents ディレクトリの全て
+  ・enums ディレクトリの全て
+  ・infoディレクトリの全て
+  ・libディレクトリの全て
+  ・masters ディレクトリの全て
+  ・menu ディレクトリの全て
+  ・owner ディレクトリの全て
+  ・property ディレクトリの全て
+  ・search ディレクトリの全て
+  ・trader ディレクトリの全て
+  ・users ディレクトリの全て
+  ・vacancy_item ディレクトリの全て
+  ・static ディレクトリの全て
+  ・templates ディレクトリの全て
 5) vacancy_mgr プロジェクトのvacancy_mgr ディレクトリのsettings.pyを修正する。
   ・SECRET_KEY='保管しておいたSECRET_KEY'
   ・DEBUG=False
@@ -600,12 +703,13 @@ Nginxがうまく動かない時の調査用コマンド
    # serive gunicorn_vacancy_mgr stop
    # service gunicorn_vacancy_mgr start
    # service nginx restart
-9) ブラウザで管理サイトを表示する。
+9) SSH接続をexitする。
+10) ブラウザで管理サイトを表示する。
      例: http://vacancy.yworks.net:8081/
-10) 会社の管理者ユーザ（Administrator）でログインし、会社情報の登録を行う。
-11) 「システム管理」の「システムユーザ」を実行し、管理部署の実務者ユーザを作成する。
+11) 会社の管理者ユーザ（Administrator）でログインし、会社情報の登録を行う。
+12) 「システム管理」の「システムユーザ」を実行し、管理部署の実務者ユーザを作成する。
 13) 「システム管理」の「空室情報ユーザ」を実行し、空室情報の閲覧ユーザを作成する。
-13) その他、マスタ登録等を必要に応じて行う。
+14) その他、マスタ登録等を必要に応じて行う。
 
 
 
@@ -627,8 +731,8 @@ Nginxがうまく動かない時の調査用コマンド
   ・rent_db ディレクトリの全て
   ・room ディレクトリの全て
   ・users ディレクトリの全て
-  ・ static ディレクトリの全て
-  ・ templates ディレクトリの全て
+  ・static ディレクトリの全て
+  ・templates ディレクトリの全て
 5) vacancy プロジェクトのvacancy ディレクトリのsettings.pyを修正する。
   ・SECRET_KEY='保管しておいたSECRET_KEY'
   ・DEBUG=False
@@ -645,9 +749,48 @@ Nginxがうまく動かない時の調査用コマンド
    # serive gunicorn_vacancy stop
    # service gunicorn_vacancy start
    # service nginx restart
-8) ブラウザで管理サイトを表示する。
+8) SSH接続をexitする。
+9) ブラウザで管理サイトを表示する。
      例: http://vacancy.yworks.net/
-9) 空室情報の閲覧ユーザでログインし、表示を確認する。
+10) 空室情報の閲覧ユーザでログインし、表示を確認する。
 
+7. VasyworksAPI（空室情報APIプロジェクト）のデプロイ
+1) web ユーザでサーバにFTP接続する。
+2) web ユーザのホームディレクトリの/html/vacacancy_api/ を開く
+3) db.sqllite3 ファイルがあれば削除する。
+4) vacancy_api プロジェクトの下記をコピーする。
+  ※ vacancy_api ディレクトリのsettings.pyのSECRET_KEYはファイルコピーの前に保管しておく。
+  ・vacancy_api ディレクトリのsettings.pyとurls.py
+  ・building ディレクトリの全て
+  ・common ディレクトリの全て
+  ・company ディレクトリの全て
+  ・documents ディレクトリの全て
+  ・libディレクトリの全て
+  ・master ディレクトリの全て
+  ・rent_db ディレクトリの全て
+  ・room ディレクトリの全て
+  ・search ディレクトリの全て
+  ・users ディレクトリの全て
+  ・templates ディレクトリの全て
+5) vacancy_api プロジェクトのvacancy_api ディレクトリのsettings.pyを修正する。
+  ・SECRET_KEY='保管しておいたSECRET_KEY'
+  ・DEBUG=False
+  ・データベースの設定
+        HOSTは127.0.0.1
+        PASSWORDは設定済みのyworksのパスワード
+6) media ディレクトリのシンボリックリンクを作成する。
+   # sudo su web 
+   # cd ~/html/vacancy_api
+   # ln -s /home/web/vacancy_data/media media
+   # exit
+7) プロジェクトを再起動する。
+   # sudo su -
+   # serive gunicorn_vacancy_api stop
+   # service gunicorn_vacancy_api start
+   # service nginx restart
+8) SSH接続をexitする。
+9) ブラウザで管理サイトを表示する。
+     例: http://vacancy.yworks.net:8082/
+10) 自社のAPIキーを使用し、APIのURLを直接入力して表示を確認する。
 
 
