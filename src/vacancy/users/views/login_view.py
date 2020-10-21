@@ -39,12 +39,6 @@ class LoginView(views.LoginView):
 
         return context
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['company'] = Company.get_instance()
-
-        return context
-
     def form_invalid(self, form):
         messages.error(self.request, 'ログインに失敗しました。')
         return super().form_invalid(form)
