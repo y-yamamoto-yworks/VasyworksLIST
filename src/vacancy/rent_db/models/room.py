@@ -1917,11 +1917,12 @@ class Room(models.Model):
             if auth_user.is_company:
                 # 自社ユーザの場合
                 ans = Q(
-                    Q(building__management_type__is_own=True) | Q(building__management_type__is_entrusted=True)     # 自社物件、専任物件
+                    Q(building__management_type__is_own=True)       # 自社物件
+                    | Q(building__management_type__is_entrusted=True)     # 専任物件
                 ) | Q(
-                    Q(building__management_type__is_condo_management=True),  # 分譲マンション
-                    Q(is_sublease=True) | Q(is_condo_management=True) | Q(is_entrusted=True),  # サブリース、分譲管理、分譲専任の部屋
-                )
+                    building__management_type__is_condo_management=True,  # 分譲マンション
+                    is_condo_management=True,  # 分譲管理の部屋
+                ) | Q(is_sublease=True) | Q(is_entrusted=True)      # サブリース、専任の部屋
 
             else:
                 # 自社ユーザでない場合
@@ -1929,9 +1930,9 @@ class Room(models.Model):
                 ans = Q(
                     building__management_type__is_own=True,    # 自社物件
                 ) | Q(
-                    Q(building__management_type__is_condo_management=True),    # 分譲マンション
-                    Q(is_sublease=True) | Q(is_condo_management=True),    # サブリース、分譲管理の部屋
-                )
+                    building__management_type__is_condo_management=True,    # 分譲マンション
+                    is_condo_management=True,    # 分譲管理の部屋
+                ) | Q(is_sublease=True)     # サブリースの部屋
                 ans.add(Q(
                     Q(is_publish_vacancy=True),     # 空室情報公開の部屋
                     Q(vacancy_start_date=None) | Q(vacancy_start_date__lte=today),
