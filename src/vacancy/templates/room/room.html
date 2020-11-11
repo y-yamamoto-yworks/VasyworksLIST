@@ -576,7 +576,7 @@
             <div id="id_map">
                 <l-map :zoom="zoom" :center="center">
                     <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-                    <l-marker :lat-lng="marker"></l-marker>
+                    <l-marker :lat-lng="marker" :icon="icon"></l-marker>
                 </l-map>
             </div>
             {% endif %}
