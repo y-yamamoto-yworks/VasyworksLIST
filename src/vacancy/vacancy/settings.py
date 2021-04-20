@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rent_db',
     'room',
     'users',
+    'viewer',
 ]
 
 MIDDLEWARE = [
@@ -162,8 +163,8 @@ INCLUDE_NO_ROOM_BUILDINGS = True     # 自社ユーザの時に居住用一覧�
 BUILDING_LIST_PAGE_SIZE = 10        # 建物リストのページサイズ
 ROOM_LIST_PAGE_SIZE = 50      # 部屋リストのページサイズ
 CONDO_FEES_NAME = '共益費'         # 共益費項目の表示名（共益費または管理費）
-CACHE_FILE_URL = '/static/cache/'       # キャッシュファイルのURL
-CACHE_FILE_DIR = os.path.join(BASE_DIR, 'static', 'cache')      # キャッシュファイルのディレクトリ
+CACHE_FILE_URL = '/viewer/cache_media/'       # キャッシュファイルのURL
+CACHE_FILE_DIR = os.path.join(BASE_DIR, 'media', 'cache')      # キャッシュファイルのディレクトリ
 ORIGINAL_FILE_DIR = os.path.join(BASE_DIR, 'media', 'public')       # オリジナルファイルのディレクトリ
 WATER_MARK_FONT_SIZE = 32   # キャッシュ画像の透かしのフォントサイズ
 WATER_MARK_OPACITY = 64     # キャッシュ画像の透かしの不透明度

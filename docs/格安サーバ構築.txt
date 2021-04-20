@@ -500,10 +500,6 @@ server {
         alias /home/web/html/vacancy_mgr/static;         （変更）
     }
     
-    location /media{                                                      （追加）
-        alias /home/web/html/vacancy_mgr/media; 
-    }
-    
     location /robots.txt {
         alias /home/web/html/vacancy_mgr/robots.txt;         （変更）
     }

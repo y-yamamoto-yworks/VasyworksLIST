@@ -33,6 +33,7 @@ urlpatterns = [
     path('movie/', include('movie.urls')),
     path('panorama/', include('panorama.urls')),
     path('room/', include('room.urls')),
+    path('viewer/', include('viewer.urls')),
 
     path('', MenuIndexView.as_view(), name='top'),
 ]
