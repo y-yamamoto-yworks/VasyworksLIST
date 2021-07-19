@@ -24,6 +24,7 @@ class WaterCheckType(models.Model):
         return self.name
 
     class Meta:
+        managed = False
         db_table = 'water_check_type'
         ordering = ['priority', 'id']
         verbose_name = _('water_check_type')

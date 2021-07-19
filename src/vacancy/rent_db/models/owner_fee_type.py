@@ -24,6 +24,7 @@ class OwnerFeeType(models.Model):
         return self.name
 
     class Meta:
+        managed = False
         db_table = 'owner_fee_type'
         ordering = ['priority', 'id']
         verbose_name = _('owner_fee_type')

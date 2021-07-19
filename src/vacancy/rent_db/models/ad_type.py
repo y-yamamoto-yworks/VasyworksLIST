@@ -25,6 +25,7 @@ class AdType(models.Model):
         return self.name
 
     class Meta:
+        managed = False
         db_table = 'ad_type'
         ordering = ['priority', 'id']
         verbose_name = _('ad_type')

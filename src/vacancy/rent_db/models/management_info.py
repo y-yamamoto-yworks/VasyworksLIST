@@ -31,6 +31,7 @@ class ManagementInfo(models.Model):
         return self.id
 
     class Meta:
+        managed = False
         db_table = 'management_info'
         ordering = ['priority', '-start_date', 'end_date', 'id']
         verbose_name = _('management_info')

@@ -25,6 +25,7 @@ class RoomAuthLevel(models.Model):
         return self.name
 
     class Meta:
+        managed = False
         db_table = 'room_auth_level'
         ordering = ['priority', 'id']
         verbose_name = _('room_auth_levels')
