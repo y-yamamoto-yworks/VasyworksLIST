@@ -39,10 +39,6 @@ class Building(models.Model):
     """
     建物
     """
-    auth_user = None    # 閲覧レベル判定用のユーザ
-    is_residential = False      # 居住用が対象の場合はTrue
-    is_non_residential = False  # 非居住用が対象の場合はTrue
-
     id = models.AutoField(_('id'), db_column='id', primary_key=True)
 
     oid = models.CharField(_('oid'), db_column='oid', db_index=True, unique=True, max_length=50)
@@ -379,6 +375,13 @@ class Building(models.Model):
         ordering = ['building_kana', 'id']
         verbose_name = _('building')
         verbose_name_plural = _('buildings')
+
+    def __init__(self, *args, **kwargs):
+        self.auth_user = None  # 閲覧レベル判定用のユーザ
+        self.is_residential = False  # 居住用が対象の場合はTrue
+        self.is_non_residential = False  # 非居住用が対象の場合はTrue
+
+        super().__init__(*args, **kwargs)
 
     def __str__(self):
         return self.building_name

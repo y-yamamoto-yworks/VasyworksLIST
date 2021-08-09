@@ -34,8 +34,12 @@ class BuildingView(TemplateView):
     建物
     """
     template_name = 'building/building.html'
-    user = None
-    building = None
+
+    def __init__(self, **kwargs):
+        self.user = None
+        self.building = None
+
+        super().__init__(**kwargs)
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):

@@ -34,7 +34,11 @@ class VacancyListView(TemplateView):
     空室一覧メニュー
     """
     template_name = 'menu/vacancy_list.html'
-    user = None
+
+    def __init__(self, **kwargs):
+        self.user = None
+
+        super().__init__(**kwargs)
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):

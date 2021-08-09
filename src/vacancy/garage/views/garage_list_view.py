@@ -39,12 +39,16 @@ class GarageListView(FormView):
     """
     form_class = SearchGarageForm
     template_name = 'garage/garage_list.html'
-    user = None
-    garage_name = None
-    pref = None
-    city = None
-    area = None
-    page_number = 1
+
+    def __init__(self, **kwargs):
+        self.user = None
+        self.garage_name = None
+        self.pref = None
+        self.city = None
+        self.area = None
+        self.page_number = 1
+
+        super().__init__(**kwargs)
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):

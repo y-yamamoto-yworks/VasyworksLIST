@@ -41,12 +41,16 @@ class VacancyThemeRoomListView(FormView):
     """
     form_class = SearchVacancyThemeRoomForm
     template_name = 'room/vacancy_theme_room_list.html'
-    user = None
-    pref = None
-    city = None
-    area = None
-    vacancy_theme = None
-    page_number = 1
+
+    def __init__(self, **kwargs):
+        self.user = None
+        self.pref = None
+        self.city = None
+        self.area = None
+        self.vacancy_theme = None
+        self.page_number = 1
+
+        super().__init__(**kwargs)
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):

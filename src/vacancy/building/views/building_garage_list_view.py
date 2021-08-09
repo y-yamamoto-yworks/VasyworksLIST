@@ -34,8 +34,12 @@ class BuildingGarageListView(TemplateView):
     建物駐車場一覧
     """
     template_name = 'building/building_garage_list.html'
-    user = None
-    building = None
+
+    def __init__(self, **kwargs):
+        self.user = None
+        self.building = None
+
+        super().__init__(**kwargs)
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):

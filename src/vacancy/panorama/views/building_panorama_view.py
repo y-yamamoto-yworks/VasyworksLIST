@@ -34,8 +34,12 @@ class BuildingPanoramaView(TemplateView):
     建物パノラマ
     """
     template_name = 'panorama/panorama.html'
-    user = None
-    panorama = None
+
+    def __init__(self, **kwargs):
+        self.user = None
+        self.panorama = None
+
+        super().__init__(**kwargs)
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):

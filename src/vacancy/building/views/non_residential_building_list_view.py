@@ -39,11 +39,15 @@ class NonResidentialBuildingListView(FormView):
     """
     form_class = SearchBuildingAreaForm
     template_name = 'building/non_residential_building_list.html'
-    user = None
-    pref = None
-    city = None
-    area = None
-    page_number = 1
+
+    def __init__(self, **kwargs):
+        self.user = None
+        self.pref = None
+        self.city = None
+        self.area = None
+        self.page_number = 1
+
+        super().__init__(**kwargs)
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):

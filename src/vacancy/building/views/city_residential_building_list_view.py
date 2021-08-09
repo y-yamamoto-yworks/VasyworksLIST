@@ -37,9 +37,13 @@ class CityResidentialBuildingListView(TemplateView):
     市区町村建物リスト
     """
     template_name = 'building/city_building_list.html'
-    user = None
-    city = None
-    page_number = 1
+
+    def __init__(self, **kwargs):
+        self.user = None
+        self.city = None
+        self.page_number = 1
+
+        super().__init__(**kwargs)
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):

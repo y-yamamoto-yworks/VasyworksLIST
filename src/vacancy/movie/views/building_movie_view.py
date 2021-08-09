@@ -34,8 +34,12 @@ class BuildingMovieView(TemplateView):
     建物動画
     """
     template_name = 'movie/movie.html'
-    user = None
-    movie = None
+
+    def __init__(self, **kwargs):
+        self.user = None
+        self.movie = None
+
+        super().__init__(**kwargs)
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):

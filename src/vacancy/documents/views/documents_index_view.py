@@ -34,7 +34,11 @@ class DocumentsIndexView(TemplateView):
     ドキュメント一覧
     """
     template_name = 'documents/index.html'
-    user = None
+
+    def __init__(self, **kwargs):
+        self.user = None
+
+        super().__init__(**kwargs)
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
