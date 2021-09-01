@@ -267,14 +267,12 @@
             <div class="row map-title">
                 <div class="col col-12">地図</div>
             </div>
-            {% if building.lat > 0 and building.lng > 0 %}
             <div id="id_map">
                 <l-map :zoom="zoom" :center="center">
                     <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
                     <l-marker :lat-lng="marker" :icon="icon"></l-marker>
                 </l-map>
             </div>
-            {% endif %}
         </div>
         {% endif %}
 
