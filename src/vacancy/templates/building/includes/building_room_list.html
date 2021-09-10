@@ -42,19 +42,19 @@
                 <td class="water-cost">{{ room.water_cost_text | default_if_none:'' }}</td>
                 <td class="deposit">
                 {% if room.deposit_text1 %}
-                    {{ room.deposit_text1 }}
+                    {{ room.deposit_type_text1 }}{{ room.deposit_text1 }}
                 {% endif %}
                 {% if room.deposit_text2 %}
                     {% if room.deposit_text1 %}<br>{% endif %}
-                    {{ room.deposit_text2 }}
+                    {{ room.deposit_type_text2 }}{{ room.deposit_text2 }}
                 {% endif %}
                 {% if room.key_money_text1 %}
                     {% if room.deposit_text1 or room.deposit_text2 %}<br>{% endif %}
-                    {{ room.key_money_text1 }}
+                    {{ room.key_money_type_text1 }}{{ room.key_money_text1 }}
                 {% endif %}
                 {% if room.key_money_text2 %}
                     {% if room.deposit_text1 or room.deposit_text2 or room.key_money_text1 %}<br>{% endif %}
-                    {{ room.key_money_text2 }}
+                    {{ room.key_money_type_text1 }}{{ room.key_money_text2 }}
                 {% endif %}
                 </td>
                 <td class="contract">{{ room.contract_span_text | default_if_none:'' }}</td>
