@@ -54,7 +54,7 @@
                 {% endif %}
                 <div class="row">
                     <div class="col col-4 col-md-2">
-                        建物コード: <span id="if_building_code">{{ building.building_id_text | default_if_none:'' }}</span>
+                        建物コード: <span id="id_building_code">{{ building.building_id_text | default_if_none:'' }}</span>
                     </div>
                     <div class="col col-8 col-md-3">
                         {% if building.staff1_text %}<div>担当1: <span id="id_staff1">{{ building.staff1_text }}</span></div>{% endif %}
