@@ -60,7 +60,7 @@
                     <div class="col col-6 col-md-3">
                         <div>
                             現況: <span id="id_room_status">{{ room.room_status.name | default_if_none:'-' }}</span>
-                            {% if room.vacancy_status_text %}（<span id="id_vacancy_stutus">{{ room.vacancy_status_text }}</span>）{% endif %}
+                            {% if room.vacancy_status_text %}（<span id="id_vacancy_status">{{ room.vacancy_status_text }}</span>）{% endif %}
                             {% if user.is_company and room.room_status.is_pending and room.pending_trader_name %}
                                 <div class="annotation"><span id="id_pending_trader_name">{{ room.pending_trader_name }}</span></div>
                                 {% if room.pending_start_date or room.pending_end_date %}<div class="annotation">
