@@ -120,7 +120,7 @@
                     <div class="col col-6 col-md-3">
                         <div class="small">
                             （駐車場）
-                            {% if building.garages %}<a href="{% url 'building_garage_list' building.oid%}" target="_blank" class="btn btn-sm btn-outline-primary">駐車場詳細</a>{% endif %}
+                            {% if building.garages %}<a href="{% url 'building_garage_list' building.oid%}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary">駐車場詳細</a>{% endif %}
                         </div>
                         <div class="small">
                             <span id="id_garage">{{ building.garage_type.name }}</span>
@@ -303,7 +303,7 @@
             <div class="row">
             {% for panorama in building.panoramas %}
                 <div class="col col-3">
-                    <a href="{% url 'panorama_building_panorama' panorama.idb64 %}" target="_blank">{{ panorama.panorama_type.name }}</a>
+                    <a href="{% url 'panorama_building_panorama' panorama.idb64 %}" target="_blank" rel="noopener noreferrer">{{ panorama.panorama_type.name }}</a>
                 </div>
             {% endfor %}
             </div>
@@ -318,7 +318,7 @@
             <div class="row">
             {% for movie in building.movies %}
                 <div class="col col-3">
-                    <a href="{% url 'movie_building_movie' movie.idb64 %}" target="_blank">{{ movie.movie_type.name }}</a>
+                    <a href="{% url 'movie_building_movie' movie.idb64 %}" target="_blank" rel="noopener noreferrer">{{ movie.movie_type.name }}</a>
                 </div>
             {% endfor %}
             </div>
@@ -334,7 +334,7 @@
             <div class="row">
             {% for file in building.files %}
                 <div class="col col-3">
-                    <a href="{{ file.cache_file_url }}" target="_blank">{{ file.file_title }}</a>
+                    <a href="{{ file.cache_file_url }}" target="_blank" rel="noopener noreferrer">{{ file.file_title }}</a>
                 </div>
             {% endfor %}
             </div>

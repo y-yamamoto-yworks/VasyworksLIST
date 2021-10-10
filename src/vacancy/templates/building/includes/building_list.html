@@ -8,7 +8,7 @@
                 <div class="col col-10 col-md-11 building-name">
                     {{ building.building_name }}{% if building.building_old_name %} {{ building.building_old_name }}{% endif %}
                 </div>
-                <div class="col col-2 col-md-1 text-center"><a href="{% url 'building_building' building.oid %}" target="_blank" class="btn btn-sm btn-outline-secondary no-printing">詳細</a></div>
+                <div class="col col-2 col-md-1 text-center"><a href="{% url 'building_building' building.oid %}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-secondary no-printing">詳細</a></div>
             </div>
             {% if building.vacancy_catch_copy or building.vacancy_appeal %}
             <div class="row">
@@ -45,7 +45,7 @@
                 <div class="col col-12 col-md-6">
                     <div class="comment-title">
                         【駐車場】
-                        {% if building.garages %}<a href="{% url 'building_garage_list' building.oid%}" target="_blank" class="btn btn-sm btn-outline-primary">駐車場詳細</a>{% endif %}
+                        {% if building.garages %}<a href="{% url 'building_garage_list' building.oid%}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary">駐車場詳細</a>{% endif %}
                     </div>
                     {% if building.garage_type_text %}<div class="comment">{{ building.garage_type_text }}{% if building.garage_distance_text %}（距離: {{ building.garage_distance_text }}）{% endif %}</div>{% endif %}
                     {% if building.vacancy_garage_comment %}<div class="comment">{{ building.vacancy_garage_comment | linebreaksbr }}</div>{% endif %}

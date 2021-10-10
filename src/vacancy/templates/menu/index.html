@@ -19,7 +19,7 @@
                 <li>
                     {% if display_info_date %}<span class="date">{{ info.start_date | default_if_none:'' }}</span>{% else %}<span class="info_no">{{ forloop.counter }}.</span>{% endif %}
                     <span class="info{% if info.is_emphasized%} strong{% endif %}">
-                        {% if info.link_url%}<a href="{{ info.link_url }}" target="_blank">{% endif %}{{ info.information | default_if_none:'' }}{% if info.link_url%}</a>{% endif %}
+                        {% if info.link_url%}<a href="{{ info.link_url }}" target="_blank" rel="noopener noreferrer">{% endif %}{{ info.information | default_if_none:'' }}{% if info.link_url%}</a>{% endif %}
                     </span>
                 </li>
             {% endfor %}
@@ -89,7 +89,7 @@
                 <tbody>
                 {% for building in recommended_buildings %}
                     <tr>
-                        <td><a href="{% url 'building_building' building.oid %}" class="btn btn-sm btn-outline-primary" target="_blank">詳細</a></td>
+                        <td><a href="{% url 'building_building' building.oid %}" class="btn btn-sm btn-outline-primary" target="_blank" rel="noopener noreferrer">詳細</a></td>
                         <td>{{ building.building_name | default_if_none:'' }}</td>
                         <td>{{ building.vacancy_recommend_comment | default_if_none:'' }}</td>
                         <td>{{ building.address | default_if_none:'' }}</td>

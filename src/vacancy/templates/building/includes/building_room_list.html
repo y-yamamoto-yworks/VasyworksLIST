@@ -23,7 +23,7 @@
         {% for room in building.vacancy_rooms %}
             <tr class="room{% if room.room_status.is_pending %} is-pending no-printing{% elif room.is_no_publish %} no-publish no-printing{% elif room.is_high_auth_level %} high-level no-printing{% endif %}">
                 <td class="room-no">
-                    <a name="link_room" href="{% url 'room_room' room.oid %}" target="_blank" class="btn btn-outline-primary link-room">{{ room.room_no }}</a>
+                    <a name="link_room" href="{% url 'room_room' room.oid %}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary link-room">{{ room.room_no }}</a>
                 </td>
                 <td class="room-status">
                     {{ room.room_status.name | default_if_none:''}}

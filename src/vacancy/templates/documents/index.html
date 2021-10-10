@@ -15,7 +15,7 @@
         <div id="document-list">
         {% for document in documents %}
             <div class="document">
-                <div class="title">{{ forloop.counter }}: {{ document.file_title }} <a href="{{ document.cache_file_url }}" class="btn btn-sm btn-outline-primary" target="_blank">開く</a></div>
+                <div class="title">{{ forloop.counter }}: {{ document.file_title }} <a href="{{ document.cache_file_url }}" class="btn btn-sm btn-outline-primary" target="_blank" rel="noopener noreferrer">開く</a></div>
                 <div class="comment">{{ document.comment }}</div>
             </div>
         {% endfor %}

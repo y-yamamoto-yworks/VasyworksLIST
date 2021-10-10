@@ -43,7 +43,7 @@
                         <div class="col col-12 col-md-7">{{ room.building.address }}</div>
                     </div>
                     <div class="row">
-                        <div class="col col-6 col-md-3">{{ room.room_no | default_if_none:'-----' }}号室 <a href="{% url 'room_room' room.oid %}" target="_blank" class="btn btn-sm btn-outline-primary link-room">詳細</a></div>
+                        <div class="col col-6 col-md-3">{{ room.room_no | default_if_none:'-----' }}号室 <a href="{% url 'room_room' room.oid %}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary link-room">詳細</a></div>
                         <div class="col col-6 col-md-3">賃料: {{ room.rent_text | default_if_none:'-----' }}</div>
                         <div class="col col-6 col-md-3">{{ condo_fees_name }}: {{ room.condo_fees_text | default_if_none:'-----' }}</div>
                         <div class="col col-6 col-md-3">間取り: {{ room.layout_type_text | default_if_none:'-----' }}</div>
