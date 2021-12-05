@@ -148,8 +148,8 @@ class BuildingGarage(models.Model):
         if self.garage_fee > 0:
             ans = '{:,} 円'.format(self.garage_fee)
 
-        if self.garage_fee_tax_type.text:
-            ans += '（{0}）'.format(self.garage_fee_tax_type.text)
+            if self.garage_fee_tax_type.text:
+                ans += '（{0}）'.format(self.garage_fee_tax_type.text)
 
         return ans
 
@@ -159,8 +159,8 @@ class BuildingGarage(models.Model):
         if self.garage_charge > 0:
             ans = '{:,} 円'.format(self.garage_charge)
 
-        if self.garage_charge_tax_type.text:
-            ans += '（{0}）'.format(self.garage_charge_tax_type.text)
+            if self.garage_charge_tax_type.text:
+                ans += '（{0}）'.format(self.garage_charge_tax_type.text)
 
         return ans
 
@@ -170,8 +170,8 @@ class BuildingGarage(models.Model):
         if self.garage_deposit > 0:
             ans = '{:,} 円'.format(self.garage_deposit)
 
-        if self.garage_deposit_tax_type.text:
-            ans += '（{0}）'.format(self.garage_deposit_tax_type.text)
+            if self.garage_deposit_tax_type.text:
+                ans += '（{0}）'.format(self.garage_deposit_tax_type.text)
 
         return ans
 
@@ -181,8 +181,8 @@ class BuildingGarage(models.Model):
         if self.certification_fee > 0:
             ans = '{:,} 円'.format(self.certification_fee)
 
-        if self.certification_fee_tax_type.text:
-            ans += '（{0}）'.format(self.certification_fee_tax_type.text)
+            if self.certification_fee_tax_type.text:
+                ans += '（{0}）'.format(self.certification_fee_tax_type.text)
 
         return ans
 
