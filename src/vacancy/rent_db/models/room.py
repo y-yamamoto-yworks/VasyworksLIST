@@ -982,19 +982,19 @@ class Room(models.Model):
 
         if deposit_type.id != 0:
             if notation.is_money:
-                ans = ' {0:,.0f} {1}'.format(value, notation.unit)
+                ans = '{0:,.0f} {1}'.format(value, notation.unit)
                 if tax_type.text:
                     ans = '（{0}）'.format(tax_type.text)
             elif notation.is_month:
-                ans = ' 賃料 {0} {1}'.format(float_normalize(xfloat(value)), notation.unit)
+                ans = '賃料 {0} {1}'.format(float_normalize(xfloat(value)), notation.unit)
                 if tax_type.text:
                     ans = '（{0}）'.format(tax_type.text)
             elif notation.is_rate:
-                ans = ' 賃料の {0:.0f} {1}'.format(value, notation.unit)
+                ans = '賃料の {0:.0f} {1}'.format(value, notation.unit)
                 if tax_type.text:
                     ans = '（{0}）'.format(tax_type.text)
             else:
-                ans = ' {0}'.format(notation.name)
+                ans = '{0}'.format(notation.name)
 
         return ans
 
@@ -1012,19 +1012,19 @@ class Room(models.Model):
 
         if key_money_type.id != 0:
             if notation.is_money:
-                ans = ' {0:,.0f} {1}'.format(value, notation.unit)
+                ans = '{0:,.0f} {1}'.format(value, notation.unit)
                 if tax_type.text:
                     ans = '（{0}）'.format(tax_type.text)
             elif notation.is_month:
-                ans = ' 賃料 {0} {1}'.format(float_normalize(xfloat(value)), notation.unit)
+                ans = '賃料 {0} {1}'.format(float_normalize(xfloat(value)), notation.unit)
                 if tax_type.text:
                     ans = '（{0}）'.format(tax_type.text)
             elif notation.is_rate:
-                ans = ' 賃料の {0:.0f} {1}'.format(value, notation.unit)
+                ans = '賃料の {0:.0f} {1}'.format(value, notation.unit)
                 if tax_type.text:
                     ans = '（{0}）'.format(tax_type.text)
             else:
-                ans = ' {0}'.format(notation.name)
+                ans = '{0}'.format(notation.name)
 
         return ans
 
@@ -1388,9 +1388,9 @@ class Room(models.Model):
 
         if self.insurance_type.is_specified:
             if self.insurance_years > 0:
-                ans += ' {0}年'.format(self.insurance_years)
+                ans += '{0}年'.format(self.insurance_years)
             if self.insurance_fee > 0:
-                ans += ' {0:,} 円'.format(self.insurance_fee)
+                ans += '{0:,} 円'.format(self.insurance_fee)
                 if self.insurance_fee_tax_type.text:
                     ans += '（{0}）'.format(self.insurance_fee_tax_type.text)
 
@@ -1411,7 +1411,7 @@ class Room(models.Model):
         ans = None
 
         if self.document_cost_existence.is_exists:
-            ans = ' {0:,} 円'.format(self.document_cost)
+            ans = '{0:,} 円'.format(self.document_cost)
             if self.document_cost_tax_type.text:
                 ans += '（{0}）'.format(self.document_cost_tax_type.text)
 
@@ -1422,7 +1422,7 @@ class Room(models.Model):
         ans = None
 
         if self.key_change_cost_existence.is_exists:
-            ans = ' {0:,} 円'.format(self.key_change_cost)
+            ans = '{0:,} 円'.format(self.key_change_cost)
             if self.key_change_cost_tax_type.text:
                 ans += '（{0}）'.format(self.key_change_cost_tax_type.text)
 
@@ -1559,7 +1559,7 @@ class Room(models.Model):
         ans = None
 
         if self.renewal_charge_existence.is_exists:
-            ans = ' {0:,} 円'.format(self.renewal_charge)
+            ans = '{0:,} 円'.format(self.renewal_charge)
             if self.renewal_charge_tax_type.text:
                 ans += '（{0}）'.format(self.renewal_charge_tax_type.text)
 
@@ -1570,7 +1570,7 @@ class Room(models.Model):
         ans = None
 
         if self.recontract_fee_existence.is_exists:
-            ans = ' {0:,} 円'.format(self.recontract_fee)
+            ans = '{0:,} 円'.format(self.recontract_fee)
             if self.recontract_fee_tax_type.text:
                 ans += '（{0}）'.format(self.recontract_fee_tax_type.text)
 
@@ -1591,7 +1591,7 @@ class Room(models.Model):
         if self.cleaning_type.is_paid:
             ans = self.cleaning_type.name
             if self.cleaning_type.is_money:
-                ans += ' {0:,} 円'.format(self.cleaning_cost)
+                ans += '{0:,} 円'.format(self.cleaning_cost)
                 if self.cleaning_cost_tax_type.text:
                     ans += '（{0}）'.format(self.cleaning_cost_tax_type.text)
 
@@ -1721,21 +1721,21 @@ class Room(models.Model):
         ans = None
         if self.ad_type.id != 0:
             if self.ad_type.is_money:
-                ans = ' {0:,.0f} {1}'.format(
+                ans = '{0:,.0f} {1}'.format(
                     self.ad_value,
                     self.ad_type.unit,
                 )
                 if self.ad_tax_type.text:
                     ans += '（{0}）'.format(self.ad_tax_type.text)
             elif self.ad_type.is_month:
-                ans = ' 賃料の {0} {1}'.format(
+                ans = '賃料の {0} {1}'.format(
                     float_normalize(xfloat(self.ad_value)),
                     self.ad_type.unit,
                 )
                 if self.ad_tax_type.text:
                     ans += '（{0}）'.format(self.ad_tax_type.text)
             else:
-                ans = ' {0}'.format(self.ad_type.name)
+                ans = '{0}'.format(self.ad_type.name)
 
         return ans
 
@@ -1746,21 +1746,21 @@ class Room(models.Model):
             if self.trader_ad_type.is_unknown:
                 ans = None
             elif self.trader_ad_type.is_money:
-                ans = ' {0:,.0f} {1}'.format(
+                ans = '{0:,.0f} {1}'.format(
                     self.trader_ad_value,
                     self.trader_ad_type.unit,
                 )
                 if self.trader_ad_tax_type.text:
                     ans += '（{0}）'.format(self.trader_ad_tax_type.text)
             elif self.trader_ad_type.is_month:
-                ans = ' 賃料の {0} {1}'.format(
+                ans = '賃料の {0} {1}'.format(
                     float_normalize(xfloat(self.trader_ad_value)),
                     self.trader_ad_type.unit,
                 )
                 if self.trader_ad_tax_type.text:
                     ans += '（{0}）'.format(self.trader_ad_tax_type.text)
             else:
-                ans = ' {0}'.format(self.trader_ad_type.name)
+                ans = '{0}'.format(self.trader_ad_type.name)
 
         return ans
 
@@ -1893,7 +1893,7 @@ class Room(models.Model):
         if self.vacancy_appeal:
             ans = self.vacancy_appeal
         elif self.building.vacancy_appeal:
-            ans = self.building.vacancy_appeal;
+            ans = self.building.vacancy_appeal
 
         return ans
 
@@ -1903,7 +1903,7 @@ class Room(models.Model):
         if self.vacancy_catch_copy:
             ans = self.vacancy_catch_copy
         elif self.building.vacancy_catch_copy:
-            ans = self.building.vacancy_catch_copy;
+            ans = self.building.vacancy_catch_copy
 
         return ans
 
