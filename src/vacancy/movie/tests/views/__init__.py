@@ -1,0 +1,2 @@
+from .test_building_movie_view import BuildingMovieViewTest
+from .test_room_movie_view import RoomMovieViewTest

@@ -1,0 +1,1 @@
+from .test_documents_index_view import DocumentsIndexViewTest
