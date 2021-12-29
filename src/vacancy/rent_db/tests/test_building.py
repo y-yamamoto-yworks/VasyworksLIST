@@ -68,15 +68,15 @@ class BuildingModelTest(TestCase):
         self.assertEqual(self.building.address, '京都府京都市上京区住所町域DEMO町番地DEMOデータ')
 
     def test_building_nearest_stations(self):
-        self.assertEqual(self.building.nearest_station1, '地下鉄烏丸線 北大路 駅まで徒歩5分')
+        self.assertEqual(self.building.nearest_station1, '地下鉄烏丸線 北大路駅まで徒歩5分')
         self.building.station1_id = 0
         self.assertIsNone(self.building.nearest_station1)
 
-        self.assertEqual(self.building.nearest_station2, '地下鉄烏丸線 鞍馬口 駅までバス10分（バス停 北大路バスターミナルまで徒歩5分）')
+        self.assertEqual(self.building.nearest_station2, '地下鉄烏丸線 鞍馬口駅までバス10分（バス停 北大路バスターミナルまで徒歩5分）')
         self.building.station2_id = 0
         self.assertIsNone(self.building.nearest_station2)
 
-        self.assertEqual(self.building.nearest_station3, '京福電鉄北野線 北野白梅町 駅までバス15分（バス停 北大路バスターミナルまで徒歩5分）')
+        self.assertEqual(self.building.nearest_station3, '京福電鉄北野線 北野白梅町駅までバス15分（バス停 北大路バスターミナルまで徒歩5分）')
         self.building.station3_id = 0
         self.assertIsNone(self.building.nearest_station3)
 
@@ -96,13 +96,13 @@ class BuildingModelTest(TestCase):
         self.assertEqual(self.building.elementary_school_text, '新町')
 
     def test_elementary_school_distance_text(self):
-        self.assertEqual(self.building.elementary_school_distance_text, '100 m')
+        self.assertEqual(self.building.elementary_school_distance_text, '100m')
 
     def test_junior_high_school_text(self):
         self.assertEqual(self.building.junior_high_school_text, '上京')
 
     def test_junior_high_school_distance_text(self):
-        self.assertEqual(self.building.junior_high_school_distance_text, '200 m')
+        self.assertEqual(self.building.junior_high_school_distance_text, '200m')
 
     def test_garage_status_text(self):
         self.assertIsNone(self.building.garage_status_text)
@@ -112,7 +112,7 @@ class BuildingModelTest(TestCase):
         self.building.garage_type_id = old_type_id
 
     def test_garage_distance_text(self):
-        self.assertEqual(self.building.garage_distance_text, '100 m')
+        self.assertEqual(self.building.garage_distance_text, '100m')
 
     def test_garage_fee_text(self):
         self.assertIsNone(self.building.garage_fee_text)
@@ -121,11 +121,11 @@ class BuildingModelTest(TestCase):
         self.building.garage_fee_lower = 12000
         self.building.garage_fee_upper = 15000
         self.building.garage_fee_tax_type_id = 1
-        self.assertEqual(self.building.garage_fee_text, '12,000 円 〜 15,000 円 税別')
+        self.assertEqual(self.building.garage_fee_text, '12,000円 ～ 15,000円（税別）')
         self.building.garage_type_id = old_type_id
 
     def test_garage_charge_text(self):
-        self.assertEqual(self.building.garage_charge_text, '4,000 円 〜 6,000 円 税別')
+        self.assertEqual(self.building.garage_charge_text, '4,000円 ～ 6,000円（税別）')
 
     def test_bike_parking_type_text(self):
         self.assertEqual(self.building.bike_parking_type_text, '原付可（有料）')
@@ -140,7 +140,7 @@ class BuildingModelTest(TestCase):
         self.assertEqual(self.building.staff2_text, '管理（賃貸管理部）')
 
     def test_register_text(self):
-        self.assertEqual(self.building.register_text, '登記番号: 999番 / 登記地番: 登記所在地DEMO町999番地（家屋番号: 999番）')
+        self.assertEqual(self.building.register_text, '登記番号:9999999999 / 登記地番:登記所在地DEMO町999番地（家屋番号:999番） / 登記名義人:DEMO登記名義人')
 
     def test_agreement_existence_text(self):
         self.assertEqual(self.building.agreement_existence_text, '有り')

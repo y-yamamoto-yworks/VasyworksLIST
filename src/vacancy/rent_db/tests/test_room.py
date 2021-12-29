@@ -69,18 +69,21 @@ class RoomModelTest(TestCase):
         self.assertEqual(self.room.room_floor_text, '1階')
 
     def test_rent_text(self):
-        self.assertEqual(self.room.rent_text, '52,000 円')
+        self.assertEqual(self.room.rent_text, '52,000円 ～ 53,000円')
 
         old_rent = self.room.rent
+        old_rent_upper = self.room.rent_upper
         self.room.rent = 0
+        self.room.rent_upper = 0
         self.assertIsNone(self.room.rent_text)
         self.room.rent = old_rent
+        self.room.rent_upper = old_rent_upper
 
         old_tax_id = self.room.rent_tax_type_id
         self.room.rent_tax_type_id = 1
-        self.assertEqual(self.room.rent_text, '52,000 円（税別）')
+        self.assertEqual(self.room.rent_text, '52,000円 ～ 53,000円（税別）')
         self.room.rent_tax_type_id = 3
-        self.assertEqual(self.room.rent_text, '52,000 円')
+        self.assertEqual(self.room.rent_text, '52,000円 ～ 53,000円')
         self.room.rent_tax_type_id = old_tax_id
 
         old_rent_hidden = self.room.rent_hidden
@@ -88,30 +91,8 @@ class RoomModelTest(TestCase):
         self.assertEqual(self.room.rent_text, '相談')
         self.room.rent_hidden = old_rent_hidden
 
-    def test_rent_upper_text(self):
-        self.assertEqual(self.room.rent_upper_text, '53,000 円')
-
-        old_rent_upper = self.room.rent_upper
-        self.room.rent_upper = 0
-        self.assertIsNone(self.room.rent_upper_text)
-        self.room.rent_upper = self.room.rent
-        self.assertIsNone(self.room.rent_upper_text)
-        self.room.rent_upper = old_rent_upper
-
-        old_tax_id = self.room.rent_tax_type_id
-        self.room.rent_tax_type_id = 1
-        self.assertEqual(self.room.rent_upper_text, '53,000 円（税別）')
-        self.room.rent_tax_type_id = 3
-        self.assertEqual(self.room.rent_upper_text, '53,000 円')
-        self.room.rent_tax_type_id = old_tax_id
-
-        old_rent_hidden = self.room.rent_hidden
-        self.room.rent_hidden = True
-        self.assertIsNone(self.room.rent_upper_text)
-        self.room.rent_hidden = old_rent_hidden
-
     def test_trader_rent_text(self):
-        self.assertEqual(self.room.trader_rent_text, '55,000 円')
+        self.assertEqual(self.room.trader_rent_text, '55,000円')
 
         old_trader_rent = self.room.trader_rent
         self.room.trader_rent = 0
@@ -120,18 +101,18 @@ class RoomModelTest(TestCase):
 
         old_tax_id = self.room.rent_tax_type_id
         self.room.rent_tax_type_id = 1
-        self.assertEqual(self.room.trader_rent_text, '55,000 円（税別）')
+        self.assertEqual(self.room.trader_rent_text, '55,000円（税別）')
         self.room.rent_tax_type_id = 3
-        self.assertEqual(self.room.trader_rent_text, '55,000 円')
+        self.assertEqual(self.room.trader_rent_text, '55,000円')
         self.room.rent_tax_type_id = old_tax_id
 
     def test_condo_fees_text(self):
-        self.assertEqual(self.room.condo_fees_text, '3,000 円')
+        self.assertEqual(self.room.condo_fees_text, '3,000円')
         self.room.condo_fees_type_id = 20
         self.assertEqual(self.room.condo_fees_text, '込み')
 
     def test_water_cost_text(self):
-        self.assertEqual(self.room.water_cost_text, '2,000 円（税込）')
+        self.assertEqual(self.room.water_cost_text, '2,000円（税込）')
         self.room.water_cost_type_id = 30
         self.assertEqual(self.room.water_cost_text, '共益費込')
 
@@ -145,7 +126,7 @@ class RoomModelTest(TestCase):
         self.assertEqual(self.room.payment_fee_type_text, '振替手数料')
 
     def test_payment_fee_text(self):
-        self.assertEqual(self.room.payment_fee_text, ' 300 円（税別）')
+        self.assertEqual(self.room.payment_fee_text, '300円（税別）')
 
     def test_free_rent_text(self):
         self.assertEqual(self.room.free_rent_text, '1ヶ月')
@@ -157,9 +138,9 @@ class RoomModelTest(TestCase):
         self.assertIsNone(self.room.free_rent_text)
 
     def test_room_monthly_cost_texts(self):
-        self.assertEqual(self.room.monthly_cost_text1, '1,000 円(税別)')
-        self.assertEqual(self.room.monthly_cost_text2, '500 円(税込)')
-        self.assertEqual(self.room.monthly_cost_text3, '2,000 円(税別)')
+        self.assertEqual(self.room.monthly_cost_text1, '1,000円（税別）')
+        self.assertEqual(self.room.monthly_cost_text2, '500円（税込）')
+        self.assertEqual(self.room.monthly_cost_text3, '2,000円（税別）')
         self.assertIsNone(self.room.monthly_cost_text4)
         self.assertIsNone(self.room.monthly_cost_text5)
         self.assertIsNone(self.room.monthly_cost_text6)
@@ -173,7 +154,7 @@ class RoomModelTest(TestCase):
         self.assertEqual(self.room.deposit_text1, '無し')
         self.room.deposit_notation1_id = 2
         self.room.deposit_value1 = 100000
-        self.assertEqual(self.room.deposit_text1, '100,000 円')
+        self.assertEqual(self.room.deposit_text1, '100,000円')
 
         self.assertIsNone(self.room.deposit_text2)
         self.room.deposit_type2_id = 20
@@ -181,15 +162,15 @@ class RoomModelTest(TestCase):
         self.assertEqual(self.room.deposit_text2, '無し')
         self.room.deposit_notation2_id = 2
         self.room.deposit_value2 = 100000
-        self.assertEqual(self.room.deposit_text2, '100,000 円')
+        self.assertEqual(self.room.deposit_text2, '100,000円')
 
     def test_room_key_money_texts(self):
-        self.assertEqual(self.room.key_money_text1, '賃料 1 ヶ月')
+        self.assertEqual(self.room.key_money_text1, '賃料 1ヶ月')
         self.room.key_money_notation1_id = 1
         self.assertEqual(self.room.key_money_text1, '無し')
         self.room.key_money_notation1_id = 2
         self.room.key_money_value1 = 100000
-        self.assertEqual(self.room.key_money_text1, '100,000 円')
+        self.assertEqual(self.room.key_money_text1, '100,000円')
 
         self.assertIsNone(self.room.key_money_text2)
         self.room.key_money_type2_id = 20
@@ -197,7 +178,7 @@ class RoomModelTest(TestCase):
         self.assertEqual(self.room.key_money_text2, '無し')
         self.room.key_money_notation2_id = 2
         self.room.key_money_value2 = 100000
-        self.assertEqual(self.room.key_money_text2, '100,000 円')
+        self.assertEqual(self.room.key_money_text2, '100,000円')
 
     def test_room_insurance_type_text(self):
         self.assertEqual(self.room.insurance_type_text, '指定')
@@ -206,7 +187,7 @@ class RoomModelTest(TestCase):
         self.assertEqual(self.room.insurance_company_text, '部屋火災保険会社DEMO')
 
     def test_room_insurance_text(self):
-        self.assertEqual(self.room.insurance_text, '2年15,000 円（税込）')
+        self.assertEqual(self.room.insurance_text, '2年 15,000円（税込）')
         self.room.insurance_type_id = 3
         self.assertIsNone(self.room.insurance_text)
 
@@ -214,19 +195,19 @@ class RoomModelTest(TestCase):
         self.assertEqual(self.room.guarantee_type_text, '必須')
 
     def test_room_document_cost_text(self):
-        self.assertEqual(self.room.document_cost_text, '8,000 円（税込）')
+        self.assertEqual(self.room.document_cost_text, '8,000円（税込）')
         self.room.document_cost_existence_id = 2
         self.assertIsNone(self.room.document_cost_text)
 
     def test_room_key_change_cost_text(self):
-        self.assertEqual(self.room.key_change_cost_text, '15,000 円（税別）')
+        self.assertEqual(self.room.key_change_cost_text, '15,000円（税別）')
         self.room.key_change_cost_existence_id = 2
         self.assertEqual(self.room.key_change_cost_text, None)
 
     def test_room_initial_cost_texts(self):
-        self.assertEqual(self.room.initial_cost_text1, '5,000 円(税別)')
-        self.assertEqual(self.room.initial_cost_text2, '10,000 円(税別)')
-        self.assertEqual(self.room.initial_cost_text3, '500 円(税別)')
+        self.assertEqual(self.room.initial_cost_text1, '5,000円（税別）')
+        self.assertEqual(self.room.initial_cost_text2, '10,000円（税別）')
+        self.assertEqual(self.room.initial_cost_text3, '500円（税別）')
         self.assertIsNone(self.room.initial_cost_text4)
         self.assertIsNone(self.room.initial_cost_text5)
         self.assertIsNone(self.room.initial_cost_text6)
@@ -249,15 +230,15 @@ class RoomModelTest(TestCase):
         self.assertEqual(room.contract_span_text, '1年6ヶ月')
 
     def test_room_renewal_fee_text(self):
-        self.assertEqual(self.room.renewal_fee_text, '新賃料の 1 ヶ月')
+        self.assertEqual(self.room.renewal_fee_text, '新賃料の1ヶ月')
         self.room.renewal_fee_notation_id = 1
         self.assertEqual(self.room.renewal_fee_text, '無し')
         self.room.renewal_fee_notation_id = 2
         self.room.renewal_fee_value = 50000
-        self.assertEqual(self.room.renewal_fee_text, '50,000 円')
+        self.assertEqual(self.room.renewal_fee_text, '50,000円')
 
     def test_room_renewal_charge_text(self):
-        self.assertEqual(self.room.renewal_charge_text, '10,000 円（税別）')
+        self.assertEqual(self.room.renewal_charge_text, '10,000円（税別）')
         self.room.renewal_charge_existence_id = 2
         self.assertIsNone(self.room.renewal_charge_text)
 
@@ -266,7 +247,7 @@ class RoomModelTest(TestCase):
         self.room.recontract_fee_existence_id = 1
         self.room.recontract_fee = 33000
         self.room.recontract_fee_tax_type_id = 2
-        self.assertEqual(self.room.recontract_fee_text, '33,000 円（税込）')
+        self.assertEqual(self.room.recontract_fee_text, '33,000円（税込）')
 
     def test_room_cancel_notice_limit_text(self):
         self.assertEqual(self.room.cancel_notice_limit_text, '2ヶ月前')
@@ -274,7 +255,7 @@ class RoomModelTest(TestCase):
         self.assertIsNone(self.room.cancel_notice_limit_text)
 
     def test_room_cleaning_cost_text(self):
-        self.assertEqual(self.room.cleaning_cost_text, '敷金相殺15,000 円（税別）')
+        self.assertEqual(self.room.cleaning_cost_text, '敷金相殺 15,000円（税別）')
         self.room.cleaning_type_id = 1
         self.assertIsNone(self.room.cleaning_cost_text)
 
@@ -295,11 +276,11 @@ class RoomModelTest(TestCase):
         self.assertEqual(self.room.direction_text, '南')
 
     def test_room_ad_text(self):
-        self.assertEqual(self.room.ad_text, '賃料の 1 ヶ月（税別）')
+        self.assertEqual(self.room.ad_text, '賃料の 1ヶ月（税別）')
         self.room.ad_type_id = 2
         self.room.ad_value = 55000
         self.room.ad_tax_type_id = 2
-        self.assertEqual(self.room.ad_text, '55,000 円（税込）')
+        self.assertEqual(self.room.ad_text, '55,000円（税込）')
         self.room.ad_type_id = 1
         self.assertEqual(self.room.ad_text, '無し')
         self.room.ad_type_id = 0
@@ -310,11 +291,11 @@ class RoomModelTest(TestCase):
         self.room.trader_ad_type_id = 3
         self.room.trader_ad_value = 0.5
         self.room.trader_ad_tax_type_id = 1
-        self.assertEqual(self.room.trader_ad_text, '賃料の 0.5 ヶ月（税別）')
+        self.assertEqual(self.room.trader_ad_text, '賃料の 0.5ヶ月（税別）')
         self.room.trader_ad_type_id = 2
         self.room.trader_ad_value = 44000
         self.room.trader_ad_tax_type_id = 2
-        self.assertEqual(self.room.trader_ad_text, '44,000 円（税込）')
+        self.assertEqual(self.room.trader_ad_text, '44,000円（税込）')
         self.room.trader_ad_type_id = 1
         self.assertEqual(self.room.trader_ad_text, '無し')
         self.room.trader_ad_type_id = 0

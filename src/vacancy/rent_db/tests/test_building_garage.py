@@ -29,33 +29,33 @@ class BuildingGarageModelTest(TestCase):
         self.assertEqual(self.garage.garage_status_text, '空き有')
 
     def test_building_garage_garage_fee_text(self):
-        self.assertEqual(self.garage.garage_fee_text, '10,000 円（税別）')
+        self.assertEqual(self.garage.garage_fee_text, '10,000円（税別）')
         self.garage.garage_fee = 0
         self.assertIsNone(self.garage.garage_fee_text)
 
     def test_building_garage_garage_charge_text(self):
-        self.assertEqual(self.garage.garage_charge_text, '5,000 円（税別）')
+        self.assertEqual(self.garage.garage_charge_text, '5,000円（税別）')
         self.garage.garage_charge = 0
         self.assertIsNone(self.garage.garage_charge_text)
 
     def test_building_garage_garage_deposit_text(self):
-        self.assertEqual(self.garage.garage_deposit_text, '10,000 円（税別）')
+        self.assertEqual(self.garage.garage_deposit_text, '10,000円（税別）')
         self.garage.garage_deposit = 0
         self.assertIsNone(self.garage.garage_deposit_text)
 
     def test_building_garage_certification_fee_text(self):
-        self.assertEqual(self.garage.certification_fee_text, '6,000 円（税別）')
+        self.assertEqual(self.garage.certification_fee_text, '6,000円（税別）')
         self.garage.certification_fee = 0
         self.assertIsNone(self.garage.certification_fee_text)
 
     def test_building_garage_initial_cost_text1(self):
-        self.assertEqual(self.garage.initial_cost_text1, '3,000 円(税込)')
+        self.assertEqual(self.garage.initial_cost_text1, '3,000円（税込）')
 
     def test_building_garage_initial_cost_text2(self):
-        self.assertEqual(self.garage.initial_cost_text2, '5,000 円(税込)')
+        self.assertEqual(self.garage.initial_cost_text2, '5,000円（税込）')
 
     def test_building_garage_initial_cost_text3(self):
-        self.assertEqual(self.garage.initial_cost_text3, '1,000 円(税込)')
+        self.assertEqual(self.garage.initial_cost_text3, '1,000円（税込）')
 
     def test_building_garage_allow_no_room_text(self):
         self.assertIsNone(self.garage.allow_no_room_text)

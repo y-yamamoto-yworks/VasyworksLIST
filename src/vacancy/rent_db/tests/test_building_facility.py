@@ -26,4 +26,4 @@ class BuildingFacilityModelTest(TestCase):
         transaction.rollback()
 
     def test_building_facility_distance_text(self):
-        self.assertEqual(self.facility.distance_text, '100 m')
+        self.assertEqual(self.facility.distance_text, '100m')

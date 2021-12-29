@@ -26,4 +26,4 @@ class BuildingLandmarkModelTest(TestCase):
         transaction.rollback()
 
     def test_building_landmark_distance_text(self):
-        self.assertEqual(self.landmark.distance_text, '100 m')
+        self.assertEqual(self.landmark.distance_text, '100m')

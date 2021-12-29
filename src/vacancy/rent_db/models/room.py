@@ -11,6 +11,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from lib.convert import *
 from lib.functions import *
+from lib.data_helper import DataHelper
 from .ad_type import AdType
 from .allow_type import AllowType
 from .balcony_type import BalconyType
@@ -956,117 +957,6 @@ class Room(models.Model):
         return self.room_no
 
     """
-    内部メソッド
-    """
-    @staticmethod
-    def __cost_text(cost_name, cost, tax_type):
-        ans = None
-        if cost_name and cost > 0:
-            ans = '{:,} 円'.format(cost)
-            if tax_type.text:
-                ans += '({0})'.format(tax_type.text)
-
-        return ans
-
-    @staticmethod
-    def __deposit_type_text(deposit_type):
-        ans = None
-        if deposit_type.id != 0:
-            ans = deposit_type.name
-
-        return ans
-
-    @staticmethod
-    def __deposit_text(deposit_type, notation, value, tax_type):
-        ans = None
-
-        if deposit_type.id != 0:
-            if notation.is_money:
-                ans = '{0:,.0f} {1}'.format(value, notation.unit)
-                if tax_type.text:
-                    ans = '（{0}）'.format(tax_type.text)
-            elif notation.is_month:
-                ans = '賃料 {0} {1}'.format(float_normalize(xfloat(value)), notation.unit)
-                if tax_type.text:
-                    ans = '（{0}）'.format(tax_type.text)
-            elif notation.is_rate:
-                ans = '賃料の {0:.0f} {1}'.format(value, notation.unit)
-                if tax_type.text:
-                    ans = '（{0}）'.format(tax_type.text)
-            else:
-                ans = '{0}'.format(notation.name)
-
-        return ans
-
-    @staticmethod
-    def __key_money_type_text(key_money_type):
-        ans = None
-        if key_money_type.id != 0:
-            ans = key_money_type.name
-
-        return ans
-
-    @staticmethod
-    def __key_money_text(key_money_type, notation, value, tax_type):
-        ans = None
-
-        if key_money_type.id != 0:
-            if notation.is_money:
-                ans = '{0:,.0f} {1}'.format(value, notation.unit)
-                if tax_type.text:
-                    ans = '（{0}）'.format(tax_type.text)
-            elif notation.is_month:
-                ans = '賃料 {0} {1}'.format(float_normalize(xfloat(value)), notation.unit)
-                if tax_type.text:
-                    ans = '（{0}）'.format(tax_type.text)
-            elif notation.is_rate:
-                ans = '賃料の {0:.0f} {1}'.format(value, notation.unit)
-                if tax_type.text:
-                    ans = '（{0}）'.format(tax_type.text)
-            else:
-                ans = '{0}'.format(notation.name)
-
-        return ans
-
-    @staticmethod
-    def __add_layout_room(type_name, area, target):
-        # 洋室・和室・キッチン
-        ans = target
-        if area > 0:
-            if ans:
-                ans += '×'
-            else:
-                ans = ''
-
-            ans += '{0}{1}帖'.format(type_name, float_normalize(xfloat(area)))
-
-        return ans
-
-    @staticmethod
-    def __add_layout_space(type_name, area, target):
-        # 洋室・和室・キッチン以外
-        ans = target
-        if area > 0:
-            if ans:
-                ans += '・'
-            else:
-                ans = ''
-
-            ans += '{0}{1}帖'.format(type_name, float_normalize(xfloat(area)))
-
-        return ans
-
-    @staticmethod
-    def __get_date_string(year: int, month: int, day: MonthDay):
-        ans = None
-        if year > 0 and 1 <= month <= 12 and day:
-            ans = '{0}年{1}月'.format(year, month, day.name)
-            if day.id != 0:
-                ans += day.name
-
-        return ans
-
-    """
     プロパティ
     """
     @property
@@ -1130,71 +1020,37 @@ class Room(models.Model):
 
     @property
     def room_floor_text(self):
-        ans = None
-        if self.room_floor > 0:
-            ans = '{0}階'.format(self.room_floor)
-        elif self.room_floor < 0:
-            ans = '地下{0}階'.format(self.room_floor * -1)
-        return ans
+        return DataHelper.get_room_floor_text(self.room_floor)
 
     @property
     def rent_text(self):
-        ans = None
-        if self.rent_hidden:
-            ans = "相談"
-        elif self.rent > 0:
-            ans = '{:,} 円'.format(self.rent)
-            if self.rent_tax_type.text:
-                ans += '（{0}）'.format(self.rent_tax_type.text)
-
-        return ans
-
-    @property
-    def rent_upper_text(self):
-        ans = None
-        if not self.rent_hidden and self.rent_upper > self.rent:
-            ans = '{:,} 円'.format(self.rent_upper)
-            if self.rent_tax_type.text:
-                ans += '（{0}）'.format(self.rent_tax_type.text)
-
-        return ans
+        return DataHelper.get_rent_text(
+            self.rent_hidden,
+            self.rent,
+            self.rent_upper,
+            self.rent_tax_type)
 
     @property
     def trader_rent_text(self):
-        ans = None
-        if self.trader_rent > 0:
-            ans = '{:,} 円'.format(self.trader_rent)
-
-            if self.rent_tax_type.text:
-                ans += '（{0}）'.format(self.rent_tax_type.text)
-
-        return ans
+        return DataHelper.get_rent_text(
+            False,
+            self.trader_rent,
+            0,
+            self.rent_tax_type)
 
     @property
     def condo_fees_text(self):
-        ans = None
-        if self.condo_fees_type.id != 0:
-            ans = self.condo_fees_type.name
-            if self.condo_fees_type.is_money:
-                ans = '{:,} 円'.format(self.condo_fees)
-
-                if self.condo_fees_tax_type.text:
-                    ans += '（{0}）'.format(self.condo_fees_tax_type.text)
-
-        return ans
+        return DataHelper.get_condo_fees_text(
+            self.condo_fees_type,
+            self.condo_fees,
+            self.condo_fees_tax_type)
 
     @property
     def water_cost_text(self):
-        ans = None
-        if self.water_cost_type.id != 0:
-            ans = self.water_cost_type.name
-            if self.water_cost_type.is_money:
-                ans = '{:,} 円'.format(self.water_cost)
-
-                if self.water_cost_tax_type.text:
-                    ans += '（{0}）'.format(self.water_cost_tax_type.text)
-
-        return ans
+        return DataHelper.get_water_cost_text(
+            self.water_cost_type,
+            self.water_cost,
+            self.water_cost_tax_type)
 
     @property
     def water_check_text(self):
@@ -1206,121 +1062,104 @@ class Room(models.Model):
 
     @property
     def payment_type_text(self):
-        ans = None
-        if self.payment_type.id != 0:
-            ans = self.payment_type.name
-
-        return ans
+        return DataHelper.get_payment_type_text(self.payment_type)
 
     @property
     def payment_fee_type_text(self):
-        ans = None
-        if self.payment_fee_type.id != 0:
-            ans = self.payment_fee_type.name
-
-        return ans
+        return DataHelper.get_payment_fee_type_text(self.payment_fee_type)
 
     @property
     def payment_fee_text(self):
-        ans = None
-        if self.payment_fee_type.id != 0:
-            if self.payment_fee_type.is_money and self.payment_fee > 0:
-                ans = ' {:,} 円'.format(self.payment_fee)
-                if self.payment_fee_tax_type.text:
-                    ans += '（{0}）'.format(self.payment_fee_tax_type.text)
-
-        return ans
+        return DataHelper.get_payment_fee_text(
+            self.payment_fee_type,
+            self.payment_fee,
+            self.payment_fee_tax_type)
 
     @property
     def free_rent_text(self):
-        ans = None
-
-        if self.free_rent_type.limit_is_span:
-            if self.free_rent_months > 0:
-                ans = '{0}ヶ月'.format(self.free_rent_months)
-        elif self.free_rent_type.limit_is_month:
-            if self.free_rent_limit_year > 0 and self.free_rent_limit_month > 0:
-                ans = '{0}年{1}月まで'.format(self.free_rent_limit_year, self.free_rent_limit_month)
-
-        return ans
+        return DataHelper.get_free_rent_text(
+            self.free_rent_type,
+            self.free_rent_months,
+            self.free_rent_limit_year,
+            self.free_rent_limit_month)
 
     @property
     def monthly_cost_text1(self):
-        return self.__cost_text(
+        return DataHelper.get_cost_text(
             self.monthly_cost_name1,
             self.monthly_cost1,
             self.monthly_cost_tax_type1)
 
     @property
     def monthly_cost_text2(self):
-        return self.__cost_text(
+        return DataHelper.get_cost_text(
             self.monthly_cost_name2,
             self.monthly_cost2,
             self.monthly_cost_tax_type2)
 
     @property
     def monthly_cost_text3(self):
-        return self.__cost_text(
+        return DataHelper.get_cost_text(
             self.monthly_cost_name3,
             self.monthly_cost3,
             self.monthly_cost_tax_type3)
 
     @property
     def monthly_cost_text4(self):
-        return self.__cost_text(
+        return DataHelper.get_cost_text(
             self.monthly_cost_name4,
             self.monthly_cost4,
             self.monthly_cost_tax_type4)
 
     @property
     def monthly_cost_text5(self):
-        return self.__cost_text(
+        return DataHelper.get_cost_text(
             self.monthly_cost_name5,
             self.monthly_cost5,
             self.monthly_cost_tax_type5)
 
     @property
     def monthly_cost_text6(self):
-        return self.__cost_text(
+        return DataHelper.get_cost_text(
             self.monthly_cost_name6,
             self.monthly_cost6,
             self.monthly_cost_tax_type6)
 
     @property
     def monthly_cost_text7(self):
-        return self.__cost_text(
+        return DataHelper.get_cost_text(
             self.monthly_cost_name7,
             self.monthly_cost7,
             self.monthly_cost_tax_type7)
 
     @property
     def monthly_cost_text8(self):
-        return self.__cost_text(
+        return DataHelper.get_cost_text(
             self.monthly_cost_name8,
             self.monthly_cost8,
             self.monthly_cost_tax_type8)
 
     @property
     def monthly_cost_text9(self):
-        return self.__cost_text(
+        return DataHelper.get_cost_text(
             self.monthly_cost_name9,
             self.monthly_cost9,
             self.monthly_cost_tax_type9)
 
     @property
     def monthly_cost_text10(self):
-        return self.__cost_text(
+        return DataHelper.get_cost_text(
             self.monthly_cost_name10,
             self.monthly_cost10,
             self.monthly_cost_tax_type10)
 
     @property
     def deposit_type_text1(self):
-        return self.__deposit_type_text(self.deposit_type1)
+        return DataHelper.get_deposit_type_text(self.deposit_type1)
 
     @property
     def deposit_text1(self):
-        return self.__deposit_text(
+        return DataHelper.get_deposit_text(
             self.deposit_type1,
             self.deposit_notation1,
             self.deposit_value1,
@@ -1328,11 +1167,11 @@ class Room(models.Model):
 
     @property
     def deposit_type_text2(self):
-        return self.__deposit_type_text(self.deposit_type2)
+        return DataHelper.get_deposit_type_text(self.deposit_type2)
 
     @property
     def deposit_text2(self):
-        return self.__deposit_text(
+        return DataHelper.get_deposit_text(
             self.deposit_type2,
             self.deposit_notation2,
             self.deposit_value2,
@@ -1340,11 +1179,11 @@ class Room(models.Model):
 
     @property
     def key_money_type_text1(self):
-        return self.__key_money_type_text(self.key_money_type1)
+        return DataHelper.get_key_money_type_text(self.key_money_type1)
 
     @property
     def key_money_text1(self):
-        return self.__key_money_text(
+        return DataHelper.get_key_money_text(
             self.key_money_type1,
             self.key_money_notation1,
             self.key_money_value1,
@@ -1352,11 +1191,11 @@ class Room(models.Model):
 
     @property
     def key_money_type_text2(self):
-        return self.__key_money_type_text(self.key_money_type2)
+        return DataHelper.get_key_money_type_text(self.key_money_type2)
 
     @property
     def key_money_text2(self):
-        return self.__key_money_text(
+        return DataHelper.get_key_money_text(
             self.key_money_type2,
             self.key_money_notation2,
             self.key_money_value2,
@@ -1364,428 +1203,210 @@ class Room(models.Model):
 
     @property
     def insurance_type_text(self):
-        ans = None
-
-        if self.insurance_type.id != 0:
-            if self.insurance_type.is_specified:
-                ans = '指定'
-            else:
-                ans = self.insurance_type.name
-
-        return ans
+        return DataHelper.get_insurance_type_text(self.insurance_type)
 
     @property
     def insurance_company_text(self):
-        ans = None
-        if self.insurance_type.is_specified and self.insurance_company:
-            ans = self.insurance_company
-
-        return ans
+        return DataHelper.get_insurance_company_text(
+            self.insurance_type,
+            self.insurance_company)
 
     @property
     def insurance_text(self):
-        ans = ''
-
-        if self.insurance_type.is_specified:
-            if self.insurance_years > 0:
-                ans += '{0}年'.format(self.insurance_years)
-            if self.insurance_fee > 0:
-                ans += '{0:,} 円'.format(self.insurance_fee)
-                if self.insurance_fee_tax_type.text:
-                    ans += '（{0}）'.format(self.insurance_fee_tax_type.text)
-
-        if ans == '':
-            ans = None
-
-        return ans
+        return DataHelper.get_insurance_text(
+            self.insurance_type,
+            self.insurance_years,
+            self.insurance_fee,
+            self.insurance_fee_tax_type)
 
     @property
     def guarantee_type_text(self):
-        ans = None
-        if self.guarantee_type.id != 0:
-            ans = self.guarantee_type.name
-        return ans
+        return DataHelper.get_guarantee_type_text(self.guarantee_type)
 
     @property
     def document_cost_text(self):
-        ans = None
-
-        if self.document_cost_existence.is_exists:
-            ans = '{0:,} 円'.format(self.document_cost)
-            if self.document_cost_tax_type.text:
-                ans += '（{0}）'.format(self.document_cost_tax_type.text)
-
-        return ans
+        return DataHelper.get_existence_cost_text(
+            self.document_cost_existence,
+            self.document_cost,
+            self.document_cost_tax_type)
 
     @property
     def key_change_cost_text(self):
-        ans = None
-
-        if self.key_change_cost_existence.is_exists:
-            ans = '{0:,} 円'.format(self.key_change_cost)
-            if self.key_change_cost_tax_type.text:
-                ans += '（{0}）'.format(self.key_change_cost_tax_type.text)
-
-        return ans
+        return DataHelper.get_existence_cost_text(
+            self.key_change_cost_existence,
+            self.key_change_cost,
+            self.key_change_cost_tax_type)
 
     @property
     def initial_cost_text1(self):
-        return self.__cost_text(
+        return DataHelper.get_cost_text(
             self.initial_cost_name1,
             self.initial_cost1,
             self.initial_cost_tax_type1)
 
     @property
     def initial_cost_text2(self):
-        return self.__cost_text(
+        return DataHelper.get_cost_text(
             self.initial_cost_name2,
             self.initial_cost2,
             self.initial_cost_tax_type2)
 
     @property
     def initial_cost_text3(self):
-        return self.__cost_text(
+        return DataHelper.get_cost_text(
             self.initial_cost_name3,
             self.initial_cost3,
             self.initial_cost_tax_type3)
 
     @property
     def initial_cost_text4(self):
-        return self.__cost_text(
+        return DataHelper.get_cost_text(
             self.initial_cost_name4,
             self.initial_cost4,
             self.initial_cost_tax_type4)
 
     @property
     def initial_cost_text5(self):
-        return self.__cost_text(
+        return DataHelper.get_cost_text(
             self.initial_cost_name5,
             self.initial_cost5,
             self.initial_cost_tax_type5)
 
     @property
     def initial_cost_text6(self):
-        return self.__cost_text(
+        return DataHelper.get_cost_text(
             self.initial_cost_name6,
             self.initial_cost6,
             self.initial_cost_tax_type6)
 
     @property
     def initial_cost_text7(self):
-        return self.__cost_text(
+        return DataHelper.get_cost_text(
             self.initial_cost_name7,
             self.initial_cost7,
             self.initial_cost_tax_type7)
 
     @property
     def initial_cost_text8(self):
-        return self.__cost_text(
+        return DataHelper.get_cost_text(
             self.initial_cost_name8,
             self.initial_cost8,
             self.initial_cost_tax_type8)
 
     @property
     def initial_cost_text9(self):
-        return self.__cost_text(
+        return DataHelper.get_cost_text(
             self.initial_cost_name9,
             self.initial_cost9,
             self.initial_cost_tax_type9)
 
     @property
     def initial_cost_text10(self):
-        return self.__cost_text(
+        return DataHelper.get_cost_text(
             self.initial_cost_name10,
             self.initial_cost10,
             self.initial_cost_tax_type10)
 
     @property
     def rental_type_text(self):
-        ans = None
-        if self.rental_type.id != 0:
-            ans = self.rental_type.short_name
-
-        return ans
+        return DataHelper.get_rental_type_short_text(self.rental_type)
 
     @property
     def contract_span_text(self):
-        ans = None
-
-        if self.contract_years > 0 or self.contract_months > 0:
-            ans = ''
-            if self.contract_years > 0:
-                ans += '{0}年'.format(self.contract_years)
-            if self.contract_months > 0:
-                ans += '{0}ヶ月'.format(self.contract_months)
-
-            if self.is_auto_renewal:
-                ans += '（自動更新）'
-
-        return ans
+        return DataHelper.get_contract_span_text(
+            self.contract_years,
+            self.contract_months,
+            self.is_auto_renewal)
 
     @property
     def renewal_fee_text(self):
-        ans = None
-
-        if self.renewal_fee_notation.is_money:
-            ans = '{0:,.0f} {1}'.format(
-                self.renewal_fee_value,
-                self.renewal_fee_notation.unit,
-            )
-            if self.renewal_fee_tax_type.text:
-                ans += '{0}）'.format(self.renewal_fee_tax_type.text)
-        elif self.renewal_fee_notation.is_month:
-            ans = '{0}の {1} {2}'.format(
-                self.renewal_fee_notation.header,
-                float_normalize(xfloat(self.renewal_fee_value)),
-                self.renewal_fee_notation.unit,
-            )
-            if self.renewal_fee_tax_type.text:
-                ans += '（{0}）'.format(self.renewal_fee_tax_type.text)
-        elif self.renewal_fee_notation.is_rate:
-            ans = '{0}の {1:.0f} {2}'.format(
-                self.renewal_fee_notation.header,
-                float_normalize(xfloat(self.renewal_fee_value)),
-                self.renewal_fee_notation.unit,
-            )
-            if self.renewal_fee_tax_type.text:
-                ans += '（{0}）'.format(self.renewal_fee_tax_type.text)
-        elif self.renewal_fee_notation.id != 0:
-            ans = '{0}'.format(self.renewal_fee_notation.name)
-
-        return ans
+        return DataHelper.get_renewal_fee_text(
+            self.renewal_fee_notation,
+            self.renewal_fee_value,
+            self.renewal_fee_tax_type)
 
     @property
     def renewal_charge_text(self):
-        ans = None
-
-        if self.renewal_charge_existence.is_exists:
-            ans = '{0:,} 円'.format(self.renewal_charge)
-            if self.renewal_charge_tax_type.text:
-                ans += '（{0}）'.format(self.renewal_charge_tax_type.text)
-
-        return ans
+        return DataHelper.get_existence_cost_text(
+            self.renewal_charge_existence,
+            self.renewal_charge,
+            self.renewal_charge_tax_type)
 
     @property
     def recontract_fee_text(self):
-        ans = None
-
-        if self.recontract_fee_existence.is_exists:
-            ans = '{0:,} 円'.format(self.recontract_fee)
-            if self.recontract_fee_tax_type.text:
-                ans += '（{0}）'.format(self.recontract_fee_tax_type.text)
-
-        return ans
+        return DataHelper.get_existence_cost_text(
+            self.recontract_fee_existence,
+            self.recontract_fee,
+            self.recontract_fee_tax_type)
 
     @property
     def cancel_notice_limit_text(self):
-        ans = None
-
-        if self.cancel_notice_limit > 0:
-            ans = '{0}ヶ月前'.format(self.cancel_notice_limit)
-
-        return ans
+        return DataHelper.get_cancel_notice_limit_text(self.cancel_notice_limit)
 
     @property
     def cleaning_cost_text(self):
-        ans = None
-        if self.cleaning_type.is_paid:
-            ans = self.cleaning_type.name
-            if self.cleaning_type.is_money:
-                ans += '{0:,} 円'.format(self.cleaning_cost)
-                if self.cleaning_cost_tax_type.text:
-                    ans += '（{0}）'.format(self.cleaning_cost_tax_type.text)
-
-        return ans
+        return DataHelper.get_cleaning_cost_text(
+            self.cleaning_type,
+            self.cleaning_cost,
+            self.cleaning_cost_tax_type)
 
     @property
     def room_area_text(self):
-        return float_normalize(xfloat(self.room_area))
+        return DataHelper.get_room_area_text(self.room_area)
 
     @property
     def balcony_type_text(self):
-        ans = None
-        if 0 < self.balcony_type.id < 90:
-            ans = self.balcony_type.name
-
-        return ans
+        return DataHelper.get_balcony_type_text(self.balcony_type)
 
     @property
     def balcony_area_text(self):
-        ans = None
-        if 0 < self.balcony_type.id < 90:
-            ans = float_normalize(xfloat(self.balcony_area))
-
-        return ans
+        return DataHelper.get_balcony_area_text(
+            self.balcony_type,
+            self.balcony_area)
 
     @property
     def layout_type_text(self):
-        ans = None
-        if self.layout_type.id != 0:
-            ans = self.layout_type.name
-        return ans
+        return DataHelper.get_layout_type_text(self.layout_type)
 
     @property
     def layout_detail_text(self):
-        ans = None
-
-        # 洋室
-        if self.western_style_room1 > 0:
-            ans = self.__add_layout_room('洋', self.western_style_room1, ans)
-        if self.western_style_room2 > 0:
-            ans = self.__add_layout_room('洋', self.western_style_room2, ans)
-        if self.western_style_room3 > 0:
-            ans = self.__add_layout_room('洋', self.western_style_room3, ans)
-        if self.western_style_room4 > 0:
-            ans = self.__add_layout_room('洋', self.western_style_room4, ans)
-        if self.western_style_room5 > 0:
-            ans = self.__add_layout_room('洋', self.western_style_room5, ans)
-        if self.western_style_room6 > 0:
-            ans = self.__add_layout_room('洋', self.western_style_room6, ans)
-        if self.western_style_room7 > 0:
-            ans = self.__add_layout_room('洋', self.western_style_room7, ans)
-        if self.western_style_room8 > 0:
-            ans = self.__add_layout_room('洋', self.western_style_room8, ans)
-        if self.western_style_room9 > 0:
-            ans = self.__add_layout_room('洋', self.western_style_room9, ans)
-        if self.western_style_room10 > 0:
-            ans = self.__add_layout_room('洋', self.western_style_room10, ans)
-
-        # 和室
-        if self.japanese_style_room1 > 0:
-            ans = self.__add_layout_room('和', self.japanese_style_room1, ans)
-        if self.japanese_style_room2 > 0:
-            ans = self.__add_layout_room('和', self.japanese_style_room2, ans)
-        if self.japanese_style_room3 > 0:
-            ans = self.__add_layout_room('和', self.japanese_style_room3, ans)
-        if self.japanese_style_room4 > 0:
-            ans = self.__add_layout_room('和', self.japanese_style_room4, ans)
-        if self.japanese_style_room5 > 0:
-            ans = self.__add_layout_room('和', self.japanese_style_room5, ans)
-        if self.japanese_style_room6 > 0:
-            ans = self.__add_layout_room('和', self.japanese_style_room6, ans)
-        if self.japanese_style_room7 > 0:
-            ans = self.__add_layout_room('和', self.japanese_style_room7, ans)
-        if self.japanese_style_room8 > 0:
-            ans = self.__add_layout_room('和', self.japanese_style_room8, ans)
-        if self.japanese_style_room9 > 0:
-            ans = self.__add_layout_room('和', self.japanese_style_room9, ans)
-        if self.japanese_style_room10 > 0:
-            ans = self.__add_layout_room('和', self.japanese_style_room10, ans)
-
-        # キッチン
-        if self.kitchen_type1.notation:
-            ans = self.__add_layout_room(self.kitchen_type1.notation, self.kitchen1, ans)
-        if self.kitchen_type2.notation:
-            ans = self.__add_layout_room(self.kitchen_type1.notation, self.kitchen2, ans)
-        if self.kitchen_type3.notation:
-            ans = self.__add_layout_room(self.kitchen_type1.notation, self.kitchen3, ans)
-
-        # その他スペース
-        space = None
-
-        # 納戸
-        if self.store_room1 > 0:
-            space = self.__add_layout_space('納戸', self.store_room1, space)
-        if self.store_room2 > 0:
-            space = self.__add_layout_space('納戸', self.store_room2, space)
-        if self.store_room3 > 0:
-            space = self.__add_layout_space('納戸', self.store_room3, space)
-
-        # ロフト
-        if self.loft1 > 0:
-            space = self.__add_layout_space('ロフト', self.loft1, space)
-        if self.loft2 > 0:
-            space = self.__add_layout_space('ロフト', self.loft2, space)
-
-        # サンルーム
-        if self.sun_room1 > 0:
-            space = self.__add_layout_space('サンルーム', self.sun_room1, space)
-        if self.sun_room2 > 0:
-            space = self.__add_layout_space('サンルーム', self.sun_room2, space)
-
-        if space:
-            ans += ' + {0}'.format(space)
-
-        return ans
+        return DataHelper.get_layout_detail_text(self)
 
     @property
     def direction_text(self):
-        ans = None
-        if self.direction.id != 0:
-            ans = self.direction.name
-
-        return ans
+        return DataHelper.get_direction_text(self.direction)
 
     @property
     def ad_text(self):
-        ans = None
-        if self.ad_type.id != 0:
-            if self.ad_type.is_money:
-                ans = '{0:,.0f} {1}'.format(
-                    self.ad_value,
-                    self.ad_type.unit,
-                )
-                if self.ad_tax_type.text:
-                    ans += '（{0}）'.format(self.ad_tax_type.text)
-            elif self.ad_type.is_month:
-                ans = '賃料の {0} {1}'.format(
-                    float_normalize(xfloat(self.ad_value)),
-                    self.ad_type.unit,
-                )
-                if self.ad_tax_type.text:
-                    ans += '（{0}）'.format(self.ad_tax_type.text)
-            else:
-                ans = '{0}'.format(self.ad_type.name)
-
-        return ans
+        return DataHelper.get_ad_text(
+            self.ad_type,
+            self.ad_value,
+            self.ad_tax_type,
+        )
 
     @property
     def trader_ad_text(self):
-        ans = None
-        if self.trader_ad_type.id != 0:
-            if self.trader_ad_type.is_unknown:
-                ans = None
-            elif self.trader_ad_type.is_money:
-                ans = '{0:,.0f} {1}'.format(
-                    self.trader_ad_value,
-                    self.trader_ad_type.unit,
-                )
-                if self.trader_ad_tax_type.text:
-                    ans += '（{0}）'.format(self.trader_ad_tax_type.text)
-            elif self.trader_ad_type.is_month:
-                ans = '賃料の {0} {1}'.format(
-                    float_normalize(xfloat(self.trader_ad_value)),
-                    self.trader_ad_type.unit,
-                )
-                if self.trader_ad_tax_type.text:
-                    ans += '（{0}）'.format(self.trader_ad_tax_type.text)
-            else:
-                ans = '{0}'.format(self.trader_ad_type.name)
-
-        return ans
+        return DataHelper.get_ad_text(
+            self.trader_ad_type,
+            self.trader_ad_value,
+            self.trader_ad_tax_type,
+        )
 
     @property
     def owner_fee_text(self):
-        ans = None
-        if self.owner_fee_type.id != 0:
-            ans = self.owner_fee_type.name
-
-        return ans
+        return DataHelper.get_owner_fee_text(self.owner_fee_type)
 
     @property
     def vacancy_status_text(self):
-        ans = None
-        if self.room_status.for_rent:
-            if not self.vacancy_status.id in [0, 90]:
-                ans = self.vacancy_status.name
-
-        return ans
+        return DataHelper.get_vacancy_status_text(
+            self.room_status,
+            self.vacancy_status)
 
     @property
     def live_start_date_text(self):
         ans = None
         if self.room_status.will_be_canceled:
-            ans = Room.__get_date_string(
+            ans = DataHelper.get_date_string(
                 self.live_start_year,
                 self.live_start_month,
                 self.live_start_day
@@ -1797,7 +1418,7 @@ class Room(models.Model):
     def cancel_scheduled_date_text(self):
         ans = None
         if self.room_status.will_be_canceled:
-            ans = Room.__get_date_string(
+            ans = DataHelper.get_date_string(
                 self.cancel_scheduled_year,
                 self.cancel_scheduled_month,
                 self.cancel_scheduled_day
@@ -1807,83 +1428,57 @@ class Room(models.Model):
 
     @property
     def electric_text(self):
-        ans = None
-        if self.electric_type.id != 0:
-            ans = self.electric_type.name
-        return ans
+        return DataHelper.get_electric_text(self.electric_type)
 
     @property
     def gas_text(self):
-        ans = None
-        if self.gas_type.id != 0:
-            ans = self.gas_type.name
-        return ans
+        return DataHelper.get_gas_text(self.gas_type)
 
     @property
     def bath_text(self):
-        ans = None
-        if self.bath_type.id != 0:
-            ans = self.bath_type.name
-        return ans
+        return DataHelper.get_bath_text(self.bath_type)
 
     @property
     def toilet_text(self):
-        ans = None
-        if self.toilet_type.id != 0:
-            ans = self.toilet_type.name
-        return ans
+        return DataHelper.get_toilet_text(self.toilet_type)
 
     @property
     def kitchen_range_text(self):
-        ans = None
-        if self.kitchen_range_type.id != 0:
-            ans = self.kitchen_range_type.name
-        return ans
+        return DataHelper.get_kitchen_range_text(self.kitchen_range_type)
 
     @property
     def internet_text(self):
-        ans = None
-        if self.internet_type.id != 0:
-            ans = self.internet_type.name
-        return ans
+        return DataHelper.get_internet_text(self.internet_type)
 
     @property
     def washer_text(self):
-        ans = None
-        if self.washer_type.id != 0:
-            ans = self.washer_type.name
-        return ans
+        return DataHelper.get_washer_text(self.washer_type)
 
     @property
     def pet_text(self):
-        ans = None
-        if self.pet_type.id != 0:
-            ans = self.pet_type.name
-        return ans
+        return DataHelper.get_pet_text(self.pet_type)
 
     @property
     def reform_year_month(self):
-        ans = None
-        if self.reform_year > 0:
-            ans = '{0}年'.format(self.reform_year)
-            if 1 <= self.reform_month <= 12:
-                ans += '{0}月'.format(self.reform_month)
-
-        return ans
+        return DataHelper.get_reform_year_month(
+            self.reform_year,
+            self.reform_month)
 
     @property
     def trader_publish_text(self):
         ans = None
-        if self.trader_publish_type.id != 0:
-            ans = self.trader_publish_type.name
+        if self.trader_publish_type:
+            if self.trader_publish_type.id != 0:
+                ans = self.trader_publish_type.name
 
         return ans
 
     @property
     def trader_portal_text(self):
         ans = None
-        if self.trader_portal_type.id != 0:
-            ans = self.trader_portal_type.name
+        if self.trader_portal_type:
+            if self.trader_portal_type.id != 0:
+                ans = self.trader_portal_type.name
 
         return ans
 

@@ -11,6 +11,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from lib.convert import *
 from lib.functions import *
+from lib.data_helper import DataHelper
 from .area import Area
 from .arrival_type import ArrivalType
 from .bike_parking_type import BikeParkingType
@@ -448,27 +449,6 @@ class Building(models.Model):
 
         return buildings
 
-    @classmethod
-    def __get_nearest_station_text(cls,
-                                   arrival_type,
-                                   station,
-                                   station_time,
-                                   bus_stop,
-                                   bus_stop_time,
-                                   ):
-        ans = None
-        if station:
-            if station.id != 0:
-                ans = xstr(station.railway.name) + ' ' + xstr(station.name)
-                ans += ' 駅まで' + xstr(arrival_type.name)
-                ans += xstr(station_time) + '分'
-                if xint(arrival_type.id) == 2:
-                    ans += '（バス停 ' + xstr(bus_stop)
-                    if xint(bus_stop_time) > 0:
-                        ans += 'まで徒歩' + xstr(bus_stop_time) + '分'
-                    ans += '）'
-        return ans
-
     """
     プロパティ
     """
@@ -545,250 +525,147 @@ class Building(models.Model):
     """
     @property
     def address(self):
-        ans = None
-        if self.pref:
-            ans = xstr(self.pref.name)
-            if self.pref.id != 0 and self.city:
-                ans += xstr(self.city.name)
-                if self.city.id != 0:
-                    ans += xstr(self.town_address)
-                    ans += xstr(self.house_no)
-                    if self.building_no:
-                        ans += ' ' + xstr(self.building_no)
-        return ans
+        return DataHelper.get_address_text(
+            self.pref,
+            self.city,
+            self.town_address,
+            self.house_no,
+            self.building_no)
 
     @property
     def area_text(self):
-        ans = None
-        if self.area.id != 0:
-            ans = self.area.name
-
-        return ans
+        return DataHelper.get_area_text(self.area)
 
     @property
     def nearest_station1(self):
-        return Building.__get_nearest_station_text(
+        return DataHelper.get_nearest_station_text(
             self.arrival_type1,
             self.station1,
             self.station_time1,
             self.bus_stop1,
-            self.bus_stop_time1,
-        )
+            self.bus_stop_time1)
 
     @property
     def nearest_station2(self):
-        return Building.__get_nearest_station_text(
+        return DataHelper.get_nearest_station_text(
             self.arrival_type2,
             self.station2,
             self.station_time2,
             self.bus_stop2,
-            self.bus_stop_time2,
-        )
+            self.bus_stop_time2)
 
     @property
     def nearest_station3(self):
-        return Building.__get_nearest_station_text(
+        return DataHelper.get_nearest_station_text(
             self.arrival_type3,
             self.station3,
             self.station_time3,
             self.bus_stop3,
-            self.bus_stop_time3,
-        )
+            self.bus_stop_time3)
 
     @property
     def building_type_text(self):
-        ans = None
-        if self.building_type.id != 0:
-            ans = self.building_type.name
-            if self.building_type_comment:
-                ans += '（{0}）'.format(self.building_type_comment)
-
-        return ans
+        return DataHelper.get_building_type_text(
+            self.building_type,
+            self.building_type_comment)
 
     @property
     def build_year_month(self):
-        ans = None
-        if self.build_year:
-            ans = xstr(self.build_year) + '年'
-            if self.build_month:
-                ans += xstr(self.build_month) + '月'
-            ans += '築'
-        return ans
+        return DataHelper.get_build_year_month_text(
+            self.build_year,
+            self.build_month)
 
     @property
     def structure_text(self):
-        ans = None
-        if self.structure.id != 0:
-            ans = self.structure.name
-            if self.structure_comment:
-                ans += '（{0}）'.format(self.structure_comment)
-
-        return ans
+        return DataHelper.get_structure_text(
+            self.structure,
+            self.structure_comment)
 
     @property
     def elementary_school_text(self):
-        ans = None
-        if self.elementary_school.id != 0:
-            ans = self.elementary_school.name
-
-        return ans
+        return DataHelper.get_school_text(self.elementary_school)
 
     @property
     def elementary_school_distance_text(self):
-        ans = None
-        if self.elementary_school.id != 0 and self.elementary_school_distance > 0:
-            ans = '{0} m'.format(self.elementary_school_distance)
-
-        return ans
+        return DataHelper.get_school_distance_text(
+            self.elementary_school,
+            self.elementary_school_distance)
 
     @property
     def junior_high_school_text(self):
-        ans = None
-        if self.junior_high_school.id != 0:
-            ans = self.junior_high_school.name
-
-        return ans
+        return DataHelper.get_school_text(self.junior_high_school)
 
     @property
     def junior_high_school_distance_text(self):
-        ans = None
-        if self.junior_high_school.id != 0 and self.junior_high_school_distance > 0:
-            ans = '{0} m'.format(self.junior_high_school_distance)
-
-        return ans
+        return DataHelper.get_school_distance_text(
+            self.junior_high_school,
+            self.junior_high_school_distance)
 
     @property
     def garage_status_text(self):
-        ans = None
-        if self.garage_type.is_exist and self.garage_status.id != 0:
-            ans = self.garage_status.name
-
-        return ans
+        return DataHelper.get_building_garage_status_text(
+            self.garage_type,
+            self.garage_status)
 
     @property
     def garage_distance_text(self):
-        ans = None
-        if self.garage_type.id != 0 and self.garage_distance > 0:
-            ans = '{0} m'.format(self.garage_distance)
-
-        return ans
+        return DataHelper.get_building_garage_distance_text(
+            self.garage_type,
+            self.garage_distance)
 
     @property
     def garage_fee_text(self):
-        ans = None
-        if self.garage_type.is_paid:
-            if self.garage_fee_lower > 0 or self.garage_fee_upper > 0:
-                ans = ''
-                if self.garage_fee_lower > 0:
-                    ans += '{0:,} 円'.format(self.garage_fee_lower)
-                if self.garage_fee_upper > 0 and self.garage_fee_upper > self.garage_fee_lower:
-                    ans += ' 〜 {0:,} 円'.format(self.garage_fee_upper)
-                if self.garage_fee_tax_type.text:
-                    ans += ' ' + self.garage_fee_tax_type.text
-
-                if ans == '':
-                    ans = None
-
-        return ans
+        return DataHelper.get_building_garage_fee_text(
+            self.garage_type,
+            self.garage_fee_lower,
+            self.garage_fee_upper,
+            self.garage_fee_tax_type)
 
     @property
     def garage_charge_text(self):
-        ans = None
-        if self.garage_charge_lower > 0 or self.garage_charge_upper > 0:
-            ans = ''
-            if self.garage_charge_lower > 0:
-                ans += '{0:,} 円'.format(self.garage_charge_lower)
-            if self.garage_charge_upper > 0 and self.garage_charge_upper > self.garage_charge_lower:
-                ans += ' 〜 {0:,} 円'.format(self.garage_charge_upper)
-            if self.garage_charge_tax_type.text:
-                ans += ' ' + self.garage_charge_tax_type.text
-
-            if ans == '':
-                ans = None
-
-        return ans
+        return DataHelper.get_building_garage_charge_text(
+            self.garage_charge_lower,
+            self.garage_charge_upper,
+            self.garage_charge_tax_type)
 
     @property
     def bike_parking_type_text(self):
-        ans = None
-        if self.bike_parking_type.id != 0:
-            ans = self.bike_parking_type.name
-
-        return ans
+        return DataHelper.get_bike_parking_type_text(self.bike_parking_type)
 
     @property
     def bike_parking_roof_text(self):
-        ans = None
-        if self.bike_parking_type.is_exist and self.with_bike_parking_roof:
-            ans = '屋根付き'
-
-        return ans
+        return DataHelper.get_bike_parking_roof_text(
+            self.bike_parking_type,
+            self.with_bike_parking_roof)
 
     @property
     def bike_parking_fee_text(self):
-        ans = None
-        if self.bike_parking_type.id != 0:
-            if self.bike_parking_type.is_paid:
-                ans = ''
-                if self.bike_parking_fee_lower > 0:
-                    ans += '{0:,} 円'.format(self.bike_parking_fee_lower)
-                if self.bike_parking_fee_upper > 0 and self.bike_parking_fee_upper > self.bike_parking_fee_lower:
-                    ans += ' 〜 {0:,} 円'.format(self.bike_parking_fee_upper)
-                if self.bike_parking_fee_tax_type.text:
-                    ans += ' ' + self.bike_parking_fee_tax_type.text
-
-                if ans == '':
-                    ans = None
-
-        return ans
+        return DataHelper.get_bike_parking_fee_text(
+            self.bike_parking_type,
+            self.bike_parking_fee_lower,
+            self.bike_parking_fee_upper,
+            self.bike_parking_fee_tax_type)
 
     @property
     def staff1_text(self):
-        ans = None
-        if self.staff1.id != 0:
-            ans = self.staff1.last_name
-            if self.staff1.department.id != 0:
-                ans += "（{0}）".format(self.staff1.department.department_name)
-
-        return ans
+        return DataHelper.get_staff_text(self.staff1)
 
     @property
     def staff2_text(self):
-        ans = None
-        if self.staff2.id != 0:
-            ans = self.staff2.last_name
-            if self.staff2.department.id != 0:
-                ans += "（{0}）".format(self.staff2.department.department_name)
-
-        return ans
+        return DataHelper.get_staff_text(self.staff2)
 
     @property
     def register_text(self):
-        ans = ''
-
-        if self.register_building_no:
-            ans += "登記番号: {0}".format(self.register_building_no)
-
-        if self.register_address:
-            if ans != '':
-                ans += ' / '
-            ans += "登記地番: {0}".format(self.register_address)
-            if self.register_building_no:
-                ans += "（家屋番号: {0}）".format(self.register_building_no)
-
-        if self.register_building_no:
-            if ans != '':
-                ans += ''
-
-        return ans
+        return DataHelper.get_register_text(
+            self.register_no,
+            self.register_address,
+            self.register_building_no,
+            self.register_name,
+        )
 
     @property
     def agreement_existence_text(self):
-        ans = None
-        if self.agreement_existence_id != 0:
-            ans = self.agreement_existence.name
-
-        return ans
+        return DataHelper.get_is_exists_text(self.agreement_existence)
 
     @property
     def vacancy_recommend_comment(self):

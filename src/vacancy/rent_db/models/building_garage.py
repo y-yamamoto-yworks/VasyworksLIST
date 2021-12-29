@@ -10,6 +10,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from lib.convert import *
 from lib.functions import *
+from lib.data_helper import DataHelper
 from .garage_status import GarageStatus
 from .tax_type import TaxType
 
@@ -115,19 +116,6 @@ class BuildingGarage(models.Model):
         verbose_name_plural = _('building_garages')
 
     """
-    内部メソッド
-    """
-    @staticmethod
-    def __cost_text(cost_name, cost, tax_type):
-        ans = None
-        if cost_name and cost > 0:
-            ans = '{:,} 円'.format(cost)
-            if tax_type.text:
-                ans += '({0})'.format(tax_type.text)
-
-        return ans
-
-    """
     プロパティ
     """
     @property
@@ -137,72 +125,57 @@ class BuildingGarage(models.Model):
     @property
     def garage_status_text(self):
         ans = None
-        if self.garage_status.id != 0:
-            ans = self.garage_status.name
+        if self.garage_status:
+            if self.garage_status.id != 0:
+                ans = self.garage_status.name
 
         return ans
 
     @property
     def garage_fee_text(self):
-        ans = None
-        if self.garage_fee > 0:
-            ans = '{:,} 円'.format(self.garage_fee)
-
-            if self.garage_fee_tax_type.text:
-                ans += '（{0}）'.format(self.garage_fee_tax_type.text)
-
-        return ans
+        return DataHelper.get_cost_text(
+            '駐車場月額',        # dummy
+            self.garage_fee,
+            self.garage_fee_tax_type)
 
     @property
     def garage_charge_text(self):
-        ans = None
-        if self.garage_charge > 0:
-            ans = '{:,} 円'.format(self.garage_charge)
-
-            if self.garage_charge_tax_type.text:
-                ans += '（{0}）'.format(self.garage_charge_tax_type.text)
-
-        return ans
+        return DataHelper.get_cost_text(
+            '駐車場手数料',       # dummy
+            self.garage_charge,
+            self.garage_charge_tax_type)
 
     @property
     def garage_deposit_text(self):
-        ans = None
-        if self.garage_deposit > 0:
-            ans = '{:,} 円'.format(self.garage_deposit)
-
-            if self.garage_deposit_tax_type.text:
-                ans += '（{0}）'.format(self.garage_deposit_tax_type.text)
-
-        return ans
+        return DataHelper.get_cost_text(
+            '駐車場保証料',       # dummy
+            self.garage_deposit,
+            self.garage_deposit_tax_type)
 
     @property
     def certification_fee_text(self):
-        ans = None
-        if self.certification_fee > 0:
-            ans = '{:,} 円'.format(self.certification_fee)
-
-            if self.certification_fee_tax_type.text:
-                ans += '（{0}）'.format(self.certification_fee_tax_type.text)
-
-        return ans
+        return DataHelper.get_cost_text(
+            '車庫証明手数料',       # dummy
+            self.certification_fee,
+            self.certification_fee_tax_type)
 
     @property
     def initial_cost_text1(self):
-        return self.__cost_text(
+        return DataHelper.get_cost_text(
             self.initial_cost_name1,
             self.initial_cost1,
             self.initial_cost_tax_type1)
 
     @property
     def initial_cost_text2(self):
-        return self.__cost_text(
+        return DataHelper.get_cost_text(
             self.initial_cost_name2,
             self.initial_cost2,
             self.initial_cost_tax_type2)
 
     @property
     def initial_cost_text3(self):
-        return self.__cost_text(
+        return DataHelper.get_cost_text(
             self.initial_cost_name3,
             self.initial_cost3,
             self.initial_cost_tax_type3)
@@ -217,18 +190,7 @@ class BuildingGarage(models.Model):
 
     @property
     def garage_size_text(self):
-        ans = ''
-        if self.width > 0:
-            ans = '幅{0}m'.format(float_normalize(xfloat(self.width)))
-        if self.length > 0:
-            if ans != '':
-                ans += '×'
-            ans += '奥行{0}m'.format(float_normalize(xfloat(self.length)))
-        if self.height > 0:
-            if ans != '':
-                ans += '×'
-            ans += '高さ{0}m'.format(float_normalize(xfloat(self.height)))
-        if ans == '':
-            ans = None
-
-        return ans
+        return DataHelper.get_garage_size_text(
+            self.width,
+            self.length,
+            self.height)
