@@ -20,7 +20,7 @@ class ApiHelperTest(TestCase):
         self.client = Client()
 
     def test_get_key(self):
-        self.assertEqual(ApiHelper.get_key(), '8e41d5d414744d3bcbafd94c1d24549581cba7543bd0fc0400ce34c7061a3b52248404713402ac04')
+        self.assertEqual(ApiHelper.get_key(), 'd2bc3da12c8c891681da44440d78bb1a3d16e5f649740fd16aa3b4e1fd7ee540d0a2b2b3fb99325e81b745a1308049e1')
 
     def test_check_key(self):
-        self.assertTrue(ApiHelper.check_key('8e41d5d414744d3bcbafd94c1d24549581cba7543bd0fc0400ce34c7061a3b52248404713402ac04'))
+        self.assertTrue(ApiHelper.check_key('d2bc3da12c8c891681da44440d78bb1a3d16e5f649740fd16aa3b4e1fd7ee540d0a2b2b3fb99325e81b745a1308049e1'))
