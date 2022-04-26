@@ -2,7 +2,8 @@
 {% load humanize %}
 
 {% if building.vacancy_rooms %}
-    <table class="table-sm table-responsive table-bordered text-nowrap">
+    <div class="table-responsive">
+        <table class="table-sm table-bordered text-nowrap">
         <thead>
             <tr>
                 <th scope="col" class="room-no">号室</th>
@@ -77,6 +78,7 @@
         {% endfor %}
         </tbody>
     </table>
+    </div>
 {% else %}
     <p class="no-rooms">募集中の部屋がありません。</p>
 {% endif %}

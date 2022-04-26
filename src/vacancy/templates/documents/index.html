@@ -12,15 +12,18 @@
     {% block h1_title %}{{ company.company_name | default_if_none:'' }} 書類一覧{% endblock %}
 
     {% block contents %}
-        <div id="document-list">
-        {% for document in documents %}
-            <div class="document">
-                <div class="title">{{ forloop.counter }}: {{ document.file_title }} <a href="{{ document.cache_file_url }}" class="btn btn-sm btn-outline-primary" target="_blank" rel="noopener noreferrer">開く</a></div>
-                <div class="comment">{{ document.comment }}</div>
+        <div class="row justify-content-center">
+            <div class="col col-auto">
+                <div id="document-list">
+                {% for document in documents %}
+                    <div class="document">
+                        <div class="title">{{ forloop.counter }}: {{ document.file_title }} <a href="{{ document.cache_file_url }}" class="btn btn-sm btn-outline-primary" target="_blank" rel="noopener noreferrer">開く</a></div>
+                        <div class="comment">{{ document.comment }}</div>
+                    </div>
+                {% endfor %}
+                </div>
             </div>
-        {% endfor %}
         </div>
-
     {% endblock %}
 
     {% block footer %}{% endblock %}

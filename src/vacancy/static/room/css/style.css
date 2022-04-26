@@ -40,7 +40,6 @@ div.pagination .pagination-next {
 
 #room-list .col {
     border: solid 1px darkslategray;
-    padding: 5px 5px;
 }
 
 #room-list .building-name {
@@ -102,7 +101,6 @@ div.pagination .pagination-next {
 
 #details .col {
     border: solid 1px darkslategray;
-    padding: 5px 5px;
 }
 
 #details .catch-copy {
@@ -125,7 +123,7 @@ div.pagination .pagination-next {
 #building-map {
     border: solid 1px darkslategray;
     margin: 10px;
-    padding: 0 15px 5px 15px;
+    padding: 0 12px;
 }
 
 #building-map .map-title {
@@ -139,12 +137,13 @@ div.pagination .pagination-next {
 #id_map {
     width: 100%;
     height: 400px;
+    margin-bottom: 5px;
 }
 
 #image-list {
     border: solid 1px darkslategray;
     margin: 10px;
-    padding: 0 15px;
+    padding: 0 12px;
 }
 
 #image-list .image-list-title {
@@ -163,7 +162,7 @@ div.pagination .pagination-next {
 #panorama-list {
     border: solid 1px darkslategray;
     margin: 10px;
-    padding: 0 15px;
+    padding: 0 12px;
 }
 
 #panorama-list .panorama-list-title {
@@ -177,7 +176,7 @@ div.pagination .pagination-next {
 #movie-list {
     border: solid 1px darkslategray;
     margin: 10px;
-    padding: 0 15px;
+    padding: 0 12px;
 }
 
 #movie-list .movie-list-title {
@@ -191,7 +190,7 @@ div.pagination .pagination-next {
 #file-list {
     border: solid 1px darkslategray;
     margin: 10px;
-    padding: 0 15px;
+    padding: 0 12px;
 }
 
 #file-list .file-list-title {

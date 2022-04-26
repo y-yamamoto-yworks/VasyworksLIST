@@ -15,18 +15,18 @@
         <div id="search-conditions-form">
             <form action="" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <div class="form-group row">
-                    <div class="col col-2 col-form-label"><label class="float-right">エリア</label></div>
-                    <div class="col-10 form-inline">
-                        {{ form.pref }}
-                        &nbsp;
-                        {{ form.city }}
-                        &nbsp;
-                        {{ form.area }}
-                        &nbsp;
-                        <input type="submit" value="検索" class="btn d-block d-flex align-items-center btn-primary">
-                        &nbsp;
-                        <input type="submit" value="クリア" v-on:click="clearConditions($event)" class="btn d-block d-flex align-items-center btn-secondary">
+                <div class="row py-1 justify-content-center">
+                    <div class="col col-auto col-form-label text-end"><label>エリア</label></div>
+                    <div class="col col-auto">{{ form.pref }}</div>
+                    <div class="col col-auto">{{ form.city }}</div>
+                    <div class="col col-auto">{{ form.area }}</div>
+                </div>
+                <div class="row py-1 justify-content-center">
+                    <div class="col col-auto">
+                        <input type="submit" value="検索" class="btn btn-primary">
+                    </div>
+                    <div class="col col-auto">
+                        <input type="submit" value="クリア" v-on:click="clearConditions($event)" class="btn btn-secondary">
                     </div>
                 </div>
             </form>

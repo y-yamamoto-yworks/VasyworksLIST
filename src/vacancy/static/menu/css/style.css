@@ -45,7 +45,6 @@ TOPメニュー
 
 #company .col {
     border: solid 1px darkslategray;
-    padding: 5px 5px;
 }
 
 #company .title {
@@ -71,7 +70,6 @@ TOPメニュー
 
 #department-list .col {
     border: solid 1px darkslategray;
-    padding: 5px 5px;
 }
 
 #department-list .title {
@@ -87,7 +85,7 @@ TOPメニュー
 }
 
 #recommend-list {
-    margin: 80px 40px;
+    margin: 50px 40px;
 }
 
 #recommend-list h2 {

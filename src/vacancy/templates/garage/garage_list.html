@@ -15,30 +15,28 @@
         <div id="search-conditions-form">
             <form action="" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <div class="form-group row">
-                    <div class="col col-2 col-form-label"><label class="float-right">エリア</label></div>
-                    <div class="col-8 form-inline">
-                        {{ form.pref }}
-                        &nbsp;
-                        {{ form.city }}
-                        &nbsp;
-                        {{ form.area }}
+                <div class="row py-1 justify-content-center">
+                    <div class="col col-12">
+                        <div class="row py-1">
+                            <div class="col col-3 col-form-label text-end"><label>エリア</label></div>
+                            <div class="col col-auto">{{ form.pref }}</div>
+                            <div class="col col-auto">{{ form.city }}</div>
+                            <div class="col col-auto">{{ form.area }}</div>
+                        </div>
+                        <div class="row py-1">
+                            <div class="col col-3 col-form-label text-end"><label>名称</label></div>
+                            <div class="col container-fluid">{{ form.garage_name }}</div>
+                            <div class="col col-1"></div>
+                        </div>
+                        <div class="row py-1 justify-content-center">
+                            <div class="col col-auto">
+                                <input type="submit" value="検索" class="btn btn-primary">
+                            </div>
+                            <div class="col col-auto">
+                                <input type="submit" value="クリア" v-on:click="clearConditions($event)" class="btn btn-secondary">
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-2"></div>
-                </div>
-                <div class="form-group row">
-                    <div class="col col-2 col-form-label"><label class="float-right">名称</label></div>
-                    <div class="col-8">{{ form.garage_name }}</div>
-                    <div class="col-2"></div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-2 col-md-4"></div>
-                    <div class="col-8 col-md-4 form-inline">
-                        <input type="submit" value="検索" class="btn d-block d-flex align-items-center btn-primary">
-                        &nbsp;
-                        <input type="submit" value="クリア" v-on:click="clearConditions($event)" class="btn d-block d-flex align-items-center btn-secondary">
-                    </div>
-                    <div class="col-2 col-md-4"></div>
                 </div>
             </form>
         </div>
@@ -50,34 +48,27 @@
             {% for garage in garages %}
                 <div class="garage">
                     <div class="row">
-                        <div class="col col-12 garage-name">{{ garage.building_name }}</div>
-                    </div>
-                    {% if garage.vacancy_catch_copy or garage.vacancy_appeal %}
-                    <div class="row">
-                        <div class="col col-12">
+                        <div class="col col-12 py-1 garage-name">{{ garage.building_name }}</div>
+                        {% if garage.vacancy_catch_copy or garage.vacancy_appeal %}
+                        <div class="col col-12 py-1">
                             {% if garage.vacancy_catch_copy %}<div class="catch-copy">{{ garage.vacancy_catch_copy | linebreaksbr }}</div>{% endif %}
                             {% if garage.vacancy_appeal %}<div class="appeal">{{ garage.vacancy_appeal | linebreaksbr }}</div>{% endif %}
                         </div>
-                    </div>
-                    {% endif %}
-                     <div class="row">
-                        <div class="col col-12 col-md-6">
+                        {% endif %}
+                        <div class="col col-12 col-md-6 py-1">
                             {{ garage.address | default_if_none:'住所不明' }}
                         </div>
-                        <div class="col col-8 col-md-4">
+                        <div class="col col-8 col-md-4 py-1">
                             担当: {{ garage.staff1_text | default_if_none:'-'}}
                             {% if garage.staff2_text %}・{{ garage.staff2_text }}{% endif %}
                         </div>
-                        <div class="col col-4 col-md-2">駐車場コード: {{ garage.building_id_text | default_if_none:'' }}</div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col col-12 col-md-6">
+                        <div class="col col-4 py-1 col-md-2 py-1">駐車場コード: {{ garage.building_id_text | default_if_none:'' }}</div>
+                        <div class="col col-12 col-md-6 py-1">
                             <div>状況: {{ garage.garage_status_text | default_if_none:'-----'}}</div>
                             {% if garage.garage_fee_text %}<div>月額: {{ garage.garage_fee_text }}</div>{% endif %}
                             {% if garage.garage_charge_text %}<div>手数料: {{ garage.garage_charge_text }}</div>{% endif %}
                         </div>
-                        <div class="col col-12 col-md-6">
+                        <div class="col col-12 col-md-6 py-1">
                             <div>コメント:</div>
                             {% if garage.vacancy_garage_comment %}<div class="annotation">{{ garage.vacancy_garage_comment | linebreaksbr }}</div>{% endif %}
                             {% if garage.garage_note %}<div class="annotation">{{ garage.garage_note | linebreaksbr }}</div>{% endif %}
@@ -86,26 +77,26 @@
 
                     {% if garage.garages %}
                     <div class="row detail-list-title">
-                        <div class="col col-12">駐車場詳細</div>
+                        <div class="col col-12 py-1">駐車場詳細</div>
                     </div>
                     <div class="row detail-col-title">
-                        <div class="col col-2">名称</div>
-                        <div class="col col-4">月額・手数料等</div>
-                        <div class="col col-6">その他</div>
+                        <div class="col col-2 py-1">名称</div>
+                        <div class="col col-4 py-1">月額・手数料等</div>
+                        <div class="col col-6 py-1">その他</div>
                     </div>
                     {% for garage in garage.garages %}
                     <div class="row detail">
-                        <div class="col col-2">
+                        <div class="col col-2 py-1">
                             <div>{{ garage.garage_name | default_if_none:'---' }}</div>
                             {% if garage.garage_status_text %}<div class="small">状況: {{ garage.garage_status_text }}</div>{% endif %}
                         </div>
-                        <div class="col col-4">
+                        <div class="col col-4 py-1">
                             <div class="small">月額: {{ garage.garage_fee_text | default_if_none:'---' }}</div>
                             {% if garage.garage_charge_text %}<div class="small">手数料: {{ garage.garage_charge_text }}</div>{% endif %}
                             {% if garage.garage_deposit_text %}<div class="small">保証金: {{ garage.garage_deposit_text }}</div>{% endif %}
                             {% if garage.certification_fee_text %}<div class="small">車庫証明: {{ garage.certification_fee_text }}</div>{% endif %}
                         </div>
-                        <div class="col col-6">
+                        <div class="col col-6 py-1">
                             {% if garage.garage_size_text %}<div class="small">サイズ: {{ garage.garage_size_text }}</div>{% endif %}
                             {% if garage.initial_cost_name1 and garage.initial_cost_text1 %}<div class="small">{{ garage.initial_cost_name1 }}: {{ garage.initial_cost_text1 }}</div>{% endif %}
                             {% if garage.initial_cost_name2 and garage.initial_cost_text2 %}<div class="small">{{ garage.initial_cost_name2 }}: {{ garage.initial_cost_text2 }}</div>{% endif %}

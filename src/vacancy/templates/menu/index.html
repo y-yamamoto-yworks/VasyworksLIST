@@ -27,21 +27,21 @@
         </div>
         <div id="company">
             <div class="row">
-                 <div class="col col-12 text-center title">会社情報</div>
+                <div class="col col-12 py-1 text-center title">会社情報</div>
             </div>
             <div class="row">
-                <div class="col col-3 col-md-2 text-center item-name">会社名</div>
-                <div class="col col-9 col-md-10">
+                <div class="col col-3 col-md-2 py-1 text-center item-name">会社名</div>
+                <div class="col col-9 col-md-10 py-1">
                     <span class="nowrap">{{ company.company_name }}</span>
                     {% if company.shop_name%}<span class="nowrap">（{{ company.shop_name }}）</span>{% endif %}
                 </div>
-                <div class="col col-3 col-md-2 text-center item-name">本社所在地</div>
-                <div class="col col-9 col-md-10">
+                <div class="col col-3 col-md-2 py-1 text-center item-name">本社所在地</div>
+                <div class="col col-9 col-md-10 py-1">
                     {% if company.postal_code %}<div>〒 {{ company.postal_code }}</div>{% endif %}
                     <div>{{ company.address }}</div>
                 </div>
-                <div class="col col-3 col-md-2 text-center item-name">本社連絡先</div>
-                <div class="col col-9 col-md-10">
+                <div class="col col-3 col-md-2 py-1 text-center item-name">本社連絡先</div>
+                <div class="col col-9 col-md-10 py-1">
                     {% if company.tel %}<span class="nowrap">Tel: {{ company.tel }}</span>{% endif %}
                     {% if company.fax %}<span class="nowrap">Fax: {{ company.fax }}</span>{% endif %}
                     {% if company.mail %}<span class="nowrap">Mail: {{ company.mail }}</span>{% endif %}
@@ -50,20 +50,20 @@
         </div>
         <div id="department-list">
             <div class="row">
-                <div class="col col-12 text-center title">お問合わせ部署</div>
+                <div class="col col-12 py-1 text-center title">お問合わせ部署</div>
             </div>
             {% for department in departments %}
             <div class="row department">
-                <div class="col col-12 col-md-4 text-center department-name">{{ department.department_name }}</div>
-                <div class="col col-12 col-md-8">{% if department.postal_code %}〒{{ department.postal_code }} {% endif %}{{ department.address }}</div>
-                <div class="col col-12">
+                <div class="col col-12 col-md-4 py-1 text-center department-name">{{ department.department_name }}</div>
+                <div class="col col-12 col-md-8 py-1">{% if department.postal_code %}〒{{ department.postal_code }} {% endif %}{{ department.address }}</div>
+                <div class="col col-12 py-1">
                     <span class="nowrap">TEL: {{ department.tel | default_if_none:'-----' }}</span>
                     <span class="nowrap">{% if department.fax %}FAX: {{ department.fax }}{% endif %}</span>
                     <span class="nowrap">{% if department.mail %}E-MAIL: {{ department.mail }}{% endif %}</span>
                 </div>
             </div>
             <div class="row">
-                <div class="col col-12">
+                <div class="col col-12 py-1">
                     <div class="staff-list">
                     {% for staff in department.publish_staffs %}
                         <span class="nowrap">{{ staff.full_name }}{% if staff.tel1 %}: {{ staff.tel1 }}{% endif %}</span>

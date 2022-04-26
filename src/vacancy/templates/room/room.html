@@ -13,7 +13,7 @@
     {% block h1_title %}
         <div id="room-title">
             <div class="row">
-                <div class="col col-12 building-name">
+                <div class="col col-12 py-1 building-name">
                     <span id="id_building_name">{{ room.building.building_name | default_if_none:'' }}</span>
                     {% if room.room_no %} {{ room.room_no }}号室{% endif %}
                 </div>
@@ -24,21 +24,21 @@
     {% block contents %}
         <div id="details">
             <div class="row">
-                <div class="col col-12 details-title"><h2>部屋詳細</h2></div>
+                <div class="col col-12 py-1 details-title"><h2>部屋詳細</h2></div>
             </div>
             <div class="room-details">
                 <div class="row">
-                    <div class="col col-6 col-md-3">
+                    <div class="col col-6 col-md-3 py-1">
                         <span id="id_room_no">{{ room.room_no }}</span>号室
                         {% if room.room_floor_text %}（<span id="id_room_floor">{{ room.room_floor_text }}</span>）{% endif %}
                         <span id="id_room_id" class="d-none">{{ room.idb64 }}</span>
                     </div>
-                    <div class="col col-6 col-md-3">
+                    <div class="col col-6 col-md-3 py-1">
                         <span id="id_layout_type">{{ room.layout_type_text | default_if_none:'-----'}}</span>
                         {% if room.room_area_text %}（<span id="id_room_area">{{ room.room_area_text }}</span> m<sup>2</sup>）{% endif %}
                         {% if room.direction_text %} <span id="id_direction">{{ room.direction_text }}</span>向き{% endif %}
                     </div>
-                    <div class="col col-12 col-md-6">
+                    <div class="col col-12 col-md-6 py-1">
                         <div>
                             間取詳細: <span id="id_layout_detail">{{ room.layout_detail_text | default_if_none:'' }}</span>
                             {% if room.balcony_type_text %}
@@ -47,17 +47,13 @@
                         </div>
                         {% if room.layout_note %}<div class="annotation"><span id="id_layout_note">{{ room.layout_note | linebreaksbr }}</span></div>{% endif %}
                     </div>
-                </div>
                 {% if room.vacancy_catch_copy or room.vacancy_appeal %}
-                <div class="row">
-                    <div class="col col-12">
+                    <div class="col col-12 py-1">
                         {% if room.vacancy_catch_copy %}<div class="catch-copy"><span id="id_catch_copy">{{ room.vacancy_catch_copy | linebreaksbr }}</span></div>{% endif %}
                         {% if room.vacancy_appeal %}<div class="appeal"><span id="id_appeal">{{ room.vacancy_appeal | linebreaksbr }}</span></div>{% endif %}
                     </div>
-                </div>
                 {% endif %}
-                <div class="row">
-                    <div class="col col-6 col-md-3">
+                    <div class="col col-6 col-md-3 py-1">
                         <div>
                             現況: <span id="id_room_status">{{ room.room_status.name | default_if_none:'-' }}</span>
                             {% if room.vacancy_status_text %}（<span id="id_vacancy_status">{{ room.vacancy_status_text }}</span>）{% endif %}
@@ -80,13 +76,12 @@
                         {% endif %}
                         {% if room.vacancy_status_note %}<div class="annotation"><span id="id_vacancy_status_note">{{ room.vacancy_status_note | linebreaksbr }}</span></div>{% endif %}
                     </div>
-                    <div class="col col-6 col-md-3">
+                    <div class="col col-6 col-md-3 py-1">
                         <div>賃料:
                         {% if not user.is_company and room.trader_rent_text %}
                             <span id="id_rent">{{ room.trader_rent_text | default_if_none:'' }}</span>
                         {% else %}
                             <span id="id_rent">{{ room.rent_text | default_if_none:'' }}</span>
-                            {% if room.rent_upper_text %} ～ <span id="id_rent_upper">{{ room.rent_upper_text }}</span>{% endif %}
                         {% endif %}
                         </div>
                         <div>{{ condo_fees_name }}: <span id="id_condo_fees">{{ room.condo_fees_text | default_if_none:'' }}</span></div>
@@ -99,11 +94,11 @@
                         {% endif %}
                         {% if room.free_rent_text %}<div class="small">フリーレント: <span id="id_free_rent">{{ room.free_rent_text }}</span></div>{% endif %}
                     </div>
-                    <div class="col col-6 col-md-3">
+                    <div class="col col-6 col-md-3 py-1">
                         <div>水道費: <span id="id_water_cost">{{ room.water_cost_text | default_if_none:'-' }}</span></div>
                         {% if room.water_check_text %}<div class="small">水道検針: <span id="id_water_check">{{ room.water_check_text }}</span></div>{% endif %}
                     </div>
-                    <div class="col col-6 col-md-3">
+                    <div class="col col-6 col-md-3 py-1">
                         <div class="small">（敷金・礼金等）</div>
                         {% if room.deposit_type_text1 and room.deposit_text1 %}
                         <div>
@@ -130,9 +125,7 @@
                         </div>
                         {% endif %}
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col col-6 col-md-3">
+                    <div class="col col-6 col-md-3 py-1">
                         <div>契約期間: <span id="id_contract_span">{{ room.contract_span_text | default_if_none:'-'}}</span></div>
                         {% if room.rental_type_text %}<div>契約種別: <span id="id_rental_type">{{ room.rental_type_text }}</span></div>{% endif %}
                         {% if user.is_company and room.is_sublease %}<div><span id="id_is_sublease">[サブリース]</span></div>{% endif %}
@@ -143,7 +136,7 @@
                         {% if room.recontract_fee_text %}<div>再契約料: <span id="id_recontract_fee">{{ room.recontract_fee_text }}</span></div>{% endif %}
                         {% if room.recontract_note %}<div class="annotation"><span id="id_room_recontract_note">{{ room.recontract_note | linebreaksbr }}</span></div>{% endif %}
                     </div>
-                    <div class="col col-6 col-md-3">
+                    <div class="col col-6 col-md-3 py-1">
                         <div>解約通知期限: <span id="id_cancel_notice_limit">{{ room.cancel_notice_limit_text | default_if_none:'-' }}</span></div>
                         {% if room.cancel_note %}<div class="annotation"><span id="id_cancel_note">{{ room.cancel_note | linebreaksbr }}</span></div>{% endif %}
                         {% if room.short_cancel_note %}<div class="annotation"><span id="id_short_cancel_note">{{ room.short_cancel_note | linebreaksbr }}</span></div>{% endif %}
@@ -152,7 +145,7 @@
                         {% if room.cleaning_note %}<div class="annotation"><span id="id_cleaning_note">{{ room.cleaning_note | linebreaksbr }}</span></div>{% endif %}
                         {% endif %}
                     </div>
-                    <div class="col col-6 col-md-3">
+                    <div class="col col-6 col-md-3 py-1">
                         <div class="small">（その他月額費用）</div>
                         {% if room.monthly_cost_name1 and room.monthly_cost_text1 %}<div class="small"><span id="id_monthly_cost_name1">{{ room.monthly_cost_name1 }}</span>: <span id="id_monthly_cost1">{{ room.monthly_cost_text1 }}</span></div>{% endif %}
                         {% if room.monthly_cost_name2 and room.monthly_cost_text2 %}<div class="small"><span id="id_monthly_cost_name2">{{ room.monthly_cost_name2 }}</span>: <span id="id_monthly_cost2">{{ room.monthly_cost_text2 }}</span></div>{% endif %}
@@ -166,7 +159,7 @@
                         {% if room.monthly_cost_name10 and room.monthly_cost_text10 %}<div class="small"><span id="id_monthly_cost_name10">{{ room.monthly_cost_name10 }}</span>: <span id="id_monthly_cost10">{{ room.monthly_cost_text10 }}</span></div>{% endif %}
                         {% if room.monthly_cost_note %}<div class="small">（月額備考）</div><div class="annotation"><span id="id_monthly_cost_note">{{ room.monthly_cost_note | linebreaksbr }}</span></div>{% endif %}
                     </div>
-                    <div class="col col-6 col-md-3">
+                    <div class="col col-6 col-md-3 py-1">
                         <div class="small">（その他初期費用）</div>
                         {% if room.document_cost_text %}
                         <div class="small">書類代: <span id="id_document_cost">{{ room.document_cost_text }}</span></div>
@@ -188,35 +181,31 @@
                         {% if room.initial_cost_name10 and room.initial_cost_text10 %}<div class="small"><span id="id_initial_cost_name10">{{ room.initial_cost_name10 }}</span>: <span id="id_initial_cost10">{{ room.initial_cost_text10 }}</span></div>{% endif %}
                         {% if room.initial_cost_note %}<div class="small">（初期費用備考）</div><div class="annotation"><span id="id_initial_cost_note">{{ room.initial_cost_note | linebreaksbr }}</span></div>{% endif %}
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col col-6 col-md-3">
+                    <div class="col col-6 col-md-3 py-1">
                     {% if room.insurance_type_text %}
                         <div class="small">火災保険: <span id="insurance_type">{{ room.insurance_type_text }}</span></div>
                         {% if room.insurance_company_text %}<div class="annotation"><span id="id_insurance_company">{{ room.insurance_company_text }}</span></div>{% endif %}
                         {% if room.insurance_text %}<div class="annotation"><span id="id_insurance">{{ room.insurance_text }}</span></div>{% endif %}
                     {% endif %}
                     </div>
-                    <div class="col col-6 col-md-3">
+                    <div class="col col-6 col-md-3 py-1">
                     {% if room.guarantee_type_text %}
                         <div class="small">保証会社: <span id="guarantee_type">{{ room.guarantee_type_text }}</span></div>
                         {% if room.guarantee_company %}<div class="annotation"><span id="id_guarantee_company">{{ room.guarantee_company }}</span></div>{% endif %}
                         {% if room.guarantee_fee %}<div class="annotation"><span id="id_guarantee_fee">{{ room.guarantee_fee | linebreaksbr }}</span></div>{% endif %}
                     {% endif %}
                     </div>
-                    <div class="col col-6 col-md-3">
+                    <div class="col col-6 col-md-3 py-1">
                         <div class="small">（リフォーム）</div>
                         {% if room.reform_year_month %}<div class="small">実施時期: <span id="id_reform_year_month">{{ room.reform_year_month }}</span></div>{% endif %}
                         {% if room.reform_comment %}<div class="small"><span id="id_reform_comment">{{ room.reform_comment | linebreaksbr }}</span></div>{% endif %}
                         {% if room.reform_note %}<div class="annotation">{{ room.reform_note | linebreaksbr }}</div>{% endif %}
                     </div>
-                    <div class="col col-6 col-md-3">
+                    <div class="col col-6 col-md-3 py-1">
                         <div class="small">広告料: <span id="id_ad">{% if user.is_trader and room.trader_ad_text%}{{ room.trader_ad_text }}{% else %}{{ room.ad_text | default_if_none:'-' }}{% endif %}</span></div>
                         <div class="small">貸主仲介手数料: <span id="id_owner_fee">{{ room.owner_fee_text | default_if_none:'-' }}</span></div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col col-12 col-md-4">
+                    <div class="col col-12 col-md-4 py-1">
                         <div class="small">（主要設備）</div>
                         {% if room.electric_text %}
                         <div class="small">電気:
@@ -261,7 +250,7 @@
                         </div>
                         {% endif %}
                     </div>
-                    <div class="col col-12 col-md-4">
+                    <div class="col col-12 col-md-4 py-1">
                         <div class="small">（その他設備）</div>
                         <div class="small">
                         {% for room_equipment in room.equipments %}
@@ -269,7 +258,7 @@
                         {% endfor %}
                         </div>
                     </div>
-                    <div class="col col-12 col-md-4">
+                    <div class="col col-12 col-md-4 py-1">
                         <div class="small">（条件）</div>
                         {% if room.pet_text %}
                         <div class="small">ペット:
@@ -293,18 +282,14 @@
                         </div>
                         {% if room.constraint_note %}<div class="small">（条件備考）</div><div class="annotation"><span id="id_constraint_note">{{ room.constraint_note | linebreaksbr }}</span></div>{% endif %}
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col col-12">
+                    <div class="col col-12 py-1">
                         <div>他業者広告掲載: <span id="id_trader_publish">{{ room.trader_publish_text | default_if_none:'-----' }}</span></div>
                         {% if room.trader_publish_note %}<div class="annotation"><span id="id_trader_publish_note">{{ room.trader_publish_note | linebreaksbr }}</span></div>{% endif %}
                         <div>他業者ポータル掲載: <span id="id_trader_portal">{{ room.trader_portal_text | default_if_none:'-----' }}</span></div>
                         {% if room.trader_portal_note %}<div class="annotation"><span id="id_trader_portal_note">{{ room.trader_portal_note | linebreaksbr }}</span></div>{% endif %}
                     </div>
-                </div>
-                {% if user.is_company %}
-                <div class="row">
-                    <div class="col col-12">
+                    {% if user.is_company %}
+                    <div class="col col-12 py-1">
                         <div class="small">（自社向け情報）</div>
                         {% if room.building.auto_lock_no %}<div class="small">オートロック番号: <span id="id_auto_lock_no">{{ room.building.auto_lock_no }}</span></div>{% endif %}
                         {% if room.key_no %}<div class="small">鍵番号: <span id="id_key_no">{{ room.key_no }}</span></div>{% endif %}
@@ -313,26 +298,24 @@
                             <div class="annotation"><span id="id_key_place">{{ room.key_place_note | linebreaksbr }}</span></div>
                         {% endif %}
                     </div>
-                </div>
-                {% endif %}
-                {% if room.vacancy_note %}
-                <div class="row">
-                    <div class="col col-12">
+                    {% endif %}
+                    {% if room.vacancy_note %}
+                    <div class="col col-12 py-1">
                         <div class="annotation"><span id="id_room_vacancy_note">{{ room.vacancy_note | linebreaksbr }}</span></div>
                     </div>
+                    {% endif %}
                 </div>
-                {% endif %}
             </div>
             <div class="row">
-                <div class="col col-12 details-title"><h2>建物詳細</h2></div>
+                <div class="col col-12 py-1 details-title"><h2>建物詳細</h2></div>
             </div>
             <div class="building-details">
                 <div class="row">
-                    <div class="col col-12 col-md-6">
+                    <div class="col col-12 col-md-6 py-1">
                         <div>名称: <span id="id_building_name">{{ room.building.building_name }}</span></div>
                         {% if room.building.building_old_name %}<div>旧: <span id="id_building_old_name">{{ room.building.building_old_name }}</span></div>{% endif %}
                     </div>
-                    <div class="col col-12 col-md-6">
+                    <div class="col col-12 col-md-6 py-1">
                         <div>
                             <span id="id_build_year_month">{{ room.building.build_year_month | default_if_none:'築年不詳' }}</span>
                             {% if room.building.building_type_text %}<span id="id_building_type">{{ room.building.building_type_text }}</span>{% endif %}
@@ -344,42 +327,34 @@
                             {% if room.building.building_rooms %}<span id="id_building_rooms">{{ room.building.building_rooms }}</span>戸{% endif %}
                         </div>
                     </div>
-                </div>
-                {% if room.building.vacancy_catch_copy or room.building.vacancy_appeal %}
-                <div class="row">
-                    <div class="col col-12">
+                    {% if room.building.vacancy_catch_copy or room.building.vacancy_appeal %}
+                    <div class="col col-12 py-1">
                         {% if room.building.vacancy_catch_copy %}<div class="catch-copy"><span id="id_catch_copy">{{ room.building.vacancy_catch_copy | linebreaksbr }}</span></div>{% endif %}
                         {% if room.building.vacancy_appeal %}<div class="appeal"><span id="id_appeal">{{ room.building.vacancy_appeal | linebreaksbr }}</span></div>{% endif %}
                     </div>
-                </div>
-                {% endif %}
-                <div class="row">
-                    <div class="col col-4 col-md-2">
+                    {% endif %}
+                    <div class="col col-4 col-md-2 py-1">
                         建物コード: <span id="id_building_code">{{ room.building.building_id_text | default_if_none:'' }}</span>
                     </div>
-                    <div class="col col-8 col-md-3">
+                    <div class="col col-8 col-md-3 py-1">
                         {% if room.building.staff1_text %}<div>担当1: <span id="id_staff1">{{ room.building.staff1_text }}</span></div>{% endif %}
                         {% if room.building.staff2_text %}<div>担当2: <span id="id_staff2">{{ room.building.staff2_text }}</span></div>{% endif %}
                     </div>
-                    <div class="col col-12 col-md-7">
+                    <div class="col col-12 col-md-7 py-1">
                         <div class="small">（他業者ポータル掲載）</div>
                         {% if room.building.vacancy_portal_note %}<div class="small"><span id="id_portal_note">{{ room.building.vacancy_portal_note | linebreaksbr }}</span></div>{% endif %}
                     </div>
-                </div>
-                <div class="row">
-                    <div class = "col col-12">
+                    <div class = "col col-12 py-1">
                         〒 <span id="id_postal_code">{{ room.building.postal_code | default_if_none:''}}</span>
                         <span id="id_address">{{ room.building.address | default_if_none:'住所不明' }}</span>
                         {% if room.building.register_text %}<div class="small"><span id="id_register">{{ room.building.register_text }}</span></div>{% endif %}
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col col-12 col-md-8">
+                    <div class="col col-12 col-md-8 py-1">
                         {% if room.building.nearest_station1 %}<div><span id="id_station1">{{ room.building.nearest_station1 }}</span></div>{% endif %}
                         {% if room.building.nearest_station2 %}<div><span id="id_station2">{{ room.building.nearest_station2 }}</span></div>{% endif %}
                         {% if room.building.nearest_station3 %}<div><span id="id_station3">{{ room.building.nearest_station3 }}</span></div>{% endif %}
                     </div>
-                    <div class="col col-12 col-md-4">
+                    <div class="col col-12 col-md-4 py-1">
                         <div class="small">エリア: <span id="id_location_area">{{ room.building.area_text | default_if_none:'-----' }}</span></div>
                         {% if room.building.elementary_school_text %}
                         <div class="small">
@@ -394,31 +369,27 @@
                         </div>
                         {% endif %}
                     </div>
-                </div>
-                <div class="row">
-                     <div class="col col-12 col-md-6">
-                         <div class="small">（周辺施設）</div>
-                         {% for facility in room.building.facilities %}
-                             <div class="small">
+                    <div class="col col-12 col-md-6 py-1">
+                        <div class="small">（周辺施設）</div>
+                        {% for facility in room.building.facilities %}
+                            <div class="small">
                                 <span id="id_facility_{{ forloop.counter }}">{{ facility.facility.name }}</span>
-                                 {% if facility.facility_name %}（<span id="id_facility_{{ forloop.counter }}_name">{{ facility.facility_name }}</span>）{% endif %}
-                                 {% if facility.distance_text %}<span id="id_facility_{{ forloop.counter }}_distance">{{ facility.distance_text }}</span>{% endif %}
-                             </div>
-                         {% endfor %}
-                         {% if room.building.around_note %}<div class="annotation"><span id="id_around_note">{{ room.building.around_note | linebreaksbr }}</span></span></div>{% endif %}
-                     </div>
-                     <div class="col col-12 col-md-6">
-                         <div class="small">（ランドマーク）</div>
-                         {% for landmark in  room.building.landmarks %}
-                             <div class="small">
+                                {% if facility.facility_name %}（<span id="id_facility_{{ forloop.counter }}_name">{{ facility.facility_name }}</span>）{% endif %}
+                                {% if facility.distance_text %}<span id="id_facility_{{ forloop.counter }}_distance">{{ facility.distance_text }}</span>{% endif %}
+                            </div>
+                        {% endfor %}
+                        {% if room.building.around_note %}<div class="annotation"><span id="id_around_note">{{ room.building.around_note | linebreaksbr }}</span></span></div>{% endif %}
+                    </div>
+                    <div class="col col-12 col-md-6 py-1">
+                        <div class="small">（ランドマーク）</div>
+                        {% for landmark in  room.building.landmarks %}
+                            <div class="small">
                                 <span id="id_landmark_{{ forloop.counter }}">{{ landmark.landmark.name }}</span>
-                                 {% if landmark.distance_text %}<span id="id_landmark_{{ forloop.counter }}_distance">{{ landmark.distance_text }}</span>{% endif %}
-                             </div>
-                         {% endfor %}
-                     </div>
-                </div>
-                <div class="row">
-                    <div class="col col-6 col-md-3">
+                                {% if landmark.distance_text %}<span id="id_landmark_{{ forloop.counter }}_distance">{{ landmark.distance_text }}</span>{% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="col col-6 col-md-3 py-1">
                         <div class="small">
                             （駐車場）
                             {% if room.building.garages %}<a href="{% url 'building_garage_list' room.building.oid%}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary">駐車場詳細</a>{% endif %}
@@ -433,7 +404,7 @@
                         {% if room.building.vacancy_garage_comment %}<div class="annotation"><span id="id_garage_comment">{{ room.building.vacancy_garage_comment | linebreaksbr }}</span></div>{% endif %}
                         {% if room.building.garage_note %}<div class="annotation"><span id="id_garage_note">{{ room.building.garage_note | linebreaksbr }}</span></div>{% endif %}
                     </div>
-                    <div class="col col-6 col-md-3">
+                    <div class="col col-6 col-md-3 py-1">
                         <div class="small">（駐輪場）</div>
                         {% if room.building.bike_parking_type_text %}
                         <div class="small">
@@ -445,76 +416,70 @@
                         {% if room.building.vacancy_bike_parking_comment %}<div class="annotation"><span id="id_bike_parking_comment">{{ room.building.vacancy_bike_parking_comment | linebreaksbr }}</span></div>{% endif %}
                         {% if room.building.bike_parking_note %}<div class="annotation"><span id="id_bike_parking_note">{{ room.building.bike_parking_note | linebreaksbr }}</span></div>{% endif %}
                     </div>
-                    <div class="col col-6 col-md-3">
+                    <div class="col col-6 col-md-3 py-1">
                         <div class="small">（賃料等）</div>
                         {% if room.building.vacancy_rent_comment %}<div class="small">賃料: <span id="id_building_rent_comment">{{ room.building.vacancy_rent_comment | linebreaksbr }}</span></div>{% endif %}
                         {% if room.building.vacancy_condo_fees_comment %}<div class="small">{{ condo_fees_name }}: <span id="id_building_condo_fees_comment">{{ room.building.vacancy_condo_fees_comment| linebreaksbr }}</span></div>{% endif %}
                         {% if room.building.vacancy_payment_comment %}<div class="small">賃料支払い: <span id="id_building_payment_comment">{{ room.building.vacancy_payment_comment| linebreaksbr }}</span></div>{% endif %}
                     </div>
-                    <div class="col col-6 col-md-3">
+                    <div class="col col-6 col-md-3 py-1">
                         <div class="small">（保険等）</div>
                         {% if room.building.vacancy_insurance_comment %}<div class="small">火災保険: <span id="id_building_insurance_comment">{{ room.building.vacancy_insurance_comment | linebreaksbr }}</span></div>{% endif %}
                         {% if room.building.vacancy_guarantee_comment %}<div class="small">保証会社: <span id="id_building_guarantee_comment">{{ room.building.vacancy_guarantee_comment | linebreaksbr }}</span></div>{% endif %}
                     </div>
-                    <div class="col col-12 col-md-6">
+                    <div class="col col-12 col-md-6 py-1">
                         <div class="small">（更新）</div>
                         {% if room.building.vacancy_renewal_fee_comment %}<div class="small">更新料: <span id="id_renewal_fee_comment">{{ room.building.vacancy_renewal_fee_comment | linebreaksbr }}</span></div>{% endif %}
                         {% if room.building.vacancy_renewal_charge_comment %}<div class="small">更新事務手数料: <span id="id_renewal_charge_comment">{{ room.building.vacancy_renewal_charge_comment | linebreaksbr }}</span></div>{% endif %}
                     </div>
-                    <div class="col col-12 col-md-6">
+                    <div class="col col-12 col-md-6 py-1">
                         <div class="small">（解約）</div>
                         {% if room.building.vacancy_cancel_notice_comment %}<div class="small">解約通知: <span id="id_cancel_notice_comment">{{ room.building.vacancy_cancel_notice_comment | linebreaksbr }}</span></div>{% endif %}
                         {% if room.building.vacancy_short_cancel_comment %}<div class="small">短期解約: <span id="id_short_cancel_comment">{{ room.building.vacancy_short_cancel_comment | linebreaksbr }}</span></div>{% endif %}
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col col-6 col-md-3">
+                    <div class="col col-6 col-md-3 py-1">
                         <div class="small">（水道）</div>
                         {% if room.building.vacancy_water_comment %}<div class="small"><span id="id_water_comment">{{ room.building.vacancy_water_comment | linebreaksbr }}</span></div>{% endif %}
                     </div>
-                    <div class="col col-6 col-md-3">
+                    <div class="col col-6 col-md-3 py-1">
                         <div class="small">（電気）</div>
                         {% if room.building.vacancy_electric_comment %}<div class="small"><span id="id_electric_comment">{{ room.building.vacancy_electric_comment | linebreaksbr }}</span></div>{% endif %}
                     </div>
-                    <div class="col col-6 col-md-3">
+                    <div class="col col-6 col-md-3 py-1">
                         <div class="small">（ガス）</div>
                         {% if room.building.vacancy_gas_comment %}<div class="small"><span id="id_gas_comment">{{ room.building.vacancy_gas_comment | linebreaksbr }}</span></div>{% endif %}
                     </div>
-                    <div class="col col-6 col-md-3">
+                    <div class="col col-6 col-md-3 py-1">
                         <div class="small">（インターネット）</div>
                         {% if room.building.vacancy_internet_comment %}<div class="small"><span id="id_internet_comment">{{ room.building.vacancy_internet_comment | linebreaksbr }}</span></div>{% endif %}
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col col-6 col-md-4 col-lg-2">
+                    <div class="col col-6 col-md-4 col-lg-2 py-1">
                         <div class="small">（書類代）</div>
                         {% if room.building.vacancy_document_price_comment %}<div class="small"><span id="id_document_price_comment">{{ room.building.vacancy_document_price_comment | linebreaksbr }}</span></div>{% endif %}
                     </div>
-                    <div class="col col-6 col-md-4 col-lg-2">
+                    <div class="col col-6 col-md-4 col-lg-2 py-1">
                         <div class="small">（退去時清掃）</div>
                         {% if room.building.vacancy_cleaning_comment %}<div class="small"><span id="id_cleaning_comment">{{ room.building.vacancy_cleaning_comment | linebreaksbr }}</span></div>{% endif %}
                     </div>
-                    <div class="col col-6 col-md-4 col-lg-2">
+                    <div class="col col-6 col-md-4 col-lg-2 py-1">
                         <div class="small">（鍵交換）</div>
                         {% if room.building.vacancy_change_lock_comment %}<div class="small"><span id="id_change_lock_comment">{{ room.building.vacancy_change_lock_comment | linebreaksbr }}</span></div>{% endif %}
                     </div>
-                    <div class="col col-6 col-md-4 col-lg-2">
+                    <div class="col col-6 col-md-4 col-lg-2 py-1">
                         <div class="small">（保証人極度額）</div>
                         {% if room.building.vacancy_guarantor_limit_comment %}<div class="small"><span id="id_guarantor_limit_comment">{{ room.building.vacancy_guarantor_limit_comment | linebreaksbr }}</span></div>{% endif %}
                     </div>
-                    <div class="col col-6 col-md-4 col-lg-2">
+                    <div class="col col-6 col-md-4 col-lg-2 py-1">
                         <div class="small">（防犯）</div>
                         {% if room.building.vacancy_security_comment %}<div class="small"><span id="id_security_comment">{{ room.building.vacancy_security_comment | linebreaksbr }}</span></div>{% endif %}
                         {% if room.building.apartment_manager_comment %}<div class="small">管理人: <span id="id_apartment_manager_comment">{{ room.building.apartment_manager_comment | linebreaksbr }}</span></div>{% endif %}
                     </div>
-                    <div class="col col-6 col-md-4 col-lg-2">
+                    <div class="col col-6 col-md-4 col-lg-2 py-1">
                         <div class="small">（オートロック）</div>
                         {% if room.building.vacancy_auto_lock_comment %}<div class="small"><span id="id_auto_lock_comment">{{ room.building.vacancy_auto_lock_comment | linebreaksbr }}</span></div>{% endif %}
                     </div>
-                </div>
-                {% if room.building.building_type.is_condominium %}
-                <div class="row">
-                    <div class="col col-12">
+                    {% if room.building.building_type.is_condominium %}
+                    <div class="col col-12 py-1">
                         <div class="small">管理規約：{{ room.building.agreement_existence_text | default_if_none:'-----' }}</div>
                         {% if room.building.building_management_company %}
                         <div class="small">
@@ -526,39 +491,33 @@
                         {% if room.building.building_management_address %}<div class="small">建物管理会社住所: <span id="id_building_management_address">{{ room.building.building_management_address }}</span></div>{% endif %}
                         {% if room.building.building_management_note %}<div class="small">建物管理会社備考: <span id="id_building_management_note">{{ room.building.building_management_note | linebreaksbr }}</span></div>{% endif %}
                     </div>
-                </div>
-                {% endif %}
-                {% if room.building.tenant_note %}
-                <div class="row">
-                    <div class="col col-12">
+                    {% endif %}
+                    {% if room.building.tenant_note %}
+                    <div class="col col-12 py-1">
                         <div class="small">（テナント備考）</div>
                         <div class="annotation"><span id="id_building_tenant_note">{{ room.building.tenant_note | linebreaksbr }}</span></div>
                     </div>
-                </div>
-                {% endif %}
-                {% if room.building.garbage_note %}
-                <div class="row">
-                    <div class="col col-12">
+                    {% endif %}
+                    {% if room.building.garbage_note %}
+                    <div class="col col-12 py-1">
                         <div class="small">（ゴミ関連備考）</div>
                         <div class="annotation"><span id="id_building_garbage_note">{{ room.building.garbage_note | linebreaksbr }}</span></div>
                     </div>
-                </div>
-                {% endif %}
-                {% if room.building.vacancy_note %}
-                <div class="row">
-                    <div class="col col-12">
+                    {% endif %}
+                    {% if room.building.vacancy_note %}
+                    <div class="col col-12 py-1">
                         <div class="annotation"><span id="id_building_vacancy_note">{{ room.building.vacancy_note | linebreaksbr }}</span></div>
                     </div>
+                    {% endif %}
                 </div>
-                {% endif %}
             </div>
             {% if room.special_agreement %}
             <div class="row">
-                <div class="col col-12 details-title"><h2>特約事項</h2></div>
+                <div class="col col-12 py-1 details-title"><h2>特約事項</h2></div>
             </div>
             <div class="special-agreement">
                 <div class="row">
-                    <div class="col col-12">
+                    <div class="col col-12 py-1">
                         <span id="id_special_agreement">{{ room.special_agreement | linebreaksbr }}</span>
                     </div>
                 </div>
@@ -570,7 +529,7 @@
         {% if room.building.lat > 0 and room.building.lng > 0 %}
         <div id="building-map" class="no-printing">
             <div class="row map-title">
-                <div class="col col-12">地図</div>
+                <div class="col col-12 py-1">地図</div>
             </div>
             <div id="id_map">
                 <l-map :zoom="zoom" :center="center">
@@ -584,12 +543,12 @@
         {% if room.pictures or room.building.pictures %}
         <div id="image-list" class="no-printing">
             <div class="row image-list-title">
-                <div class="col col-12">画像</div>
+                <div class="col col-12 py-1">画像</div>
             </div>
             <div class="row">
             {% for picture in room.pictures %}
             {% if picture.thumbnail_file_url %}
-                <div class="col col-3 picture">
+                <div class="col col-3 py-1 picture">
                     {% if picture.cache_file_url %}<a href="{{ picture.cache_file_url }}" data-lightbox="pictures">{% endif %}
                         <img src="{{ picture.thumbnail_file_url }}" class="img-fluid" alt="部屋写真_{{ forloop.counter }}">
                     {% if picture.cache_file_url %}</a>{% endif %}
@@ -612,16 +571,16 @@
         {% if room.panoramas or room.building.panoramas %}
         <div id="panorama-list" class="no-printing">
             <div class="row panorama-list-title">
-                <div class="col col-12">パノラマ</div>
+                <div class="col col-12 py-1">パノラマ</div>
             </div>
             <div class="row">
             {% for panorama in room.panoramas %}
-                <div class="col col-3">
+                <div class="col col-3 py-1">
                     <a href="{% url 'panorama_room_panorama' panorama.idb64 %}" target="_blank" rel="noopener noreferrer">{{ panorama.panorama_type.name }}</a>
                 </div>
             {% endfor %}
             {% for panorama in room.building.panoramas %}
-                <div class="col col-3">
+                <div class="col col-3 py-1">
                     <a href="{% url 'panorama_building_panorama' panorama.idb64 %}" target="_blank" rel="noopener noreferrer">{{ panorama.panorama_type.name }}</a>
                 </div>
             {% endfor %}
@@ -632,16 +591,16 @@
         {% if room.movies or room.building.movies %}
         <div id="movie-list" class="no-printing">
             <div class="row movie-list-title">
-                <div class="col col-12">動画</div>
+                <div class="col col-12 py-1">動画</div>
             </div>
             <div class="row">
             {% for movie in room.movies %}
-                <div class="col col-3">
+                <div class="col col-3 py-1">
                     <a href="{% url 'movie_room_movie' movie.idb64 %}" target="_blank" rel="noopener noreferrer">{{ movie.movie_type.name }}</a>
                 </div>
             {% endfor %}
             {% for movie in room.building.movies %}
-                <div class="col col-3">
+                <div class="col col-3 py-1">
                     <a href="{% url 'movie_building_movie' movie.idb64 %}" target="_blank" rel="noopener noreferrer">{{ movie.movie_type.name }}</a>
                 </div>
             {% endfor %}
@@ -653,11 +612,11 @@
         {% if room.building.files %}
         <div id="file-list" class="no-printing">
             <div class="row file-list-title">
-                <div class="col col-12">添付ファイル</div>
+                <div class="col col-12 py-1">添付ファイル</div>
             </div>
             <div class="row">
             {% for file in room.building.files %}
-                <div class="col col-3">
+                <div class="col col-3 py-1">
                     <a href="{{ file.cache_file_url }}" target="_blank" rel="noopener noreferrer">{{ file.file_title }}</a>
                 </div>
             {% endfor %}
@@ -666,7 +625,7 @@
         {% endif %}
 
         <div class="row commands">
-            <div class="col col-12">
+            <div class="col col-12 py-1">
                 <div class="text-center">
                     <input type="button" value="閉じる" onclick="window.close();" class="btn d-block mx-auto d-flex align-items-center btn-secondary">
                 </div>
@@ -675,7 +634,7 @@
     {% endblock %}
 
     {% block footer %}
-        <script src="{% static 'lib/lightbox2/js/lightbox.min.js' %}"></script>
+        <script src="{% static 'lib/lightbox2/js/lightbox-plus-jquery.min.js' %}"></script>
         <script>
             lightbox.option({
                 'wrapAround': true,

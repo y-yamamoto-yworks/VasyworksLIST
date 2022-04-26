@@ -12,16 +12,19 @@
     {% block h1_title %}{{ building.building_name | default_if_none:'' }}{% if room %} {{ room.room_no }} 号室{% endif %} パノラマ{% endblock %}
 
     {% block contents %}
-        <div id="panorama" class="no-printing">
-            <iframe width="600px" height="400px" allowfullscreen style="border-style:none;" src="/static/panorama/pannellum.htm#panorama={{ panorama.cache_file_url }}&autoLoad=true"></iframe>
-        </div>
+        <div class="row py-3 justify-content-center">
+            <div class="col col-auto py-1">
+                <div id="panorama" class="no-printing">
+                    <iframe width="600px" height="400px" allowfullscreen style="border-style:none;" src="/static/panorama/pannellum.htm#panorama={{ panorama.cache_file_url }}&autoLoad=true"></iframe>
+                </div>
 
-        {% if user.allow_org_image %}
-        <div id="original">
-            <a href="{{ panorama.cache_file_url }}">{{ panorama.cache_name }}</a>
+                {% if user.allow_org_image %}
+                <div id="original">
+                    <a href="{{ panorama.cache_file_url }}">{{ panorama.cache_name }}</a>
+                </div>
+                {% endif %}
+            </div>
         </div>
-        {% endif %}
-
     {% endblock %}
 
     {% block footer %}{% endblock %}
