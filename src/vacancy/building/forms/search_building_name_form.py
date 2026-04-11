@@ -2,7 +2,7 @@
 System Name: Vasyworks
 Project Name: vacancy
 Encoding: UTF-8
-Copyright (C) 2020 Yasuhiro Yamamoto
+Copyright (C) 2020 - 2026 Yasuhiro Yamamoto
 """
 from django import forms
 from django.utils.translation import gettext_lazy as _

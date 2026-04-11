@@ -60,7 +60,10 @@
                         <a class="nav-link" href="{% url 'documents_index' %}">書類一覧</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/logout/">ログアウト</a>
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="nav-link" style="background: none; border: none;">ログアウト</button>
+                        </form>
                     </li>
                     </ul>
                 </div>

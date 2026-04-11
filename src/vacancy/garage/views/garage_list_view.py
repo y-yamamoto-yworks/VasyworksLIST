@@ -2,7 +2,7 @@
 System Name: Vasyworks
 Project Name: vacancy
 Encoding: UTF-8
-Copyright (C) 2020 Yasuhiro Yamamoto
+Copyright (C) 2020 - 2026 Yasuhiro Yamamoto
 """
 import os
 import datetime
@@ -12,7 +12,7 @@ from django.db import transaction
 from django.db.models import Q
 from django.utils import timezone
 from django.utils.http import urlsafe_base64_decode, urlencode
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.translation import gettext_lazy as _
 from django.template.response import TemplateResponse
 from django.http import HttpResponseRedirect, Http404

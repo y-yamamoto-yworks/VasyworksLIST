@@ -4,6 +4,7 @@
 
     {% block head_title %}{{ building.building_name | default_if_none:'' }} 空室情報：{{ company.company_name | default_if_none:'' }}{% endblock %}
     {% block head %}
+        <meta name="referrer" content="no-referrer-when-downgrade">
         <link rel="stylesheet" href="{% static 'lib/lightbox2/css/lightbox.min.css' %}">
         <link rel="stylesheet" href="{% static 'building/css/style.css' %}">
     {% endblock %}

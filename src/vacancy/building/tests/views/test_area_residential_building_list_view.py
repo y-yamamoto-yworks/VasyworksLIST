@@ -2,7 +2,7 @@
 System Name: Vasyworks
 Project Name: vacancy
 Encoding: UTF-8
-Copyright (C) 2020 Yasuhiro Yamamoto
+Copyright (C) 2020 - 2026 Yasuhiro Yamamoto
 """
 from unittest import TestCase
 from django.test import Client
