@@ -95,13 +95,27 @@ DATABASES = {
 # CSRF settings
 CSRF_TRUSTED_ORIGINS = [
     # 公開用
-    # 'https://vasyworks-list.yworks.net',
-    # 'http://vasyworks-list.yworks.net',
+    # 'https://vasyworks-list.hogehoge.net',
+    # 'http://vasyworks-list.hogehoge.net',
 
     # 開発用
     'http://localhost:8000',
     'http://127.0.0.1:8000',
 ]
+
+
+# CORS
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    # 本番用
+    # 'https://vasyworks-list.hogehoge.net',
+    # 'http://vasyworks-list.hogehoge.net',
+
+    # 開発用
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+]
+CORS_PREFLIGHT_MAX_AGE = 60 * 30  # 許可時間30分
 
 
 # Authorization
@@ -130,20 +144,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-
-# CORS
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = [
-    # 本番用
-    # 'https://vasyworks-list.yworks.net',
-    # 'http://vasyworks-list.yworks.net',
-
-    # 開発用
-    'http://localhost:8000',
-    'http://127.0.0.1:8000',
-]
-CORS_PREFLIGHT_MAX_AGE = 60 * 30  # 許可時間30分
 
 
 # Internationalization
