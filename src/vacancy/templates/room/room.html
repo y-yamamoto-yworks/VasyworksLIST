@@ -532,12 +532,7 @@
             <div class="row map-title">
                 <div class="col col-12 py-1">地図</div>
             </div>
-            <div id="id_map">
-                <l-map :zoom="zoom" :center="center">
-                    <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-                    <l-marker :lat-lng="marker" :icon="icon"></l-marker>
-                </l-map>
-            </div>
+            <div id="id_map"></div>
         </div>
         {% endif %}
 
@@ -645,7 +640,6 @@
         </script>
         <link rel="stylesheet" href="{% static 'lib/leaflet/leaflet.css' %}" />
         <script src="{% static 'lib/leaflet/leaflet.js' %}"></script>
-        <script src="{% static 'lib/vue2-leaflet/vue2-leaflet.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'room/js/room.js' %}"></script>
         <script type="text/javascript">
             var app = createRoomVue(
