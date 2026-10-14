@@ -10,15 +10,16 @@ function createSearchAreaVue(
     cityId,       // 市区町村ID
     areaId,       // エリアID
 ) {
-    return new Vue({
-        el: "#search-conditions-form",
+    return Vue.createApp({
         delimiters: ["[[", "]]"],
-        data: {
-            key: key,       // APIデータ取得用
-            pref: prefId,
-            defaultPref: prefId,
-            city: cityId,
-            area: areaId,
+        data() {
+            return {
+                key: key,       // APIデータ取得用
+                pref: prefId,
+                defaultPref: prefId,
+                city: cityId,
+                area: areaId,
+            };
         },
         mounted: function(event) {
             if(this.pref !== 0) { this.reloadCities();}
@@ -91,5 +92,5 @@ function createSearchAreaVue(
                 }
             },
         },
-    });
+    }).mount("#search-conditions-form");
 }

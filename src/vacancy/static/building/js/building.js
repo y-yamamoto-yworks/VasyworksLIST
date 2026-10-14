@@ -9,22 +9,23 @@ function createBuildingVue(
     lat,
     lng,
 ) {
-    return new Vue({
-        el: "#contents",
+    return Vue.createApp({
         delimiters: ["[[", "]]"],
-        data: {
-            zoom: 17,
-            center: L.latLng(lat, lng),
-            url:'https://{s}.tile.osm.org/{z}/{x}/{y}.png',
-            attribution:'&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors',
-            marker: L.latLng(lat, lng),
-            icon: L.icon({
+        data() {
+            return {
+                zoom: 17,
+                center: L.latLng(lat, lng),
+                url: 'https://{s}.tile.osm.org/{z}/{x}/{y}.png',
+                attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors',
+                marker: L.latLng(lat, lng),
+                icon: L.icon({
                     iconUrl: "/static/vacancy/images/building_icon.png",
                     iconSize: [48, 48],
                     iconAnchor: [24, 24],
-            }),
-            marker: null,
-            map: null,
+                }),
+                marker: null,
+                map: null,
+            };
         },
         mounted: function(event) {
             if (lat > 0 && lng > 0) {
@@ -40,6 +41,6 @@ function createBuildingVue(
         },
         methods: {
         },
-    });
+    }).mount("#contents");
 }
 
