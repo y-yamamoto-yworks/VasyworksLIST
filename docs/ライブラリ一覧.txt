@@ -18,7 +18,7 @@ wheel 0.46.3
 Vue.js 3.5.44
 jQuery 3.4.1
 Bootstrap5 5.0.2 
-axios 0.19.2
+axios 1.20.0
 Leaflet 1.9.4
 Lightbox2 2.11.1
 popper 2.0.6
