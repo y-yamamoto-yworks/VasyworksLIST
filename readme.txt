@@ -17,7 +17,7 @@ https://github.com/y-yamamoto-yworks/Vasyworks-Docker
 VasyworksLISTはVasyworksの空室情報を賃貸仲介業者等に公開するためのプロジェクトです。VasyworksDBで構築されたデータベースおよびVasyworksMGRで登録された空室情報データを利用します。VasyworksMGRで登録された閲覧ユーザは、VasywoksLISTを利用して、管理物件の空室情報を参照することができます。
 
 3.VasyworksLISTのライセンスについて
-VasyworksLISTのソースコードは山本 泰弘の著作物として、GLPv3のライセンス条件の下で利用できます。
+VasyworksLISTのソースコードは山本 泰弘の著作物として、AGPLv3のライセンス条件の下で利用できます。
 
 4.動作環境について
 開発環境は下記の通りです。
