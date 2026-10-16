@@ -10,7 +10,7 @@ https://vasyworks.yworks.net
 VasyworksLIST is a project to make Vasyworks' vacancy information available to rental agencies, etc. It uses the database built by VasyworksDB and the vacancy information data registered by VasyworksMGR. Browsing users can use VasywoksLIST to refer to vacancy information of managed properties.
 
 3.About the license of VasyworksLIST
-The source code of VasyworksLIST is the copyrighted work of Yasuhiro Yamamoto and can be used under the terms of the GLPv3 license.
+The source code of VasyworksLIST is the copyrighted work of Yasuhiro Yamamoto and can be used under the terms of the AGPLv3 license.
 
 4.About the operating environment
 The development environment is as follows
