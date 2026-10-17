@@ -4,6 +4,7 @@ Project Name: vacancy
 Encoding: UTF-8
 Copyright (C) 2020 - 2026 Yasuhiro Yamamoto
 """
+import hmac
 from django.conf import settings
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
@@ -28,7 +29,13 @@ class ApiHelper:
         """APIキー確認"""
         ans = False
         company = Company.objects.get(pk=settings.COMPANY_ID)
-        if company.api_key == ApiHelper.get_aes_decrypt(key, company.internal_api_key):
+
+        try:
+            target_key = ApiHelper.get_aes_decrypt(key, company.internal_api_key)
+        except:
+            target_key = None
+
+        if target_key and hmac.compare_digest(company.api_key, target_key):
             ans = True
 
         return ans
