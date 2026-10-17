@@ -57,7 +57,7 @@ class VacancyTheme(models.Model):
     def get_theme_rooms(self, auth_user: VacancyUser, pref: Pref, city: City, area: Area):
         """テーマ別部屋一覧"""
         if not auth_user:
-            raise Exception
+            raise ValueError("auth_user is required")
 
         conditions = Q(room_vacancy_themes__vacancy_theme=self)
 
@@ -85,7 +85,7 @@ class VacancyTheme(models.Model):
     def get_themes(cls, auth_user: VacancyUser):
         """テーマ一覧"""
         if not auth_user:
-            raise Exception
+            raise ValueError("Value error: auth_user")
 
         conditions = Q(is_publish=True, is_stopped=False)
 

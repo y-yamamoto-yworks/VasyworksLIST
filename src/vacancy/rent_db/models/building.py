@@ -400,7 +400,7 @@ class Building(models.Model):
                         ):
         """建物リスト取得用メソッド"""
         if not auth_user:
-            raise Exception
+            raise ValueError("Value error: auth_user")
 
         conditions = Q(is_deleted=False)
         if condition:
@@ -467,7 +467,7 @@ class Building(models.Model):
     @property
     def vacancy_rooms(self):
         if not self.auth_user:
-            raise Exception
+            raise ValueError("Value error: auth_user")
 
         return self.rooms.filter(
             Room.get_vacancy_room_condition(self.auth_user, self.is_residential, self.is_non_residential)
@@ -685,14 +685,14 @@ class Building(models.Model):
     def search_with_city_id(cls, city_id: int, auth_user: VacancyUser, is_residential: bool, is_non_residential: bool):
         """市区町村検索"""
         if not auth_user:
-            raise Exception
+            raise ValueError("Value error: auth_user")
 
         if city_id == 0:
-            raise Exception
+            raise ValueError("Value error: city_id")
 
         city = City.objects.get(pk=city_id)
         if not city:
-            raise Exception
+            raise ValueError("Value error: city_id")
 
         return cls.__get_buildings(Q(city=city), auth_user, is_residential, is_non_residential)
 
@@ -700,14 +700,14 @@ class Building(models.Model):
     def search_with_area_id(cls, area_id: int, auth_user: VacancyUser, is_residential: bool, is_non_residential: bool):
         """エリア検索"""
         if not auth_user:
-            raise Exception
+            raise ValueError("Value error: auth_user")
 
         if area_id == 0:
-            raise Exception
+            raise ValueError("Value error: area_id")
 
         area = Area.objects.get(pk=area_id)
         if not area:
-            raise Exception
+            raise ValueError("Value error: area_id")
 
         return cls.__get_buildings(Q(area=area), auth_user, is_residential, is_non_residential)
 
@@ -715,7 +715,7 @@ class Building(models.Model):
     def search_non_residential(cls, auth_user: VacancyUser, pref: Pref, city: City, area: Area):
         """非居住用建物検索"""
         if not auth_user:
-            raise Exception
+            raise ValueError("Value error: auth_user")
 
         condition = None
         if area:
@@ -738,7 +738,7 @@ class Building(models.Model):
     def search_garage(cls, auth_user: VacancyUser, garage_name: str, pref: Pref, city: City, area: Area):
         """駐車場検索"""
         if not auth_user:
-            raise Exception
+            raise ValueError("Value error: auth_user")
 
         conditions = Q(
             is_deleted=False,
@@ -792,10 +792,10 @@ class Building(models.Model):
     def search_with_building_name(cls, building_name: str, auth_user: VacancyUser):
         """建物名称検索"""
         if not auth_user:
-            raise Exception
+            raise ValueError("Value error: auth_user")
 
         if not building_name:
-            raise Exception
+            raise ValueError("Value error: building_name")
 
         condition = Q(building_name__contains=building_name)
         condition.add(Q(building_old_name__contains=building_name), Q.OR)
@@ -814,7 +814,7 @@ class Building(models.Model):
     def get_recommended_buildings(cls, auth_user: VacancyUser):
         """おすすめ物件"""
         if not auth_user:
-            raise Exception
+            raise ValueError("Value error: auth_user")
 
         # おすすめ物件は管理物件のみで、居住用空室の無い物件は対象外
         conditions = Q(is_vacancy_recommend=True)
