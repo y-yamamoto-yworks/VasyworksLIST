@@ -10,6 +10,10 @@ function createSearchAreaVue(
     cityId,       // 市区町村ID
     areaId,       // エリアID
 ) {
+    if (key) {
+        axios.defaults.headers.common['X-Api-Key'] = key;
+    }
+
     return Vue.createApp({
         delimiters: ["[[", "]]"],
         data() {
@@ -67,7 +71,7 @@ function createSearchAreaVue(
                 // 市区町村のリストを書き換える。
                 if(this.pref !== 0 && this.pref !== "") {
                     let that = this;
-                    axios.get("/api/cities/" + this.key + "/" + this.pref)
+                    axios.get("/api/cities/" + this.pref)
                         .then(function(res) {
                             let items = res.data;
                             that.reloadSelectOptions(that.$refs.city, items, that.city)
@@ -81,7 +85,7 @@ function createSearchAreaVue(
                 // エリアのリストを書き換える。
                 if(this.city !== 0 && this.city !== "") {
                     let that = this;
-                    axios.get("/api/areas/" + this.key + "/" + this.city)
+                    axios.get("/api/areas/" + this.city)
                         .then(function(res) {
                             let items = res.data;
                             that.reloadSelectOptions(that.$refs.area, items, that.area)

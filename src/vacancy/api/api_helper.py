@@ -25,9 +25,14 @@ class ApiHelper:
         return ApiHelper.get_aes_encrypt(company.api_key, company.internal_api_key)
 
     @staticmethod
-    def check_key(key: str):
+    def check_key(request):
         """APIキー確認"""
         ans = False
+
+        key = request.META.get('HTTP_X_API_KEY')
+        if not key:
+            return False
+
         company = Company.objects.get(pk=settings.COMPANY_ID)
 
         try:

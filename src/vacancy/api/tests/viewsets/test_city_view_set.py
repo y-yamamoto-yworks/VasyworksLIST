@@ -19,15 +19,24 @@ class CityViewSetTest(TestCase):
         warnings.simplefilter('ignore')
         self.client = Client()
 
+        response = self.client.post(
+            reverse('login'),
+            {'username': 'yworks', 'password': 'guest1234'},
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+
     def test_get_city_view_set(self):
         url = reverse(
             'api_cities',
             args=[
-                ApiHelper.get_key(),
                 '26',        # 京都府
             ],
         )
-        response = self.client.get(url)
+        response = self.client.get(url, HTTP_X_API_KEY=ApiHelper.get_key())
         self.assertEqual(response.status_code, 200)
         city = response.data[0]
         self.assertEqual(city['name'], '京都市北区')
+
+        response_invalid = self.client.get(url, HTTP_X_API_KEY='AABBCCDDEEFF')
+        self.assertEqual(response_invalid.status_code, 403)
