@@ -1,0 +1,1 @@
+from .test_garage_list_view import GarageListViewTest

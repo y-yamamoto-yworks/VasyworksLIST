@@ -17,8 +17,8 @@ class FunctionsTest(TestCase):
         warnings.simplefilter('ignore')
 
     def test_get_unique_filename(self):
-        self.assertRegex(get_unique_filename('sample.jpg'), '\.jpg$')
-        self.assertRegex(get_unique_filename('sample.pdf'), '\.pdf$')
+        self.assertRegex(get_unique_filename('sample.jpg'), r'\.jpg$')
+        self.assertRegex(get_unique_filename('sample.pdf'), r'\.pdf$')
 
     def test_base64_decode_id(self):
         self.assertEqual(base64_decode_id(0), 'MA')
