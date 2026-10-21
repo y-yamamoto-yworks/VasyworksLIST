@@ -22,9 +22,9 @@ class CacheMediaViewerView(View):
         if not file_url:
             raise Http404
 
-        real_base = os.path.realpath(base_dir)
+        real_base = os.path.abspath(base_dir)
         clean_rel_path = str(file_url).lstrip('/\\').replace('/', os.sep)
-        target_path = os.path.realpath(os.path.join(real_base, clean_rel_path))
+        target_path = os.path.abspath(os.path.join(real_base, clean_rel_path))
 
         if os.path.commonpath([real_base, target_path]) != real_base:
             raise Http404
